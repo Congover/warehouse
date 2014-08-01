@@ -18,6 +18,9 @@
 	
 		$(document).ready(function() {			
 		    $('#data_table').dataTable( {
+		    	"language": {
+		    		"url" : "resources/russ.lang"
+		    	},
 		        "dom": "Tlfrtip",
 		        "processing": true,
 		        "serverSide": true,
@@ -91,8 +94,8 @@
 		            	<th>
  
 		                </th>
-		                <th>Контрагент</th>
-		                <th>Пункт отгрузки</th>
+		                <th><spring:message code="contractor.table.name"/></th>
+		                <th><spring:message code="contractor.table.header.address"/></th>
 		            </tr>
 		        </thead>
 		    </table>

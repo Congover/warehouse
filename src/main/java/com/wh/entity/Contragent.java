@@ -2,11 +2,16 @@ package com.wh.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -30,6 +35,12 @@ public class Contragent implements Serializable {
 
 	@Column(name = "IS_ACTIVE")
 	private Boolean isActive;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "tCONTRAGENT_ADDRESS", 
+	joinColumns = {@JoinColumn(name = "CONTRAGENT_ID")}, 
+	inverseJoinColumns = {@JoinColumn(name = "ADDRESS_ID")})
+	private List<Address> addressList;
 
 	public Long getContragentId() {
 		return contragentId;
@@ -61,5 +72,13 @@ public class Contragent implements Serializable {
 
 	public void setIsActive(Boolean isActive) {
 		this.isActive = isActive;
+	}
+
+	public List<Address> getAddressList() {
+		return addressList;
+	}
+
+	public void setAddressList(List<Address> addressList) {
+		this.addressList = addressList;
 	}
 }

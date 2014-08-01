@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.wh.entity.Contragent;
-import com.wh.model.ContractorTableModel;
+import com.wh.model.DataTableModel;
 import com.wh.service.ContragentService;
 
 @Controller
@@ -32,10 +32,10 @@ public class ContractorController {
 	}
 	
 	@RequestMapping("/getList")
-	public @ResponseBody ContractorTableModel getList(@RequestParam("draw") Integer draw, @RequestParam("length") Integer length, @RequestParam("start") Integer start) {
+	public @ResponseBody DataTableModel getList(@RequestParam("draw") Integer draw, @RequestParam("length") Integer length, @RequestParam("start") Integer start) {
 		List<Contragent> list = contragentService.findAll();
 		
-		return new ContractorTableModel(list, draw, length, start);
+		return new DataTableModel(list, draw, length, start);
 		
 	}
 
