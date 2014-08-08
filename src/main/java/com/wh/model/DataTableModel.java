@@ -9,8 +9,13 @@ import org.apache.commons.lang.StringUtils;
 
 import com.wh.entity.Address;
 import com.wh.entity.Contragent;
+import com.wh.entity.Incoming;
+import com.wh.entity.Product;
+import com.wh.entity.Shipment;
+import com.wh.entity.Store;
+import com.wh.entity.Transport;
 
-//TODO отрефакторить, т.к. нам нужно проверять на пустые значения + количество
+//TODO
 public class DataTableModel {
 	
 	private Integer draw;
@@ -21,32 +26,80 @@ public class DataTableModel {
 	
 	private List<Map<String, Object>> data;
 	
-	public DataTableModel(List<Contragent> list, Integer draw, Integer lenght, Integer start) {
+	public DataTableModel(List<?> list, Integer draw, Integer lenght, Integer start, Class<?> cls) {
 		this.setDraw(draw);
 		this.setRecordsTotal(list.size());
-		createData(list, lenght, start);		
+		//TODO - because we don't use search in the table.
+		this.setRecordsFiltered(this.getRecordsTotal());
+		createData(list, lenght, start, cls);	
 	}
-
-	private void createData(List<Contragent> list, Integer length, Integer start) {
+	
+	private void createData(List<?> list, Integer length, Integer start, Class<?> cls) {
 		data = new ArrayList<Map<String,Object>>();
 		if(length == -1) {
-			for(Contragent entity : list) {
-				Map<String, Object> row = new HashMap<String, Object>();
-				row.put("name", entity.getName());
-				row.put("address", getFullAddresses(entity.getAddressList()));
-				data.add(row);
-			}			
+			for(Object obj : list) {
+				data.add(createRow(obj, cls));				
+			}
 		} else {
 			int needCout = start+length > list.size() ? list.size() : start+length;
 			for(int i = start; i < needCout; i++) {
-				Map<String, Object> row = new HashMap<String, Object>();
-				row.put("name", list.get(i).getName());
-				row.put("address", getFullAddresses(list.get(i).getAddressList()));
-				data.add(row);
-				
+				data.add(createRow(list.get(i), cls));				
 			}			
 		}
-		recordsFiltered = recordsTotal;		
+	}
+	
+	private Map<String, Object> createRow(Object object, Class<?> cls) {
+		if(cls.isAssignableFrom(Contragent.class)) {
+			Map<String, Object> row = new HashMap<String, Object>();
+			row.put("name", ((Contragent) object).getName());
+			row.put("address", getFullAddresses(((Contragent) object).getAddressList()));
+			return row;			
+		}
+		if(cls.isAssignableFrom(Incoming.class)) {
+			Incoming entity = (Incoming) object;
+			Map<String, Object> row = new HashMap<String, Object>();
+			row.put("date", entity.getCreateDate());
+			row.put("contractor", entity.getContragent().getName());
+			row.put("product", entity.getProduct().getName());
+			row.put("count", entity.getProductCount());
+			row.put("store", entity.getStore().getName());
+			row.put("comment", entity.getComment());
+			return row;
+		}
+		if(cls.isAssignableFrom(Shipment.class)) {
+			Shipment entity = (Shipment) object;
+			Map<String, Object> row = new HashMap<String, Object>();
+			row.put("date", entity.getCreateDate());
+			row.put("contractor", entity.getContragent().getName());
+			row.put("product", entity.getProduct().getName());
+			row.put("count", entity.getProductCount());
+			row.put("store", entity.getStore().getName());
+			row.put("transport", entity.getTransport().getName());
+			row.put("address", entity.getAddress().getFullAddress());
+			row.put("comment", entity.getComment());
+			return row;			
+		}
+		if(cls.isAssignableFrom(Address.class)) {
+			Map<String, Object> row = new HashMap<String, Object>();
+			row.put("name", ((Address) object).getFullAddress());
+			return row;			
+		}
+		if(cls.isAssignableFrom(Transport.class)) {
+			Map<String, Object> row = new HashMap<String, Object>();
+			row.put("name", ((Transport) object).getName());
+			return row;			
+		}
+		if(cls.isAssignableFrom(Product.class)) {
+			Map<String, Object> row = new HashMap<String, Object>();
+			row.put("name", ((Product) object).getName());
+			return row;
+		}
+		if(cls.isAssignableFrom(Store.class)) {
+			Map<String, Object> row = new HashMap<String, Object>();
+			row.put("name", ((Store) object).getName());
+			return row;
+		}
+		return new HashMap<String, Object>();
 	}
 	
 	private String getFullAddresses(List<Address> addressList) {

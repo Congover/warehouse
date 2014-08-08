@@ -1,6 +1,7 @@
 package com.wh.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -75,6 +76,9 @@ public class Contragent implements Serializable {
 	}
 
 	public List<Address> getAddressList() {
+		if(addressList == null) {
+			addressList = new ArrayList<Address>();
+		}
 		return addressList;
 	}
 

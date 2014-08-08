@@ -55,7 +55,6 @@
 		content: "\f046"; /* fa-check-square-o */
 		}
 	</style>
-	<%-- <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/bootstrap.css"/>"/> --%>
 	<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/main.css"/>"/>
 	<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/jquery.dataTables.css"/>"/>
 	<link rel="stylesheet" type="text/css" href="<c:url value="http://cdn.datatables.net/1.10.1/css/jquery.dataTables.css"/>"/>
@@ -100,7 +99,7 @@
 		        </thead>
 		    </table>
 			<div class="buttons">
-				<div class="button">Добавить</div>
+				<div class="button"><a href="contractor/add">Добавить</a></div>
 				<div class="button">Удалить</div>
 				<div class="button">Забанить</div>
 			</div>
