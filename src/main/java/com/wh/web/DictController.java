@@ -1,6 +1,8 @@
 package com.wh.web;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -11,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.mysql.fabric.xmlrpc.base.Array;
 import com.wh.entity.Address;
 import com.wh.entity.Product;
+import com.wh.entity.ProductType;
 import com.wh.entity.Shipment;
 import com.wh.entity.Store;
 import com.wh.entity.Transport;
@@ -31,6 +35,10 @@ public class DictController {
 		
 	@RequestMapping({"/", ""})
 	public String dictionaries(HttpSession session) {
+		String dictType = (String) session.getAttribute("dict");
+		if(StringUtils.isEmpty(dictType)) {
+			session.setAttribute("dict", "address");
+		}
 		return "dictionaries";
 	}
 	
@@ -86,13 +94,19 @@ public class DictController {
 		return null;
 	}
 	
+	//TODO check using enum in jsp
 	@RequestMapping({"/add"})
-	public String add() {
+	public String add(Map<String, Object> map) {
+		List<ProductType> typeList = new ArrayList<ProductType>();
+		typeList.add(ProductType.BAG);
+		typeList.add(ProductType.INBAG);
+		typeList.add(ProductType.PLACER);
+		map.put("productTypeList", typeList);
 		return "addDict";
 	}
 	
 	@RequestMapping({"/addDictionary"})
-	public String addDictionary(HttpSession session, @RequestParam("value") String value) {
+	public String addDictionary(HttpSession session, @RequestParam("value") String value, @RequestParam(value="productType", required=false) Integer productType) {
 		String dictValue = (String) session.getAttribute("dict");
 		if(dictValue.equals("address")) {
 			dictionaryService.create(Address.class, value);			
@@ -101,7 +115,7 @@ public class DictController {
 			dictionaryService.create(Transport.class, value);	
 		}
 		if(dictValue.equals("product")) {
-			dictionaryService.create(Product.class, value);	
+			dictionaryService.createProduct(value, productType);;	
 		}
 		if(dictValue.equals("store")) {
 			dictionaryService.create(Store.class, value);	

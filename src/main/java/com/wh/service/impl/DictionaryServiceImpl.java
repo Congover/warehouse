@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.wh.entity.Address;
 import com.wh.entity.Product;
+import com.wh.entity.ProductType;
 import com.wh.entity.Store;
 import com.wh.entity.Transport;
 import com.wh.repositories.AddressRepository;
@@ -53,22 +54,38 @@ public class DictionaryServiceImpl implements DictionaryService {
 	
 	public void create(Class<?> cls, String value) {
 		if(cls.isAssignableFrom(Address.class)) {
-			Address enity = new Address();
-			enity.setFullAddress(value);
-			addressRepository.save(enity);
+			Address entity = new Address();
+			entity.setFullAddress(value);
+			addressRepository.save(entity);
 		} else if(cls.isAssignableFrom(Transport.class)) {
-			Transport enity = new Transport();
-			enity.setName(value);
-			transportRepository.save(enity);
-		} else if(cls.isAssignableFrom(Product.class)) {
-			Product enity = new Product();
-			enity.setName(value);
-			productRepository.save(enity);
+			Transport entity = new Transport();
+			entity.setName(value);
+			transportRepository.save(entity);
 		} else if(cls.isAssignableFrom(Store.class)) {
-			Store enity = new Store();
-			enity.setName(value);
-			storeRepository.save(enity);
+			Store entity = new Store();
+			entity.setName(value);
+			storeRepository.save(entity);
 		}
+	}
+
+	@Override
+	public void createProduct(String value, Integer productType) {
+		if(productType == null) {
+			return;
+		}
+		ProductType type = ProductType.getProductType(productType);
+		if(type == null) {
+			return;
+		}
+		Product entity = new Product();
+		entity.setName(value);
+		entity.setProductType(type);
+		productRepository.save(entity);
+	}
+
+	@Override
+	public List<Product> getAvailibleProductForPacking() {
+		return productRepository.findByProductType(ProductType.PLACER);
 	}
 
 }

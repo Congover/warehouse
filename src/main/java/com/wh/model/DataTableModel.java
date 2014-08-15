@@ -10,6 +10,7 @@ import org.apache.commons.lang.StringUtils;
 import com.wh.entity.Address;
 import com.wh.entity.Contragent;
 import com.wh.entity.Incoming;
+import com.wh.entity.Packing;
 import com.wh.entity.Product;
 import com.wh.entity.Shipment;
 import com.wh.entity.Store;
@@ -49,15 +50,14 @@ public class DataTableModel {
 	}
 	
 	private Map<String, Object> createRow(Object object, Class<?> cls) {
+		Map<String, Object> row = new HashMap<String, Object>();
 		if(cls.isAssignableFrom(Contragent.class)) {
-			Map<String, Object> row = new HashMap<String, Object>();
 			row.put("name", ((Contragent) object).getName());
 			row.put("address", getFullAddresses(((Contragent) object).getAddressList()));
 			return row;			
 		}
 		if(cls.isAssignableFrom(Incoming.class)) {
 			Incoming entity = (Incoming) object;
-			Map<String, Object> row = new HashMap<String, Object>();
 			row.put("date", entity.getCreateDate());
 			row.put("contractor", entity.getContragent().getName());
 			row.put("product", entity.getProduct().getName());
@@ -68,7 +68,6 @@ public class DataTableModel {
 		}
 		if(cls.isAssignableFrom(Shipment.class)) {
 			Shipment entity = (Shipment) object;
-			Map<String, Object> row = new HashMap<String, Object>();
 			row.put("date", entity.getCreateDate());
 			row.put("contractor", entity.getContragent().getName());
 			row.put("product", entity.getProduct().getName());
@@ -80,23 +79,28 @@ public class DataTableModel {
 			return row;			
 		}
 		if(cls.isAssignableFrom(Address.class)) {
-			Map<String, Object> row = new HashMap<String, Object>();
 			row.put("name", ((Address) object).getFullAddress());
 			return row;			
 		}
 		if(cls.isAssignableFrom(Transport.class)) {
-			Map<String, Object> row = new HashMap<String, Object>();
 			row.put("name", ((Transport) object).getName());
 			return row;			
 		}
 		if(cls.isAssignableFrom(Product.class)) {
-			Map<String, Object> row = new HashMap<String, Object>();
 			row.put("name", ((Product) object).getName());
 			return row;
 		}
 		if(cls.isAssignableFrom(Store.class)) {
-			Map<String, Object> row = new HashMap<String, Object>();
 			row.put("name", ((Store) object).getName());
+			return row;
+		}
+		if(cls.isAssignableFrom(Packing.class)) {
+			Packing entity = (Packing) object;
+			row.put("date", entity.getCreateDate());
+			row.put("product", entity.getProduct().getName());
+			row.put("prod_coutn", entity.getProductCount());
+			row.put("bag_count", entity.getBagCount());
+			row.put("bag_residue", entity.getBagResidue());
 			return row;
 		}
 		return new HashMap<String, Object>();

@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -22,6 +24,10 @@ public class Product implements Serializable {
 	@Column(name = "NAME")
 	private String name;
 	
+	@Enumerated(EnumType.ORDINAL)
+	@Column(name = "PRODUCT_TYPE")
+	private ProductType productType;
+	
 	public Product() {		
 	}
 
@@ -39,6 +45,14 @@ public class Product implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public ProductType getProductType() {
+		return productType;
+	}
+
+	public void setProductType(ProductType productType) {
+		this.productType = productType;
 	}
 
 }

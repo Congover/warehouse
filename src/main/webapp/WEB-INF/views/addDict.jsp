@@ -58,6 +58,17 @@
 							<input type="text" required name="value" />
 						</div>
 					</div>
+					<c:if test="${dict=='product'}">
+					<div>
+						<label for="productType">Тип</label>
+						<select size="1" required name="productType">
+							<option value="0">Мешок</option>
+							<option value="1">в мешках</option>
+							<option value="2">россыпью</option>
+						</select>
+					</div>
+					</c:if>
+					
 					<div>
 						<input type="submit" value="Сохранить" />
 					</div>						

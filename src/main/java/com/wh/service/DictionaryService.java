@@ -18,5 +18,9 @@ public interface DictionaryService {
 	List<Store> getStories();
 	
 	void create(Class<?> cls, String value);
+	
+	void createProduct(String value, Integer productType);
+	
+	List<Product> getAvailibleProductForPacking();
 
 }
