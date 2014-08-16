@@ -8,4 +8,6 @@ public interface PackingService {
 	
 	List<Packing> findAll();
 
+	void save(String date, Long productId, Double productCount);
+
 }

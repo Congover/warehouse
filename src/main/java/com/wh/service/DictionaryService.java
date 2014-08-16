@@ -19,8 +19,6 @@ public interface DictionaryService {
 	
 	void create(Class<?> cls, String value);
 	
-	void createProduct(String value, Integer productType);
-	
 	List<Product> getAvailibleProductForPacking();
 
 }

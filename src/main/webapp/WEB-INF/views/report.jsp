@@ -6,7 +6,6 @@
 <html>
 <head>
 	<script type="text/javascript" src="resources/js/jquery-1.7.2.js"></script>
-	<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/bootstrap.css"/>"/>
 	<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/main.css"/>"/>
 </head>	
 <body>

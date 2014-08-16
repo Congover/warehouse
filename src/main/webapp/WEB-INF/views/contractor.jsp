@@ -61,10 +61,7 @@
 		<div class="main_table">
 			<table id="data_table" class="display cell-border compact" cellspacing="0" width="100%">
 		        <thead>
-		            <tr class="head">                
-		            	<th>
- 
-		                </th>
+		            <tr class="head">
 		                <th><spring:message code="contractor.table.name"/></th>
 		                <th><spring:message code="contractor.table.header.address"/></th>
 		            </tr>

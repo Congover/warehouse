@@ -94,19 +94,13 @@ public class DictController {
 		return null;
 	}
 	
-	//TODO check using enum in jsp
 	@RequestMapping({"/add"})
-	public String add(Map<String, Object> map) {
-		List<ProductType> typeList = new ArrayList<ProductType>();
-		typeList.add(ProductType.BAG);
-		typeList.add(ProductType.INBAG);
-		typeList.add(ProductType.PLACER);
-		map.put("productTypeList", typeList);
+	public String add() {
 		return "addDict";
 	}
 	
 	@RequestMapping({"/addDictionary"})
-	public String addDictionary(HttpSession session, @RequestParam("value") String value, @RequestParam(value="productType", required=false) Integer productType) {
+	public String addDictionary(HttpSession session, @RequestParam("value") String value) {
 		String dictValue = (String) session.getAttribute("dict");
 		if(dictValue.equals("address")) {
 			dictionaryService.create(Address.class, value);			
@@ -115,7 +109,7 @@ public class DictController {
 			dictionaryService.create(Transport.class, value);	
 		}
 		if(dictValue.equals("product")) {
-			dictionaryService.createProduct(value, productType);;	
+			dictionaryService.create(Product.class, value);;	
 		}
 		if(dictValue.equals("store")) {
 			dictionaryService.create(Store.class, value);	

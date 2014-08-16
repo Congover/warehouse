@@ -65,22 +65,12 @@ public class DictionaryServiceImpl implements DictionaryService {
 			Store entity = new Store();
 			entity.setName(value);
 			storeRepository.save(entity);
+		} else if(cls.isAssignableFrom(Product.class)) {
+			Product entity = new Product();
+			entity.setName(value);
+			entity.setProductType(ProductType.PLACER);
+			productRepository.save(entity);
 		}
-	}
-
-	@Override
-	public void createProduct(String value, Integer productType) {
-		if(productType == null) {
-			return;
-		}
-		ProductType type = ProductType.getProductType(productType);
-		if(type == null) {
-			return;
-		}
-		Product entity = new Product();
-		entity.setName(value);
-		entity.setProductType(type);
-		productRepository.save(entity);
 	}
 
 	@Override

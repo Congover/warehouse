@@ -3,7 +3,6 @@ package com.wh.entity;
 public enum ProductType {
 	
 	BAG("мешок"),
-	INBAG("в мешках"),
 	PLACER("россыпью");
 	
 	private String value;
