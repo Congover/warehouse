@@ -47,9 +47,9 @@ public class IncomingServiceImpl implements IncomingService {
 		Product product = productRepository.findOne(productId);
 		ProductQuantity pq = product.getProductQuantity();
 		if(ProductType.BAG.equals(product.getProductType())) {
-			pq.setBagCount(productCount.intValue());
+			pq.setBagCount(pq.getBagCount() != null ? pq.getBagCount() + productCount.intValue() : productCount.intValue());
 		} else {
-			pq.setProductCount(productCount);
+			pq.setProductCount(pq.getProductCount() != null ? pq.getProductCount() + productCount : productCount);
 		}
 		productQuantityRepository.save(pq);
 		

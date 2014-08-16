@@ -49,7 +49,7 @@ public class ShipmentController {
 	
 	@RequestMapping({"/add"})
 	public String add(Map<String, Object> map) {
-		map.put("productList", dictionaryService.getProducts());
+		map.put("productList", dictionaryService.getAvailibleProductForPacking());
 		map.put("storeList", dictionaryService.getStories());
 		map.put("transportList", dictionaryService.getTransports());
 		map.put("contragentList", contragentService.findAll());

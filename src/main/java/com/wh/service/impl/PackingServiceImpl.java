@@ -38,26 +38,26 @@ public class PackingServiceImpl implements PackingService {
 		Product product = productRepository.findOne(productId);
 		ProductQuantity pq = product.getProductQuantity();
 		Double countInKg = productCount * 1000;
-		Double countBugDouble = countInKg / 50;
-		Integer bugCount = countBugDouble.intValue();
-		pq.setProductCount(pq.getProductCount() - productCount);
-		pq.setBagCount(pq.getBagCount() + bugCount);
+		Double countBagDouble = countInKg / 50;
+		Integer bagCount = countBagDouble.intValue();
+		//TODO тут не должно быть пустое количество
+		pq.setProductCount(pq.getProductCount() != null ? pq.getProductCount() - productCount : 0 - productCount);
+		pq.setBagCount(pq.getBagCount() != null ? pq.getBagCount() + bagCount : bagCount);
 		productQuantityRepository.save(pq);
 		
 		List<Product> bags = productRepository.findByProductType(ProductType.BAG);
 		Product bag = bags.get(0);
 		ProductQuantity pqBag = bag.getProductQuantity();
-		pqBag.setBagCount(pqBag.getBagCount() - bugCount);
+		pqBag.setBagCount(pqBag.getBagCount() - bagCount);
 		productQuantityRepository.save(pqBag);
 		
 		Packing entity = new Packing();
 		entity.setCreateDate(Utils.getInstance().parse(date));
 		entity.setProductCount(productCount);
 		entity.setProduct(product);
-		entity.setBagCount(bugCount);
+		entity.setBagCount(bagCount);
 		entity.setBagResidue(pqBag.getBagCount());
-		Double bagCount = productCount * 10;
-		entity.setBagCount(bagCount.intValue());
+		packingRepository.save(entity);
 	}
 
 }

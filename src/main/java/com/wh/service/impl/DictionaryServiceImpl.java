@@ -77,6 +77,8 @@ public class DictionaryServiceImpl implements DictionaryService {
 			entity = productRepository.save(entity);
 			ProductQuantity pq = new ProductQuantity();
 			pq.setProduct(entity);
+			pq.setBagCount(0);
+			pq.setProductCount(0D);
 			productQuantityRepository.save(pq);
 		}
 	}
