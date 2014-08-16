@@ -6,18 +6,6 @@
 <html>
 <head>
 	<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
-	<style type="text/css">
-		table.dataTable tr td:first-child {
-		text-align: center;
-		}
-		table.dataTable tr td:first-child:before {
-		content: "\f096"; /* fa-square-o */
-		font-family: FontAwesome;
-		}
-		table.dataTable tr.selected td:first-child:before {
-		content: "\f046"; /* fa-check-square-o */
-		}
-	</style>
 	<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/main.css"/>"/>
 	<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/jquery.datetimepicker.css"/>"/>
 	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/jquery.datetimepicker.js"></script>
@@ -93,7 +81,7 @@
 					</c:if>
 					<div>
 						<label for="productCount">Колво товара</label>
-							<input type="number" step="0.01" required id="productCount" name="productCount" />
+							<input type="number" required id="productCount" name="productCount" />
 					</div>
 					<div>
 						<label for="address">Пункт</label>

@@ -8,10 +8,12 @@ import org.springframework.stereotype.Service;
 
 import com.wh.entity.Address;
 import com.wh.entity.Product;
+import com.wh.entity.ProductQuantity;
 import com.wh.entity.ProductType;
 import com.wh.entity.Store;
 import com.wh.entity.Transport;
 import com.wh.repositories.AddressRepository;
+import com.wh.repositories.ProductQuantityRepository;
 import com.wh.repositories.ProductRepository;
 import com.wh.repositories.StoreRepository;
 import com.wh.repositories.TransportRepository;
@@ -31,6 +33,9 @@ public class DictionaryServiceImpl implements DictionaryService {
 	
 	@Resource
 	StoreRepository storeRepository;
+	
+	@Resource
+	ProductQuantityRepository productQuantityRepository;
 	
 	@Override
 	public List<Address> getAdresses() {
@@ -69,7 +74,10 @@ public class DictionaryServiceImpl implements DictionaryService {
 			Product entity = new Product();
 			entity.setName(value);
 			entity.setProductType(ProductType.PLACER);
-			productRepository.save(entity);
+			entity = productRepository.save(entity);
+			ProductQuantity pq = new ProductQuantity();
+			pq.setProduct(entity);
+			productQuantityRepository.save(pq);
 		}
 	}
 

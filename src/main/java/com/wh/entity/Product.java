@@ -6,8 +6,10 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -26,8 +28,11 @@ public class Product implements Serializable {
 	
 	@Enumerated(EnumType.ORDINAL)
 	@Column(name = "PRODUCT_TYPE")
-	private ProductType productType;
+	private ProductType productType;    
 	
+	@OneToOne(mappedBy = "product", fetch = FetchType.EAGER)
+    private ProductQuantity productQuantity;
+
 	public Product() {		
 	}
 
@@ -53,6 +58,14 @@ public class Product implements Serializable {
 
 	public void setProductType(ProductType productType) {
 		this.productType = productType;
+	}
+	
+	public ProductQuantity getProductQuantity() {
+		return productQuantity;
+	}
+
+	public void setProductQuantity(ProductQuantity productQuantity) {
+		this.productQuantity = productQuantity;
 	}
 
 }

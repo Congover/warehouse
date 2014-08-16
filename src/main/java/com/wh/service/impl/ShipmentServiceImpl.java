@@ -6,10 +6,12 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import com.wh.entity.Incoming;
+import com.wh.entity.Product;
+import com.wh.entity.ProductQuantity;
 import com.wh.entity.Shipment;
 import com.wh.repositories.AddressRepository;
 import com.wh.repositories.ContragentRepository;
+import com.wh.repositories.ProductQuantityRepository;
 import com.wh.repositories.ProductRepository;
 import com.wh.repositories.ShipmentRepository;
 import com.wh.repositories.StoreRepository;
@@ -37,6 +39,9 @@ public class ShipmentServiceImpl implements ShipmentService {
 	
 	@Resource
 	TransportRepository transportRepository;
+	
+	@Resource
+	ProductQuantityRepository productQuantityRepository;
 
 	@Override
 	public List<Shipment> findAll() {
@@ -45,12 +50,16 @@ public class ShipmentServiceImpl implements ShipmentService {
 
 	@Override
 	public void save(String date, Long contragentId, Long productId,
-			Double productCount, Long storeId, Long transportId, Long addressId, Boolean paymentType, String comment) {
+			Integer productCount, Long storeId, Long transportId, Long addressId, Boolean paymentType, String comment) {
+		Product product = productRepository.findOne(productId);
+		ProductQuantity pq = product.getProductQuantity();
+		pq.setBagCount(pq.getBagCount() - productCount);
+		productQuantityRepository.save(pq);		
 		Shipment entity = new Shipment();
 		entity.setCreateDate(Utils.getInstance().parse(date));
 		entity.setContragent(contragentRepository.findOne(contragentId));
-		entity.setProduct(productRepository.findOne(productId));
-		entity.setProductCount(productCount);
+		entity.setProduct(product);
+		entity.setProductCount(productCount.doubleValue());
 		entity.setStore(storeRepository.findOne(storeId));
 		entity.setAddress(addressRepository.findOne(addressId));
 		entity.setTransport(transportRepository.findOne(transportId));
