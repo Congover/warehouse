@@ -29,14 +29,14 @@
 							<input type="text" required name="value" />
 						</div>
 					</div>
-					<c:if test="${!empty addressList}">
 						<label >Адрес</label>
 						<select size="1" required name="mainAddress">
-							<c:forEach items="${addressList}" var="address">
-								<option value="${address.addressId}">${address.fullAddress}</option>
-							</c:forEach>
+							<c:if test="${!empty addressList}">
+								<c:forEach items="${addressList}" var="address">
+									<option value="${address.addressId}">${address.fullAddress}</option>
+								</c:forEach>
+							</c:if>
 						</select>
-					</c:if>
 					<div>
 						<input type="submit" value="Сохранить" />
 					</div>						

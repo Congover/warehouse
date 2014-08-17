@@ -42,26 +42,26 @@
 						<label for="date">Дата</label>
 							<input type="text" required id="datetimepicker" name="date" />
 					</div>
-					<c:if test="${!empty contragentList}">
 					<div>
 						<label >Поставщик</label>
 						<select size="1" required name="contragent">
-							<c:forEach items="${contragentList}" var="contragent">
-								<option value="${contragent.contragentId}">${contragent.name}</option>
-							</c:forEach>
+							<c:if test="${!empty contragentList}">
+								<c:forEach items="${contragentList}" var="contragent">
+									<option value="${contragent.contragentId}">${contragent.name}</option>
+								</c:forEach>
+							</c:if>
 						</select>
 					</div>
-					</c:if>
-					<c:if test="${!empty productList}">
 					<div>
 						<label for="product">Товар</label>
 						<select size="1" required name="product">
-							<c:forEach items="${productList}" var="product">
-								<option value="${product.productId}">${product.name}</option>
-							</c:forEach>
+							<c:if test="${!empty productList}">
+								<c:forEach items="${productList}" var="product">
+									<option value="${product.productId}">${product.name}</option>
+								</c:forEach>
+							</c:if>
 						</select>
 					</div>
-					</c:if>
 					<div>
 						<label for="productCount">Колво товара</label>
 							<input type="number" step="0.01" required id="productCount" name="productCount" />
