@@ -57,8 +57,10 @@ public class ContractorController {
 	}
 	
 	@RequestMapping({"/save"})
-	public String addContragent(HttpSession session, @RequestParam("mainAddress") Long address, @RequestParam("value") String value) {
-		contragentService.save(value, address);
+	public String addContragent(HttpSession session, @RequestParam("value") String value, @RequestParam(value = "address1", required = false) Long address1,
+			@RequestParam(value = "address2", required = false) Long address2, @RequestParam(value = "address3", required = false) Long address3,
+			@RequestParam(value = "address4", required = false) Long address4, @RequestParam(value = "address5", required = false) Long address5) {
+		contragentService.save(value, address1, address2, address3, address4, address5);
 		return REDIRECT;
 	}
 	

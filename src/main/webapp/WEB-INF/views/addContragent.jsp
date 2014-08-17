@@ -30,7 +30,44 @@
 						</div>
 					</div>
 						<label >Адрес</label>
-						<select size="1" required name="mainAddress">
+						<select size="1" name=address1>
+							<option selected></option>
+							<c:if test="${!empty addressList}">
+								<c:forEach items="${addressList}" var="address">
+									<option value="${address.addressId}">${address.fullAddress}</option>
+								</c:forEach>
+							</c:if>
+						</select>
+						<label >Доп. адрес</label>
+						<select size="1" name=address2>
+							<option selected></option>
+							<c:if test="${!empty addressList}">
+								<c:forEach items="${addressList}" var="address">
+									<option value="${address.addressId}">${address.fullAddress}</option>
+								</c:forEach>
+							</c:if>
+						</select>
+						<label >Доп. адрес</label>
+						<select size="1" name=address3>
+							<option selected></option>
+							<c:if test="${!empty addressList}">
+								<c:forEach items="${addressList}" var="address">
+									<option value="${address.addressId}">${address.fullAddress}</option>
+								</c:forEach>
+							</c:if>
+						</select>
+						<label >Доп. адрес</label>
+						<select size="1" name=address4>
+							<option selected></option>
+							<c:if test="${!empty addressList}">
+								<c:forEach items="${addressList}" var="address">
+									<option value="${address.addressId}">${address.fullAddress}</option>
+								</c:forEach>
+							</c:if>
+						</select>
+						<label >Доп. адрес</label>
+						<select size="1" name=address5>
+							<option selected></option>
 							<c:if test="${!empty addressList}">
 								<c:forEach items="${addressList}" var="address">
 									<option value="${address.addressId}">${address.fullAddress}</option>
