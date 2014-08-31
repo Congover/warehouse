@@ -43,7 +43,7 @@
 							<input type="text" required id="datetimepicker" name="date" />
 					</div>
 					<div>
-						<label >Поставщик</label>
+						<label>Поставщик</label>
 						<select size="1" required name="contragent">
 							<c:if test="${!empty contragentList}">
 								<c:forEach items="${contragentList}" var="contragent">

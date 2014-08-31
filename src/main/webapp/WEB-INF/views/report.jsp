@@ -20,5 +20,102 @@
 			<div class='menu_item'><a href='dictionaries'><spring:message code="menu.dictionaries"/></a></div>	
 		</div>
 	</div>
+	<div class="main_data">
+		<div class="main_table">
+				<h3>Поступление товара</h3>
+				<form class="form-signin" name='fi' action="report/formIncoming" method='POST' id="formIncoming">
+					<div>
+						<label for="date">Период с</label>
+						<input type="text" required id="datetimepicker" name="dateStart" />
+						<label for="date">Период по</label>
+						<input type="text" required id="datetimepicker" name="dateEnd" />
+					</div>
+					<div>
+						<input type="checkbox" name="useContragent"/>
+						<label>Контрагент</label>
+						<select size="1" required name="contragent" id="contragent" onchange="changeAddressSelect()">
+							<c:if test="${!empty contragentList}">
+								<c:forEach items="${contragentList}" var="contragent">
+									<option value="${contragent.contragentId}">${contragent.name}</option>
+								</c:forEach>
+							</c:if>
+						</select>
+					</div>
+					<div>
+						<input type="checkbox" name="useProduct"/>
+						<label for="product">Товар</label>
+						<select size="1" required name="product">
+							<c:if test="${!empty productList}">
+								<c:forEach items="${productList}" var="product">
+									<option value="${product.productId}">${product.name}</option>
+								</c:forEach>
+							</c:if>
+						</select>
+					</div>
+					<div>
+						<input type="checkbox" name="useStore"/>						
+						<label for="store">Склад</label>
+						<select size="1" required name="store">
+							<c:if test="${!empty storeList}">
+									<c:forEach items="${storeList}" var="store">
+										<option value="${store.storeId}">${store.name}</option>
+									</c:forEach>
+							</c:if>
+						</select>
+					</div>
+					<div>
+						<input type="submit" value="Сформировать" />
+					</div>						
+				</form>
+				<h3>Отгрузка товара</h3>
+				<form class="form-signin" name='fs' action="report/formShipment" method='POST' id="formShipment">
+					<div>
+						<label for="date">Период с</label>
+						<input type="text" required id="datetimepicker" name="dateStart" />
+						<label for="date">Период по</label>
+						<input type="text" required id="datetimepicker" name="dateEnd" />
+					</div>
+					<div>
+						<input type="hidden" value="on" name="_useContragent"/>
+						<input type="checkbox" name="useContragent"/>
+						<label>Контрагент</label>
+						<select size="1" required name="contragent" id="contragent" onchange="changeAddressSelect()">
+							<c:if test="${!empty contragentList}">
+								<c:forEach items="${contragentList}" var="contragent">
+									<option value="${contragent.contragentId}">${contragent.name}</option>
+								</c:forEach>
+							</c:if>
+						</select>
+					</div>
+					<div>
+						<input type="hidden" value="on" name="_useProduct"/>
+						<input type="checkbox" name="useProduct"/>
+						<label for="product">Товар</label>
+						<select size="1" required name="product">
+							<c:if test="${!empty productList}">
+								<c:forEach items="${productList}" var="product">
+									<option value="${product.productId}">${product.name}</option>
+								</c:forEach>
+							</c:if>
+						</select>
+					</div>
+					<div>
+						<input type="hidden" value="on" name="_useStore"/>
+						<input type="checkbox" id="useStore" name="useStore"/>						
+						<label for="store">Склад</label>
+						<select size="1" required name="store">
+							<c:if test="${!empty storeList}">
+									<c:forEach items="${storeList}" var="store">
+										<option value="${store.storeId}">${store.name}</option>
+									</c:forEach>
+							</c:if>
+						</select>
+					</div>
+					<div>
+						<input type="submit" value="Сформировать" />
+					</div>						
+				</form>
+		</div>
+	</div>
 </body>
 </html>

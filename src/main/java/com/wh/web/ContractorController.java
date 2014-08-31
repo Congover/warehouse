@@ -1,6 +1,5 @@
 package com.wh.web;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,9 +16,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.wh.entity.Address;
 import com.wh.entity.Contragent;
-import com.wh.entity.Product;
-import com.wh.entity.Store;
-import com.wh.entity.Transport;
 import com.wh.model.DataTableModel;
 import com.wh.service.ContragentService;
 import com.wh.service.DictionaryService;
@@ -27,52 +23,57 @@ import com.wh.service.DictionaryService;
 @Controller
 @RequestMapping(value = "/contractor")
 public class ContractorController {
-	
-	private static final String REDIRECT = "redirect:/contractor";
-	
-	private static final Logger logger = LoggerFactory.getLogger(ContractorController.class);
-	
-	@Autowired
-	ContragentService contragentService;
-	
-	@Autowired
-	DictionaryService dictionaryService;
-	
-		
-	@RequestMapping({"/", ""})
-	public String contractor(HttpSession session) {
-		return "contractor";
+
+    private static final String REDIRECT = "redirect:/contractor";
+
+    private static final Logger logger = LoggerFactory.getLogger(ContractorController.class);
+
+    @Autowired
+    ContragentService contragentService;
+
+    @Autowired
+    DictionaryService dictionaryService;
+
+    @RequestMapping({ "/", "" })
+    public String contractor(HttpSession session) {
+	return "contractor";
+    }
+
+    @RequestMapping("/getList")
+    @ResponseBody
+    public DataTableModel getList(@RequestParam("draw") Integer draw, @RequestParam("length") Integer length,
+	    @RequestParam("start") Integer start) {
+	return new DataTableModel(contragentService.findAll(), draw, length, start, Contragent.class);
+    }
+
+    @RequestMapping({ "/add" })
+    public String add(Map<String, Object> map) {
+	List<Address> list = dictionaryService.getAdresses();
+	map.put("addressList", list);
+	return "addContragent";
+    }
+
+    @RequestMapping({ "/save" })
+    public String addContragent(HttpSession session, @RequestParam("value") String value,
+	    @RequestParam(value = "address1", required = false) Long address1,
+	    @RequestParam(value = "address2", required = false) Long address2,
+	    @RequestParam(value = "address3", required = false) Long address3,
+	    @RequestParam(value = "address4", required = false) Long address4,
+	    @RequestParam(value = "address5", required = false) Long address5) {
+	contragentService.save(value, address1, address2, address3, address4, address5);
+	return REDIRECT;
+    }
+
+    @RequestMapping({ "getAdresses" })
+    // TODO > move
+    public @ResponseBody
+    Map<Long, String> getContragentAddresses(@RequestParam("contragentId") Long contragentId) {
+	Contragent contragent = contragentService.find(contragentId);
+	Map<Long, String> map = new HashMap<Long, String>(contragent.getAddressList().size());
+	for (Address entity : contragent.getAddressList()) {
+	    map.put(entity.getAddressId(), entity.getFullAddress());
 	}
-	
-	@RequestMapping("/getList")
-	public @ResponseBody DataTableModel getList(@RequestParam("draw") Integer draw, @RequestParam("length") Integer length, @RequestParam("start") Integer start) {
-		return new DataTableModel(contragentService.findAll(), draw, length, start, Contragent.class);
-	}
-	
-	@RequestMapping({"/add"})
-	public String add(Map<String, Object> map) {
-		List<Address> list = dictionaryService.getAdresses();
-		map.put("addressList", list);
-		return "addContragent";
-	}
-	
-	@RequestMapping({"/save"})
-	public String addContragent(HttpSession session, @RequestParam("value") String value, @RequestParam(value = "address1", required = false) Long address1,
-			@RequestParam(value = "address2", required = false) Long address2, @RequestParam(value = "address3", required = false) Long address3,
-			@RequestParam(value = "address4", required = false) Long address4, @RequestParam(value = "address5", required = false) Long address5) {
-		contragentService.save(value, address1, address2, address3, address4, address5);
-		return REDIRECT;
-	}
-	
-	@RequestMapping({"getAdresses"})
-	//TODO > move
-	public @ResponseBody Map<Long, String> getContragentAddresses(@RequestParam("contragentId") Long contragentId) {
-		Contragent contragent = contragentService.find(contragentId);
-		Map<Long, String> map = new HashMap<Long, String>(contragent.getAddressList().size());
-		for(Address entity : contragent.getAddressList()) {
-			map.put(entity.getAddressId(), entity.getFullAddress());
-		}
-		return map;
-	}
+	return map;
+    }
 
 }
