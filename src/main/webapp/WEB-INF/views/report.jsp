@@ -6,6 +6,21 @@
 <html>
 <head>
 	<script type="text/javascript" src="resources/js/jquery-1.7.2.js"></script>
+	<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/jquery.datetimepicker.css"/>"/>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/jquery.datetimepicker.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			var today = new Date();
+			var todayString = today.getFullYear()+ '-' + (today.getMonth() < 9 ? ('0'+ (today.getMonth() + 1)) : (today.getMonth() + 1))+ '-' + (today.getDate() < 10 ? ('0' + today.getDate()) : today.getDate());
+			$('.fielddate').datetimepicker({
+				lang:'ru',
+				timepicker:false,
+				format:'Y-m-d',
+				closeOnDateSelect:true,
+				value:todayString
+			});
+		} );		
+	</script>	
 	<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/main.css"/>"/>
 </head>	
 <body>
@@ -24,95 +39,100 @@
 		<div class="main_table">
 				<h3>Поступление товара</h3>
 				<form class="form-signin" name='fi' action="report/formIncoming" method='POST' id="formIncoming">
-					<div>
-						<label for="date">Период с</label>
-						<input type="text" required id="datetimepicker" name="dateStart" />
-						<label for="date">Период по</label>
-						<input type="text" required id="datetimepicker" name="dateEnd" />
-					</div>
-					<div>
-						<input type="checkbox" name="useContragent"/>
-						<label>Контрагент</label>
-						<select size="1" required name="contragent" id="contragent" onchange="changeAddressSelect()">
+					<p class="fieldrow">
+						<label class="fieldlabel" for="date">Период с</label>
+						<input class="fielddate" type="text" required id="datetimepicker" name="dateStart" />
+					</p>
+					<p class="fieldrow">
+						<label class="fieldlabel" for="date">Период по</label>
+						<input class="fielddate" type="text" required id="datetimepicker" name="dateEnd" />
+					</p>
+					<p class="fieldrow">
+						<input class="fieldstartcheck" type="checkbox" name="useContragent"/>
+						<label class="fieldshortlabel">Контрагент</label>
+						<select class="fieldcombo" size="1" required name="contragent" id="contragent" onchange="changeAddressSelect()">
 							<c:if test="${!empty contragentList}">
 								<c:forEach items="${contragentList}" var="contragent">
 									<option value="${contragent.contragentId}">${contragent.name}</option>
 								</c:forEach>
 							</c:if>
 						</select>
-					</div>
-					<div>
-						<input type="checkbox" name="useProduct"/>
-						<label for="product">Товар</label>
-						<select size="1" required name="product">
+					</p>
+					<p class="fieldrow">
+						<input class="fieldstartcheck" type="checkbox" name="useProduct"/>
+						<label class="fieldshortlabel" for="product">Товар</label>
+						<select class="fieldcombo" size="1" required name="product">
 							<c:if test="${!empty productList}">
 								<c:forEach items="${productList}" var="product">
 									<option value="${product.productId}">${product.name}</option>
 								</c:forEach>
 							</c:if>
 						</select>
-					</div>
-					<div>
-						<input type="checkbox" name="useStore"/>						
-						<label for="store">Склад</label>
-						<select size="1" required name="store">
+					</p>
+					<p class="fieldrow">
+						<input class="fieldstartcheck" type="checkbox" name="useStore"/>						
+						<label class="fieldshortlabel" for="store">Склад</label>
+						<select class="fieldcombo" size="1" required name="store">
 							<c:if test="${!empty storeList}">
 									<c:forEach items="${storeList}" var="store">
 										<option value="${store.storeId}">${store.name}</option>
 									</c:forEach>
 							</c:if>
 						</select>
-					</div>
-					<div>
-						<input type="submit" value="Сформировать" />
+					</p>
+					<div class="buttons">
+						<div class="button">
+							<a href="javascript:{}" onclick="document.getElementById('formIncoming').submit();">Сформировать</a>
+						</div>
 					</div>						
 				</form>
 				<h3>Отгрузка товара</h3>
 				<form class="form-signin" name='fs' action="report/formShipment" method='POST' id="formShipment">
-					<div>
-						<label for="date">Период с</label>
-						<input type="text" required id="datetimepicker" name="dateStart" />
-						<label for="date">Период по</label>
-						<input type="text" required id="datetimepicker" name="dateEnd" />
-					</div>
-					<div>
-						<input type="hidden" value="on" name="_useContragent"/>
-						<input type="checkbox" name="useContragent"/>
-						<label>Контрагент</label>
-						<select size="1" required name="contragent" id="contragent" onchange="changeAddressSelect()">
+					<p class="fieldrow">
+						<label class="fieldlabel" for="date">Период с</label>
+						<input class="fielddate" type="text" required id="datetimepicker" name="dateStart" />
+					</p>
+					<p class="fieldrow">
+						<label class="fieldlabel" for="date">Период по</label>
+						<input class="fielddate" type="text" required id="datetimepicker" name="dateEnd" />
+					</p>
+					<p class="fieldrow">
+						<input class="fieldstartcheck" type="checkbox" name="useContragent"/>
+						<label class="fieldshortlabel">Контрагент</label>
+						<select class="fieldcombo" size="1" required name="contragent" id="contragent" onchange="changeAddressSelect()">
 							<c:if test="${!empty contragentList}">
 								<c:forEach items="${contragentList}" var="contragent">
 									<option value="${contragent.contragentId}">${contragent.name}</option>
 								</c:forEach>
 							</c:if>
 						</select>
-					</div>
-					<div>
-						<input type="hidden" value="on" name="_useProduct"/>
-						<input type="checkbox" name="useProduct"/>
-						<label for="product">Товар</label>
-						<select size="1" required name="product">
+					</p>
+					<p class="fieldrow">
+						<input class="fieldstartcheck" type="checkbox" name="useProduct"/>
+						<label class="fieldshortlabel" for="product">Товар</label>
+						<select class="fieldcombo" size="1" required name="product">
 							<c:if test="${!empty productList}">
 								<c:forEach items="${productList}" var="product">
 									<option value="${product.productId}">${product.name}</option>
 								</c:forEach>
 							</c:if>
 						</select>
-					</div>
-					<div>
-						<input type="hidden" value="on" name="_useStore"/>
-						<input type="checkbox" id="useStore" name="useStore"/>						
-						<label for="store">Склад</label>
-						<select size="1" required name="store">
+					</p>
+					<p class="fieldrow">
+						<input class="fieldstartcheck" type="checkbox" name="useStore"/>						
+						<label class="fieldshortlabel" for="store">Склад</label>
+						<select class="fieldcombo" size="1" required name="store">
 							<c:if test="${!empty storeList}">
 									<c:forEach items="${storeList}" var="store">
 										<option value="${store.storeId}">${store.name}</option>
 									</c:forEach>
 							</c:if>
 						</select>
-					</div>
-					<div>
-						<input type="submit" value="Сформировать" />
+					</p>
+					<div class="buttons">
+						<div class="button">
+							<a href="javascript:{}" onclick="document.getElementById('formShipment').submit();">Сформировать</a>
+						</div>
 					</div>						
 				</form>
 		</div>

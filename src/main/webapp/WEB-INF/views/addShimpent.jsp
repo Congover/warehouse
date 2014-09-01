@@ -55,66 +55,74 @@
 	<div class="main_data">
 		<div class="main_table">
 				<form class="form-signin" name='f' action="save" method='POST' id="forms">
-					<div>
-						<label for="date">Дата</label>
-							<input type="text" required id="datetimepicker" name="date" />
-					</div>
-					<div>
-						<label >Покупатель</label>
-						<select size="1" required name="contragent" id="contragent" onchange="changeAddressSelect()">
+					<p class="fieldrow">
+						<label class="fieldlabel" for="date">Дата</label>
+						<input class="fielddate" type="text" required id="datetimepicker" name="date" />
+					</p>
+					<p class="fieldrow">
+						<label class="fieldlabel">Покупатель</label>
+						<select class="fieldcombo" size="1" required name="contragent" id="contragent" onchange="changeAddressSelect()">
 							<c:if test="${!empty contragentList}">
 								<c:forEach items="${contragentList}" var="contragent">
 									<option value="${contragent.contragentId}">${contragent.name}</option>
 								</c:forEach>
 							</c:if>
 						</select>
-					</div>
-					<div>
-						<label for="product">Товар</label>
-						<select size="1" required name="product">
+					</p>
+					<p class="fieldrow">
+						<label class="fieldlabel" for="product">Товар</label>
+						<select class="fieldcombo" size="1" required name="product">
 							<c:if test="${!empty productList}">
 								<c:forEach items="${productList}" var="product">
 									<option value="${product.productId}">${product.name}</option>
 								</c:forEach>
 							</c:if>
 						</select>
-					</div>
-					<div>
-						<label for="productCount">Колво товара</label>
-							<input type="number" required id="productCount" name="productCount" />
-					</div>
-					<div>
-						<label for="address">Пункт</label>
-						<select size="1" required name="address" id="address">
+					</p>
+					<p class="fieldrow">
+						<label class="fieldlabel" for="productCount">Колво товара</label>
+						<input class="fieldnum" type="number" required id="productCount" name="productCount" />
+					</p>
+					<p class="fieldrow">
+						<label class="fieldlabel" for="address">Пункт</label>
+						<select class="fieldcombo" size="1" required name="address" id="address">
 						</select>
-					</div>
-					<div>
-						<label for="store">Склад</label>
-						<select size="1" required name="store">
+					</p>
+					<p class="fieldrow">
+						<label class="fieldlabel" for="store">Склад</label>
+						<select class="fieldcombo" size="1" required name="store">
 							<c:if test="${!empty storeList}">
 									<c:forEach items="${storeList}" var="store">
 										<option value="${store.storeId}">${store.name}</option>
 									</c:forEach>
 							</c:if>
 						</select>
-					</div>
-					<div>
-						<p><input type="radio" name="paymentType" value="true"> Наличный<Br>
-   						<input type="radio" name="paymentType" value="false" checked="checked"> Безналичный</p>
-					</div>
-					<div>
-						<label for="transport">Транспорт</label>
-						<select size="1" required name="transport">
+					</p>
+					<p class="fieldrow">
+						<label class="fieldlabel">Тип оплаты</label>
+						<input type="radio" name="paymentType" value="true">Наличный
+   						<input type="radio" name="paymentType" value="false" checked="checked">Безналичный
+					</p>
+					<p class="fieldrow">
+						<label class="fieldlabel" for="transport">Транспорт</label>
+						<select class="fieldcombo" size="1" required name="transport">
 							<c:if test="${!empty transportList}">
 									<c:forEach items="${transportList}" var="transport">
 										<option value="${transport.transportId}">${transport.name}</option>
 									</c:forEach>
 							</c:if>
 						</select>
-					</div>
-					<textarea name="comment"></textarea>
-					<div>
-						<input type="submit" value="Сохранить" />
+					</p>
+					<p class="fieldrowcomment">
+						<textarea class="fieldtext" name="comment"></textarea>
+					</p>
+					<div class="buttons">
+						<div class="button">
+							<a href="javascript:{}" onclick="document.getElementById('forms').submit();">Сохранить</a>
+						</div>
+						<div class="button">
+							<a>Отмена</a>
+						</div>
 					</div>						
 				</form>
 		</div>

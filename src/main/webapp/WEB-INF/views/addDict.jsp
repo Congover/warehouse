@@ -40,14 +40,17 @@
 		</div>
 		<div class="main_table">
 				<form class="form-signin" name='f' action="addDictionary" method='POST' id="forms">
-					<div>
-						<label>Наименование</label>
-						<div class="controls">
-							<input type="text" required name="value" />
+					<p class="fieldrow">
+						<label class="fieldlabel">Наименование</label>
+						<input class="fieldfld" type="text" required name="value" />
+					</p>	
+					<div class="buttons">
+						<div class="button">
+							<a href="javascript:{}" onclick="document.getElementById('forms').submit();">Сохранить</a>
 						</div>
-					</div>					
-					<div>
-						<input type="submit" value="Сохранить" />
+						<div class="button">
+							<a>Отмена</a>
+						</div>
 					</div>						
 				</form>
 		</div>
