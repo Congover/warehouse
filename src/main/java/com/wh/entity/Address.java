@@ -1,6 +1,7 @@
 package com.wh.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -9,50 +10,63 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-
 @Entity
-@Table(name="tADDRESS")
+@Table(name = "tADDRESS")
 public class Address implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Id
-	@Column(name = "ADDRESS_ID")
-	@GeneratedValue
-	private Long addressId;
+    @Id
+    @Column(name = "ADDRESS_ID")
+    @GeneratedValue
+    private Long addressId;
 
-	@Column(name = "FULLADDRESS", length=1000)
-	private String fullAddress;
+    @Column(name = "FULLADDRESS", length = 1000)
+    private String fullAddress;
 
-	@ManyToMany(mappedBy = "addressList", fetch = FetchType.LAZY)
-	private List<Contragent> contragentList;
+    @ManyToMany(mappedBy = "addressList", fetch = FetchType.LAZY)
+    private List<Contragent> contragentList;
 
-    
+    @OneToMany(mappedBy = "address", fetch = FetchType.LAZY)
+    private List<Shipment> shipments;
+
     public Address() {
     }
 
-	public Long getAddressId() {
-		return addressId;
-	}
+    public Long getAddressId() {
+	return addressId;
+    }
 
-	public void setAddressId(Long addressId) {
-		this.addressId = addressId;
-	}
+    public void setAddressId(Long addressId) {
+	this.addressId = addressId;
+    }
 
-	public String getFullAddress() {
-		return fullAddress;
-	}
+    public String getFullAddress() {
+	return fullAddress;
+    }
 
-	public void setFullAddress(String fullAddress) {
-		this.fullAddress = fullAddress;
-	}
+    public void setFullAddress(String fullAddress) {
+	this.fullAddress = fullAddress;
+    }
 
-	public List<Contragent> getContragentList() {
-		return contragentList;
-	}
+    public List<Contragent> getContragentList() {
+	return contragentList;
+    }
 
-	public void setContragentList(List<Contragent> contragentList) {
-		this.contragentList = contragentList;
+    public void setContragentList(List<Contragent> contragentList) {
+	this.contragentList = contragentList;
+    }
+
+    public String getName() {
+	return fullAddress;
+    }
+
+    public List<Shipment> getShipments() {
+	if (shipments == null) {
+	    shipments = new ArrayList<Shipment>();
 	}
+	return shipments;
+    }
 }

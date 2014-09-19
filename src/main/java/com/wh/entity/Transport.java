@@ -1,45 +1,58 @@
 package com.wh.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "tTRANSPORT")
 public class Transport implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-	
-	@Id
-	@Column(name = "TRANSPORT_ID")
-	@GeneratedValue
-	private Long transportId;
+    private static final long serialVersionUID = 1L;
 
-	@Column(name = "NAME")
-	private String name;
-	
-	public Transport() {		
-	}
+    @Id
+    @Column(name = "TRANSPORT_ID")
+    @GeneratedValue
+    private Long transportId;
 
-	public Long getTransportId() {
-		return transportId;
-	}
+    @Column(name = "NAME")
+    private String name;
 
-	public void setTransportId(Long transportId) {
-		this.transportId = transportId;
-	}
+    @OneToMany(mappedBy = "transport", fetch = FetchType.LAZY)
+    private List<Shipment> shipments;
 
-	public String getName() {
-		return name;
-	}
+    public Transport() {
+    }
 
-	public void setName(String name) {
-		this.name = name;
+    public Long getTransportId() {
+	return transportId;
+    }
+
+    public void setTransportId(Long transportId) {
+	this.transportId = transportId;
+    }
+
+    public String getName() {
+	return name;
+    }
+
+    public void setName(String name) {
+	this.name = name;
+    }
+
+    public List<Shipment> getShipments() {
+	if (shipments == null) {
+	    shipments = new ArrayList<Shipment>();
 	}
-	
+	return shipments;
+    }
 
 }

@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -20,69 +21,87 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name = "tCONTRAGENT")
 public class Contragent implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Id
-	@Column(name = "CONTRAGENT_ID")
-	@GeneratedValue
-	private Long contragentId;
+    @Id
+    @Column(name = "CONTRAGENT_ID")
+    @GeneratedValue
+    private Long contragentId;
 
-	@Column(name = "NAME")
-	private String name;
+    @Column(name = "NAME")
+    private String name;
 
     @Temporal(TemporalType.DATE)
-	@Column(name = "CREATE_DATE")
-	private Date createDate;
+    @Column(name = "CREATE_DATE")
+    private Date createDate;
 
-	@Column(name = "IS_ACTIVE")
-	private Boolean isActive;
+    @Column(name = "IS_ACTIVE")
+    private Boolean isActive;
 
     @ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "tCONTRAGENT_ADDRESS", 
-	joinColumns = {@JoinColumn(name = "CONTRAGENT_ID")}, 
-	inverseJoinColumns = {@JoinColumn(name = "ADDRESS_ID")})
-	private List<Address> addressList;
+    @JoinTable(name = "tCONTRAGENT_ADDRESS", joinColumns = { @JoinColumn(name = "CONTRAGENT_ID") }, inverseJoinColumns = { @JoinColumn(name = "ADDRESS_ID") })
+    private List<Address> addressList;
 
-	public Long getContragentId() {
-		return contragentId;
-	}
+    @OneToMany(mappedBy = "contragent", fetch = FetchType.LAZY)
+    private List<Incoming> incomingList;
 
-	public void setContragentId(Long contragentId) {
-		this.contragentId = contragentId;
-	}
+    @OneToMany(mappedBy = "contragent", fetch = FetchType.LAZY)
+    private List<Shipment> shipmentList;
 
-	public String getName() {
-		return name;
-	}
+    public Long getContragentId() {
+	return contragentId;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setContragentId(Long contragentId) {
+	this.contragentId = contragentId;
+    }
 
-	public Date getCreateDate() {
-		return createDate;
-	}
+    public String getName() {
+	return name;
+    }
 
-	public void setCreateDate(Date createDate) {
-		this.createDate = createDate;
-	}
+    public void setName(String name) {
+	this.name = name;
+    }
 
-	public Boolean getIsActive() {
-		return isActive;
-	}
+    public Date getCreateDate() {
+	return createDate;
+    }
 
-	public void setIsActive(Boolean isActive) {
-		this.isActive = isActive;
-	}
+    public void setCreateDate(Date createDate) {
+	this.createDate = createDate;
+    }
 
-	public List<Address> getAddressList() {
-		if(addressList == null) {
-			addressList = new ArrayList<Address>();
-		}
-		return addressList;
-	}
+    public Boolean getIsActive() {
+	return isActive;
+    }
 
-	public void setAddressList(List<Address> addressList) {
-		this.addressList = addressList;
+    public void setIsActive(Boolean isActive) {
+	this.isActive = isActive;
+    }
+
+    public List<Address> getAddressList() {
+	if (addressList == null) {
+	    addressList = new ArrayList<Address>();
 	}
+	return addressList;
+    }
+
+    public void setAddressList(List<Address> addressList) {
+	this.addressList = addressList;
+    }
+
+    public List<Incoming> getIncomingList() {
+	if (incomingList == null) {
+	    incomingList = new ArrayList<Incoming>();
+	}
+	return incomingList;
+    }
+
+    public List<Shipment> getShipmentList() {
+	if (shipmentList == null) {
+	    shipmentList = new ArrayList<Shipment>();
+	}
+	return shipmentList;
+    }
 }

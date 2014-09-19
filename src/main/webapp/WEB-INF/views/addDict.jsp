@@ -25,31 +25,39 @@
 			<div class="filters">
 				<span class="filter label">Справочники:</span>
 				<span class="filter <c:choose><c:when test="${dict=='address'}">active</c:when><c:otherwise>inactive</c:otherwise></c:choose>">
-					<a href="address">Адрес</a>
+					<a href="${pageContext.request.contextPath}/dictionaries/address">Адрес</a>
 				</span>
 				<span class="filter <c:choose><c:when test="${dict=='transport'}">active</c:when><c:otherwise>inactive</c:otherwise></c:choose>">
-					<a href="transport">Транспорт</a>
+					<a href="${pageContext.request.contextPath}/dictionaries/transport">Транспорт</a>
 				</span>
 				<span class="filter <c:choose><c:when test="${dict=='product'}">active</c:when><c:otherwise>inactive</c:otherwise></c:choose>">
-					<a href="product">Товар</a>
+					<a href="${pageContext.request.contextPath}/dictionaries/product">Товар</a>
 				</span>
 				<span class="filter <c:choose><c:when test="${dict=='store'}">active</c:when><c:otherwise>inactive</c:otherwise></c:choose>">
-					<a href="store">Склад</a>
+					<a href="${pageContext.request.contextPath}/dictionaries/store">Склад</a>
 				</span>
 			</div>
 		</div>
 		<div class="main_table">
-				<form class="form-signin" name='f' action="addDictionary" method='POST' id="forms">
+				<form class="form-signin" name='f' action="<c:if test="${!empty actionType}">${actionType}</c:if>" method='POST' id="forms">
+				<c:if test="${!empty dictionary}">
+					<input type="hidden" name="id" value='<c:choose>
+															<c:when test="${dict=='address'}">${dictionary.addressId}</c:when>
+															<c:when test="${dict=='transport'}">${dictionary.transportId}</c:when>
+															<c:when test="${dict=='product'}">${dictionary.productId}</c:when>
+															<c:when test="${dict=='store'}">${dictionary.storeId}</c:when>
+														  </c:choose>'/>
+				</c:if>
 					<p class="fieldrow">
 						<label class="fieldlabel">Наименование</label>
-						<input class="fieldfld" type="text" required name="value" />
+						<input class="fieldfld" type="text" required name="value" value="<c:if test="${!empty dictionary}">${dictionary.name}</c:if>"/>
 					</p>	
 					<div class="buttons">
 						<div class="button">
 							<a href="javascript:{}" onclick="document.getElementById('forms').submit();">Сохранить</a>
 						</div>
 						<div class="button">
-							<a>Отмена</a>
+							<a onclick='history.back()'>Отмена</a>
 						</div>
 					</div>						
 				</form>

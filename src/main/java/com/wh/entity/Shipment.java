@@ -18,127 +18,127 @@ import javax.persistence.TemporalType;
 @Table(name = "tSHIPMENT")
 public class Shipment implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-	
-	@Id
-	@Column(name = "SHIPMENT_ID")
-	@GeneratedValue
-	private Long shipmentId;
+    private static final long serialVersionUID = 1L;
+
+    @Id
+    @Column(name = "SHIPMENT_ID")
+    @GeneratedValue
+    private Long shipmentId;
 
     @Temporal(TemporalType.DATE)
-	@Column(name = "CREATE_DATE")
-	private Date createDate;
-    
+    @Column(name = "CREATE_DATE")
+    private Date createDate;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "CONTRAGENT_ID")
     private Contragent contragent;
-    
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "PRODUCT_ID")
     private Product product;
-    
+
     @Column(name = "PRODUCT_COUNT", nullable = false)
     private Double productCount;
-    
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "STORE_ID")
     private Store store;
-    
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "TRANSPORT_ID")
     private Transport transport;
-    
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "ADDRESS_ID")
     private Address address;
 
-	@Column(name = "PAYMENT_TYPE")
-	private Boolean paymentType;
+    @Column(name = "PAYMENT_TYPE")
+    private Boolean paymentType;
 
-	@Column(name = "COMMENT", nullable = true, length = 4000)
-	private String comment;
-	
-	public Shipment() {		
-	}
+    @Column(name = "COMMENT", nullable = true, length = 4000)
+    private String comment;
 
-	public Long getShipmentId() {
-		return shipmentId;
-	}
+    public Shipment() {
+    }
 
-	public void setShipmentId(Long shipmentId) {
-		this.shipmentId = shipmentId;
-	}
+    public Long getShipmentId() {
+	return shipmentId;
+    }
 
-	public Date getCreateDate() {
-		return createDate;
-	}
+    public void setShipmentId(Long shipmentId) {
+	this.shipmentId = shipmentId;
+    }
 
-	public void setCreateDate(Date createDate) {
-		this.createDate = createDate;
-	}
+    public Date getCreateDate() {
+	return createDate;
+    }
 
-	public Contragent getContragent() {
-		return contragent;
-	}
+    public void setCreateDate(Date createDate) {
+	this.createDate = createDate;
+    }
 
-	public void setContragent(Contragent contragent) {
-		this.contragent = contragent;
-	}
+    public Contragent getContragent() {
+	return contragent;
+    }
 
-	public Product getProduct() {
-		return product;
-	}
+    public void setContragent(Contragent contragent) {
+	this.contragent = contragent;
+    }
 
-	public void setProduct(Product product) {
-		this.product = product;
-	}
+    public Product getProduct() {
+	return product;
+    }
 
-	public Double getProductCount() {
-		return productCount;
-	}
+    public void setProduct(Product product) {
+	this.product = product;
+    }
 
-	public void setProductCount(Double productCount) {
-		this.productCount = productCount;
-	}
+    public Double getProductCount() {
+	return productCount;
+    }
 
-	public Store getStore() {
-		return store;
-	}
+    public void setProductCount(Double productCount) {
+	this.productCount = productCount;
+    }
 
-	public void setStore(Store store) {
-		this.store = store;
-	}
+    public Store getStore() {
+	return store;
+    }
 
-	public Transport getTransport() {
-		return transport;
-	}
+    public void setStore(Store store) {
+	this.store = store;
+    }
 
-	public void setTransport(Transport transport) {
-		this.transport = transport;
-	}
+    public Transport getTransport() {
+	return transport;
+    }
 
-	public Address getAddress() {
-		return address;
-	}
+    public void setTransport(Transport transport) {
+	this.transport = transport;
+    }
 
-	public void setAddress(Address address) {
-		this.address = address;
-	}
+    public Address getAddress() {
+	return address;
+    }
 
-	public Boolean getPaymentType() {
-		return paymentType;
-	}
+    public void setAddress(Address address) {
+	this.address = address;
+    }
 
-	public void setPaymentType(Boolean paymentType) {
-		this.paymentType = paymentType;
-	}
+    public Boolean getPaymentType() {
+	return paymentType;
+    }
 
-	public String getComment() {
-		return comment;
-	}
+    public void setPaymentType(Boolean paymentType) {
+	this.paymentType = paymentType;
+    }
 
-	public void setComment(String comment) {
-		this.comment = comment;
-	}
+    public String getComment() {
+	return comment;
+    }
+
+    public void setComment(String comment) {
+	this.comment = comment;
+    }
 
 }

@@ -1,6 +1,8 @@
 package com.wh.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +11,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -16,56 +19,90 @@ import javax.persistence.Table;
 @Table(name = "tPRODUCT")
 public class Product implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Id
-	@Column(name = "PRODUCT_ID")
-	@GeneratedValue
-	private Long productId;
+    @Id
+    @Column(name = "PRODUCT_ID")
+    @GeneratedValue
+    private Long productId;
 
-	@Column(name = "NAME")
-	private String name;
-	
-	@Enumerated(EnumType.ORDINAL)
-	@Column(name = "PRODUCT_TYPE")
-	private ProductType productType;    
-	
-	@OneToOne(mappedBy = "product", fetch = FetchType.EAGER)
+    @Column(name = "NAME")
+    private String name;
+
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "PRODUCT_TYPE")
+    private ProductType productType;
+
+    @OneToOne(mappedBy = "product", fetch = FetchType.EAGER)
     private ProductQuantity productQuantity;
 
-	public Product() {		
-	}
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+    private List<Shipment> shipments;
 
-	public Long getProductId() {
-		return productId;
-	}
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+    private List<Incoming> incomings;
 
-	public void setProductId(Long productId) {
-		this.productId = productId;
-	}
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+    private List<Packing> packings;
 
-	public String getName() {
-		return name;
-	}
+    public Product() {
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public Long getProductId() {
+	return productId;
+    }
 
-	public ProductType getProductType() {
-		return productType;
-	}
+    public void setProductId(Long productId) {
+	this.productId = productId;
+    }
 
-	public void setProductType(ProductType productType) {
-		this.productType = productType;
-	}
-	
-	public ProductQuantity getProductQuantity() {
-		return productQuantity;
-	}
+    public String getName() {
+	return name;
+    }
 
-	public void setProductQuantity(ProductQuantity productQuantity) {
-		this.productQuantity = productQuantity;
+    public void setName(String name) {
+	this.name = name;
+    }
+
+    public ProductType getProductType() {
+	return productType;
+    }
+
+    public void setProductType(ProductType productType) {
+	this.productType = productType;
+    }
+
+    public ProductQuantity getProductQuantity() {
+	return productQuantity;
+    }
+
+    public void setProductQuantity(ProductQuantity productQuantity) {
+	this.productQuantity = productQuantity;
+    }
+
+    public List<Incoming> getIncomings() {
+	if (incomings == null) {
+	    incomings = new ArrayList<Incoming>();
 	}
+	return incomings;
+    }
+
+    public List<Shipment> getShipments() {
+	if (shipments == null) {
+	    shipments = new ArrayList<Shipment>();
+	}
+	return shipments;
+    }
+
+    public List<Packing> getPackings() {
+	if (packings == null) {
+	    packings = new ArrayList<Packing>();
+	}
+	return packings;
+    }
+
+    public boolean cannotDelete() {
+	return !getIncomings().isEmpty() || !getShipments().isEmpty() || !getPackings().isEmpty();
+    }
 
 }

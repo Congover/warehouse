@@ -22,10 +22,11 @@
 	</div>
 	<div class="main_data">
 		<div class="main_table">
-				<form class="form-signin" name='f' action="save" method='POST' id="formContragent">
+				<form class="form-signin" name='f' action="<c:if test="${!empty actionType}">${actionType}</c:if>" method='POST' id="formContragent">
+				<input type="hidden" name="id" value="<c:if test="${!empty contragent}">${contragent.contragentId}</c:if>"></input>
 					<p class="fieldrow">
 						<label class="fieldlabel">Наименование</label>
-						<input class="fieldfld" type="text" required name="value" />
+						<input class="fieldfld" type="text" required name="value" value="<c:if test="${!empty contragent}">${contragent.name}</c:if>" />
 					</p>
 					<p class="fieldrow">
 						<label class="fieldlabel">Адрес</label>
@@ -33,7 +34,7 @@
 							<option selected></option>
 							<c:if test="${!empty addressList}">
 								<c:forEach items="${addressList}" var="address">
-									<option value="${address.addressId}">${address.fullAddress}</option>
+									<option value="${address.addressId}" <c:if test="${!empty address0 && address0 == address.addressId}">selected</c:if> >${address.fullAddress}</option>
 								</c:forEach>
 							</c:if>
 						</select>
@@ -44,7 +45,7 @@
 							<option selected></option>
 							<c:if test="${!empty addressList}">
 								<c:forEach items="${addressList}" var="address">
-									<option value="${address.addressId}">${address.fullAddress}</option>
+									<option value="${address.addressId}" <c:if test="${!empty address1 && address1 == address.addressId}">selected</c:if> >${address.fullAddress}</option>
 								</c:forEach>
 							</c:if>
 						</select>
@@ -55,7 +56,7 @@
 							<option selected></option>
 							<c:if test="${!empty addressList}">
 								<c:forEach items="${addressList}" var="address">
-									<option value="${address.addressId}">${address.fullAddress}</option>
+									<option value="${address.addressId}" <c:if test="${!empty address2 && address2 == address.addressId}">selected</c:if> >${address.fullAddress}</option>
 								</c:forEach>
 							</c:if>
 						</select>
@@ -66,7 +67,7 @@
 							<option selected></option>
 							<c:if test="${!empty addressList}">
 								<c:forEach items="${addressList}" var="address">
-									<option value="${address.addressId}">${address.fullAddress}</option>
+									<option value="${address.addressId}" <c:if test="${!empty address3 && address3 == address.addressId}">selected</c:if> >${address.fullAddress}</option>
 								</c:forEach>
 							</c:if>
 						</select>
@@ -77,7 +78,7 @@
 							<option selected></option>
 							<c:if test="${!empty addressList}">
 								<c:forEach items="${addressList}" var="address">
-									<option value="${address.addressId}">${address.fullAddress}</option>
+									<option value="${address.addressId}" <c:if test="${!empty address4 && address4 == address.addressId}">selected</c:if> >${address.fullAddress}</option>
 								</c:forEach>
 							</c:if>
 						</select>
@@ -87,7 +88,7 @@
 							<a href="javascript:{}" onclick="document.getElementById('formContragent').submit();">Сохранить</a>
 						</div>
 						<div class="button">
-							<a>Отмена</a>
+							<a onclick='history.back()'>Отмена</a>
 						</div>
 					</div>						
 				</form>

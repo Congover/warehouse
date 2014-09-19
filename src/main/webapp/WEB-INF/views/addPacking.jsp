@@ -61,7 +61,7 @@
 							<a href="javascript:{}" onclick="document.getElementById('forms').submit();">Сохранить</a>
 						</div>
 						<div class="button">
-							<a>Отмена</a>
+							<a onclick='history.back()'>Отмена</a>
 						</div>
 					</div>						
 				</form>

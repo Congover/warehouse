@@ -16,8 +16,9 @@
 	    "ordering": false
 	} );
 	
-		$(document).ready(function() {			
-		    $('#data_table').dataTable( {
+		$(document).ready(function() {
+			var selected;
+			var table = $('#data_table').dataTable( {
 		    	"language": {
 		    		"url" : "resources/russ.lang"
 		    	},
@@ -37,6 +38,39 @@
 		        	aButtons: [
 					]
 		        }
+		    } );
+			
+		    $('#data_table tbody').on( 'click', 'tr', function () {
+		        if ( $(this).hasClass('selected') ) {
+		        	selected = null;
+		            $(this).removeClass('selected');
+		        }
+		        else {
+		            table.$('tr.selected').removeClass('selected');
+		            $(this).addClass('selected');
+		            selected = this.id;
+		        }
+		    } );		    
+		    $('#btnChange').click( function () {
+		        if(selected == undefined || selected == null) {
+		        	alert("Выберите контрагента!");
+		        	return;
+		        }
+		        location.href = 'contractor/edit/' + selected
+		    } );		    
+		    $('#btnDelete').click( function () {
+		        if(selected == undefined || selected == null) {
+		        	alert("Выберите контрагента!");
+		        	return;
+		        }
+		        $.post("contractor/delete", {id : selected}, function(data){
+		        	if(data) {
+		        		selected = null;
+		        		$('#data_table').DataTable().row('.selected').remove().draw( false );
+		        	} else {
+		        		alert('Невозможно удалить объект!');
+		        	}		        	
+		        });
 		    } );
 		} );
 	</script>
@@ -69,6 +103,8 @@
 		    </table>
 			<div class="buttons">
 				<div class="button"><a href="contractor/add">Добавить</a></div>
+				<div id="btnChange" class="button">Изменить</div>
+				<div id="btnDelete" class="button">Удалить</div>
 			</div>
 		</div>
 	</div>
