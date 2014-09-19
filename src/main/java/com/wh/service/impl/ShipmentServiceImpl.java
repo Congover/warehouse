@@ -21,51 +21,70 @@ import com.wh.utils.Utils;
 
 @Service
 public class ShipmentServiceImpl implements ShipmentService {
-	
-	@Resource
-	ShipmentRepository shipmentRepository;
-	
-	@Resource
-	ProductRepository productRepository;
-	
-	@Resource
-	StoreRepository storeRepository;
-	
-	@Resource
-	ContragentRepository contragentRepository;
-	
-	@Resource
-	AddressRepository addressRepository;
-	
-	@Resource
-	TransportRepository transportRepository;
-	
-	@Resource
-	ProductQuantityRepository productQuantityRepository;
 
-	@Override
-	public List<Shipment> findAll() {
-		return (List<Shipment>) shipmentRepository.findAll();
-	}
+    @Resource
+    ShipmentRepository shipmentRepository;
 
-	@Override
-	public void save(String date, Long contragentId, Long productId,
-			Integer productCount, Long storeId, Long transportId, Long addressId, Boolean paymentType, String comment) {
-		Product product = productRepository.findOne(productId);
-		ProductQuantity pq = product.getProductQuantity();
-		pq.setBagCount(pq.getBagCount() - productCount);
-		productQuantityRepository.save(pq);		
-		Shipment entity = new Shipment();
-		entity.setCreateDate(Utils.getInstance().parse(date));
-		entity.setContragent(contragentRepository.findOne(contragentId));
-		entity.setProduct(product);
-		entity.setProductCount(productCount.doubleValue());
-		entity.setStore(storeRepository.findOne(storeId));
-		entity.setAddress(addressRepository.findOne(addressId));
-		entity.setTransport(transportRepository.findOne(transportId));
-		entity.setPaymentType(paymentType);
-		entity.setComment(comment);
-		shipmentRepository.save(entity);
-	}
+    @Resource
+    ProductRepository productRepository;
+
+    @Resource
+    StoreRepository storeRepository;
+
+    @Resource
+    ContragentRepository contragentRepository;
+
+    @Resource
+    AddressRepository addressRepository;
+
+    @Resource
+    TransportRepository transportRepository;
+
+    @Resource
+    ProductQuantityRepository productQuantityRepository;
+
+    @Override
+    public List<Shipment> findAll() {
+	return (List<Shipment>) shipmentRepository.findAll();
+    }
+
+    @Override
+    public void save(String date, Long contragentId, Long productId, Integer productCount, Long storeId,
+	    Long transportId, Long addressId, Boolean paymentType, String comment) {
+	Product product = productRepository.findOne(productId);
+	ProductQuantity pq = product.getProductQuantity();
+	pq.setBagCount(pq.getBagCount() - productCount);
+	productQuantityRepository.save(pq);
+	Shipment entity = new Shipment();
+	entity.setCreateDate(Utils.getInstance().parse(date));
+	entity.setContragent(contragentRepository.findOne(contragentId));
+	entity.setProduct(product);
+	entity.setProductCount(productCount.doubleValue());
+	entity.setStore(storeRepository.findOne(storeId));
+	entity.setAddress(addressRepository.findOne(addressId));
+	entity.setTransport(transportRepository.findOne(transportId));
+	entity.setPaymentType(paymentType);
+	entity.setComment(comment);
+	shipmentRepository.save(entity);
+    }
+
+    @Override
+    public Shipment find(Long id) {
+	return shipmentRepository.findOne(id);
+    }
+
+    @Override
+    public void update(Long id, String date, Long contragentId, Long storeId, Long transportId, Long addressId,
+	    Boolean paymentType, String comment) {
+	Shipment entity = shipmentRepository.findOne(id);
+	entity.setComment(comment);
+	entity.setCreateDate(Utils.getInstance().parse(date));
+	entity.setStore(storeRepository.findOne(storeId));
+	entity.setAddress(addressRepository.findOne(addressId));
+	entity.setTransport(transportRepository.findOne(transportId));
+	entity.setPaymentType(paymentType);
+	entity.setContragent(contragentRepository.findOne(contragentId));
+	shipmentRepository.save(entity);
+    }
 
 }

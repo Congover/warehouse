@@ -20,47 +20,61 @@ import com.wh.utils.Utils;
 
 @Service
 public class IncomingServiceImpl implements IncomingService {
-	
-	@Resource
-	IncomingRepository incomingRepository;
-	
-	@Resource
-	ProductRepository productRepository;
-	
-	@Resource
-	StoreRepository storeRepository;
-	
-	@Resource
-	ContragentRepository contragentRepository;
-	
-	@Resource
-	ProductQuantityRepository productQuantityRepository;
 
-	@Override
-	public List<Incoming> findAll() {
-		return (List<Incoming>) incomingRepository.findAll();
+    @Resource
+    IncomingRepository incomingRepository;
+
+    @Resource
+    ProductRepository productRepository;
+
+    @Resource
+    StoreRepository storeRepository;
+
+    @Resource
+    ContragentRepository contragentRepository;
+
+    @Resource
+    ProductQuantityRepository productQuantityRepository;
+
+    @Override
+    public List<Incoming> findAll() {
+	return (List<Incoming>) incomingRepository.findAll();
+    }
+
+    @Override
+    public void save(String date, Long contragentId, Long productId, Double productCount, Long storeId, String comment) {
+	Product product = productRepository.findOne(productId);
+	ProductQuantity pq = product.getProductQuantity();
+	if (ProductType.BAG.equals(product.getProductType())) {
+	    pq.setBagCount(pq.getBagCount() != null ? pq.getBagCount() + productCount.intValue() : productCount
+		    .intValue());
+	} else {
+	    pq.setProductCount(pq.getProductCount() != null ? pq.getProductCount() + productCount : productCount);
 	}
+	productQuantityRepository.save(pq);
 
-	@Override
-	public void save(String date, Long contragentId, Long productId,
-			Double productCount, Long storeId, String comment) {
-		Product product = productRepository.findOne(productId);
-		ProductQuantity pq = product.getProductQuantity();
-		if(ProductType.BAG.equals(product.getProductType())) {
-			pq.setBagCount(pq.getBagCount() != null ? pq.getBagCount() + productCount.intValue() : productCount.intValue());
-		} else {
-			pq.setProductCount(pq.getProductCount() != null ? pq.getProductCount() + productCount : productCount);
-		}
-		productQuantityRepository.save(pq);
-		
-		Incoming entity = new Incoming();
-		entity.setCreateDate(Utils.getInstance().parse(date));
-		entity.setContragent(contragentRepository.findOne(contragentId));
-		entity.setProduct(product);
-		entity.setProductCount(productCount);
-		entity.setStore(storeRepository.findOne(storeId));
-		entity.setComment(comment);
-		incomingRepository.save(entity);
-	}
+	Incoming entity = new Incoming();
+	entity.setCreateDate(Utils.getInstance().parse(date));
+	entity.setContragent(contragentRepository.findOne(contragentId));
+	entity.setProduct(product);
+	entity.setProductCount(productCount);
+	entity.setStore(storeRepository.findOne(storeId));
+	entity.setComment(comment);
+	incomingRepository.save(entity);
+    }
 
+    @Override
+    public Incoming find(Long id) {
+	return incomingRepository.findOne(id);
+    }
+
+    @Override
+    public void update(Long id, String date, Long contragentId, Long storeId, String comment) {
+	Incoming entity = incomingRepository.findOne(id);
+	entity.setComment(comment);
+	entity.setCreateDate(Utils.getInstance().parse(date));
+	entity.setStore(storeRepository.findOne(storeId));
+	entity.setContragent(contragentRepository.findOne(contragentId));
+	incomingRepository.save(entity);
+    }
 }

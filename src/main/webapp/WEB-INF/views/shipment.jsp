@@ -20,8 +20,9 @@
 	    "ordering": false
 	} );
 	
-		$(document).ready(function() {			
-		    $('#data_table').dataTable( {
+		$(document).ready(function() {
+			var selected;		
+			var table =  $('#data_table').dataTable( {
 		    	"language": {
 		    		"url" : "resources/russ.lang"
 		    	},
@@ -47,6 +48,25 @@
 		        	aButtons: [
 					]
 		        }
+		    } );
+			
+		    $('#data_table tbody').on( 'click', 'tr', function () {
+		        if ( $(this).hasClass('selected') ) {
+		        	selected = null;
+		            $(this).removeClass('selected');
+		        }
+		        else {
+		            table.$('tr.selected').removeClass('selected');
+		            $(this).addClass('selected');
+		            selected = this.id;
+		        }
+		    } );		    
+		    $('#btnChange').click( function () {
+		        if(selected == undefined || selected == null) {
+		        	alert("Выберите объект!");
+		        	return;
+		        }
+		        location.href = 'shipment/edit/' + selected
 		    } );
 		} );
 	</script>
@@ -81,6 +101,7 @@
 		    </table>
 			<div class="buttons">
 				<div class="button"><a href="shipment/add">Добавить</a></div>
+				<div id="btnChange" class="button">Изменить</div>
 			</div>
 		</div>
 	</div>

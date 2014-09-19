@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -64,6 +65,22 @@ public class IncomingController {
 	    @RequestParam("productCount") Double productCount, @RequestParam("store") Long storeId,
 	    @RequestParam("comment") String comment) {
 	incomingService.save(date, contragentId, productId, productCount, storeId, comment);
+	return REDIRECT;
+    }
+
+    @RequestMapping({ "/edit/{id}" })
+    public String edit(@PathVariable("id") Long id, Map<String, Object> map) {
+	map.put("incoming", incomingService.find(id));
+	map.put("storeList", dictionaryService.getStories());
+	map.put("contragentList", contragentService.findAll());
+	return "editIncoming";
+    }
+
+    @RequestMapping({ "update" })
+    public String update(@RequestParam("id") Long id, @RequestParam("date") String date,
+	    @RequestParam("contragent") Long contragentId, @RequestParam("store") Long storeId,
+	    @RequestParam("comment") String comment) {
+	incomingService.update(id, date, contragentId, storeId, comment);
 	return REDIRECT;
     }
 
