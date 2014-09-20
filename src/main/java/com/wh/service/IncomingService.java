@@ -2,6 +2,8 @@ package com.wh.service;
 
 import java.util.List;
 
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+
 import com.wh.entity.Incoming;
 
 public interface IncomingService {
@@ -13,5 +15,7 @@ public interface IncomingService {
     Incoming find(Long id);
 
     void update(Long id, String date, Long contragentId, Long storeId, String comment);
+
+    HSSFWorkbook generateReport(String dateStart, String dateEnd, Long contragentId, Long productId, Long storeId);
 
 }

@@ -56,7 +56,7 @@ public class ShipmentServiceImpl implements ShipmentService {
 	pq.setBagCount(pq.getBagCount() - productCount);
 	productQuantityRepository.save(pq);
 	Shipment entity = new Shipment();
-	entity.setCreateDate(Utils.getInstance().parse(date));
+	entity.setCreateDate(Utils.parse(date));
 	entity.setContragent(contragentRepository.findOne(contragentId));
 	entity.setProduct(product);
 	entity.setProductCount(productCount.doubleValue());
@@ -78,7 +78,7 @@ public class ShipmentServiceImpl implements ShipmentService {
 	    Boolean paymentType, String comment) {
 	Shipment entity = shipmentRepository.findOne(id);
 	entity.setComment(comment);
-	entity.setCreateDate(Utils.getInstance().parse(date));
+	entity.setCreateDate(Utils.parse(date));
 	entity.setStore(storeRepository.findOne(storeId));
 	entity.setAddress(addressRepository.findOne(addressId));
 	entity.setTransport(transportRepository.findOne(transportId));

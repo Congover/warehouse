@@ -6,24 +6,28 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Utils {
-	
-	private static final DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-	
-	private static Utils instance = new Utils();
-	
-	private Utils() {
+
+    private static final String DF = "yyyy-MM-dd";
+    private static final String DTF = "yyyyMMddHHmmss";
+
+    public static Date parse(String date) {
+	try {
+	    DateFormat df = new SimpleDateFormat(DF);
+	    return df.parse(date);
+	} catch (ParseException e) {
+	    // TODO ???
+	    return new Date();
 	}
-	
-	public static Utils getInstance() {
-		return instance;		
-	}
-	
-	public Date parse(String date) {
-		try {
-			return df.parse(date);
-		} catch (ParseException e) {
-			//TODO ???
-			return new Date();
-		}		
-	}
+    }
+
+    public static String convertDateToStr(Date date) {
+	DateFormat df = new SimpleDateFormat(DF);
+	return df.format(date);
+    }
+
+    public static String convertDateTimeToStr(Date dateTime) {
+	DateFormat df = new SimpleDateFormat(DTF);
+	return df.format(dateTime);
+    }
+
 }

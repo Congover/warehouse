@@ -29,13 +29,13 @@ public class IncomingController {
     private static final String REDIRECT = "redirect:/incoming";
 
     @Autowired
-    IncomingService incomingService;
+    private IncomingService incomingService;
 
     @Autowired
-    DictionaryService dictionaryService;
+    private DictionaryService dictionaryService;
 
     @Autowired
-    ContragentService contragentService;
+    private ContragentService contragentService;
 
     @RequestMapping({ "/", "" })
     public String incoming(HttpSession session) {
