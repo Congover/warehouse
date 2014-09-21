@@ -24,19 +24,19 @@ import com.wh.service.DictionaryService;
 public class DictionaryServiceImpl implements DictionaryService {
 
     @Resource
-    AddressRepository addressRepository;
+    private AddressRepository addressRepository;
 
     @Resource
-    TransportRepository transportRepository;
+    private TransportRepository transportRepository;
 
     @Resource
-    ProductRepository productRepository;
+    private ProductRepository productRepository;
 
     @Resource
-    StoreRepository storeRepository;
+    private StoreRepository storeRepository;
 
     @Resource
-    ProductQuantityRepository productQuantityRepository;
+    private ProductQuantityRepository productQuantityRepository;
 
     @Override
     public List<Address> getAdresses() {
@@ -145,7 +145,6 @@ public class DictionaryServiceImpl implements DictionaryService {
 		return false;
 	    }
 	    transportRepository.delete(id);
-	    ;
 	} else if (dictType.equals("product")) {
 	    Product entity = productRepository.findOne(id);
 	    if (entity.cannotDelete()) {

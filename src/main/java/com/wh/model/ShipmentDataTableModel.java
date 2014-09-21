@@ -23,7 +23,7 @@ public class ShipmentDataTableModel extends BaseDataTableModel<Shipment> {
 	row.put("store", entity.getStore().getName());
 	row.put("transport", entity.getTransport().getName());
 	row.put("address", entity.getAddress().getFullAddress());
-	row.put("paymentType", Utils.getShipmentPaymentType(entity));
+	row.put("paymentType", Utils.getShipmentPaymentType(entity.getPaymentType()));
 	row.put("comment", entity.getComment());
 	row.put("DT_RowId", entity.getShipmentId());
 	return row;

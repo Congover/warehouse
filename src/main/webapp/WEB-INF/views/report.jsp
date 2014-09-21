@@ -129,6 +129,23 @@
 							</c:if>
 						</select>
 					</p>
+					<p class="fieldrow">
+						<input class="fieldstartcheck" type="checkbox" name="useTransport"/>						
+						<label class="fieldshortlabel" for="transport">Транспорт</label>
+						<select class="fieldcombo" size="1" required name="transport">
+							<c:if test="${!empty transportList}">
+									<c:forEach items="${transportList}" var="transport">
+										<option value="${transport.transportId}">${transport.name}</option>
+									</c:forEach>
+							</c:if>
+						</select>
+					</p>
+					<p class="fieldrow">
+						<input class="fieldstartcheck" type="checkbox" name="usePaymentType"/>						
+						<label class="fieldshortlabel" for="paymentType">Тип оплаты</label>
+						<input type="radio" name="paymentType" value="true">Наличный
+   						<input type="radio" name="paymentType" value="false" checked="checked">Безналичный
+					</p>
 					<div class="buttons">
 						<div class="button">
 							<a href="javascript:{}" onclick="document.getElementById('formShipment').submit();">Сформировать</a>

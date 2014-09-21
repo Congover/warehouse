@@ -28,13 +28,13 @@ public class ShipmentController {
     private static final String REDIRECT = "redirect:/shipment";
 
     @Autowired
-    ShipmentService shipmentService;
+    private ShipmentService shipmentService;
 
     @Autowired
-    DictionaryService dictionaryService;
+    private DictionaryService dictionaryService;
 
     @Autowired
-    ContragentService contragentService;
+    private ContragentService contragentService;
 
     @RequestMapping({ "/", "" })
     public String shipment(HttpSession session) {
