@@ -87,9 +87,27 @@ public class IncomingServiceImpl implements IncomingService {
 	    Long storeId) {
 	StringBuilder sb = new StringBuilder();
 	sb.append("select c from Incoming c where c.createDate >= :startDate and c.createDate <= :endDate");
+	if (contragentId != null) {
+	    sb.append(" and c.contragent = :contragent");
+	}
+	if (productId != null) {
+	    sb.append(" and c.product = :product");
+	}
+	if (storeId != null) {
+	    sb.append(" and c.store = :store");
+	}
 	TypedQuery<Incoming> query = entityManager.createQuery(sb.toString(), Incoming.class);
 	query.setParameter("startDate", dateStart, TemporalType.DATE);
 	query.setParameter("endDate", dateEnd, TemporalType.DATE);
+	if (contragentId != null) {
+	    query.setParameter("contragent", contragentRepository.findOne(contragentId));
+	}
+	if (productId != null) {
+	    query.setParameter("product", productRepository.findOne(productId));
+	}
+	if (storeId != null) {
+	    query.setParameter("store", storeRepository.findOne(storeId));
+	}
 	return query.getResultList();
     }
 
