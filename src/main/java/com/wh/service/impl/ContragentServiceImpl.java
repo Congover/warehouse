@@ -6,6 +6,9 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,14 +22,15 @@ import com.wh.service.ContragentService;
 public class ContragentServiceImpl implements ContragentService {
 
     @Resource
-    ContragentRepository contragentRepository;
+    private ContragentRepository contragentRepository;
 
     @Resource
-    AddressRepository addressRepository;
+    private AddressRepository addressRepository;
 
     @Override
     public List<Contragent> findAll() {
-	return (List<Contragent>) contragentRepository.findAll();
+	Order order = new Order(Direction.ASC, "name");
+	return (List<Contragent>) contragentRepository.findAll(new Sort(order));
     }
 
     @Override

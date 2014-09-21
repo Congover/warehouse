@@ -9,8 +9,8 @@ import com.wh.entity.Product;
 import com.wh.entity.ProductType;
 
 @Repository
-public interface ProductRepository extends CrudRepository<Product, Long>{
-	
-	List<Product> findByProductType(ProductType productType);
+public interface ProductRepository extends CrudRepository<Product, Long> {
+
+    List<Product> findByProductType(ProductType productType);
 
 }
