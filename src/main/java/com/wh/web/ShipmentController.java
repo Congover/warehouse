@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.wh.entity.Shipment;
-import com.wh.model.DataTableModel;
+import com.wh.model.BaseDataTableModel;
+import com.wh.model.ShipmentDataTableModel;
 import com.wh.service.ContragentService;
 import com.wh.service.DictionaryService;
 import com.wh.service.ShipmentService;
@@ -42,9 +42,10 @@ public class ShipmentController {
     }
 
     @RequestMapping("/getList")
-    public @ResponseBody DataTableModel getList(@RequestParam("draw") Integer draw,
-	    @RequestParam("length") Integer length, @RequestParam("start") Integer start) {
-	return new DataTableModel(shipmentService.findAll(), draw, length, start, Shipment.class);
+    @ResponseBody
+    public BaseDataTableModel<?> getList(@RequestParam("draw") Integer draw, @RequestParam("length") Integer length,
+	    @RequestParam("start") Integer start) {
+	return new ShipmentDataTableModel(shipmentService.findAll(), draw, length, start);
     }
 
     @RequestMapping({ "/add" })

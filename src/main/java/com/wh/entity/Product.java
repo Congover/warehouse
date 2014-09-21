@@ -1,6 +1,5 @@
 package com.wh.entity;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +16,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "tPRODUCT")
-public class Product implements Serializable {
+public class Product extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
 

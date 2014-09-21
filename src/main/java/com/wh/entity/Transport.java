@@ -1,6 +1,5 @@
 package com.wh.entity;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +13,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "tTRANSPORT")
-public class Transport implements Serializable {
+public class Transport extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
 

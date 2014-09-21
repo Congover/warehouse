@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.wh.entity.Packing;
-import com.wh.model.DataTableModel;
+import com.wh.model.BaseDataTableModel;
+import com.wh.model.PackingDataTableModel;
 import com.wh.service.DictionaryService;
 import com.wh.service.PackingService;
 
@@ -20,37 +21,40 @@ import com.wh.service.PackingService;
 @RequestMapping(value = "/packing")
 public class PackingController {
 
-	private static final String REDIRECT = "redirect:/packing";
-	
-	@Autowired
-	PackingService packingService;
-	
-	@Autowired
-	DictionaryService dictionaryService;
-		
-	@RequestMapping({"/", ""})
-	public String packing(HttpSession session) {
-		return "packing";
-	}
-	
-	@RequestMapping("/getList")
-	public @ResponseBody DataTableModel getList(@RequestParam("draw") Integer draw, @RequestParam("length") Integer length, @RequestParam("start") Integer start) {
-		List<Packing> list = packingService.findAll();
-		return new DataTableModel(list, draw, length, start, Packing.class);
-	}
-	
-	@RequestMapping({"/add"})
-	public String add(Map<String, Object> map) {
-		map.put("productList", dictionaryService.getAvailibleProductForPacking());
-		return "addPacking";
-	}
-	
-	@RequestMapping({"/save"})
-	public String addIncoming(HttpSession session, @RequestParam("date") String date, @RequestParam("product") Long productId, 
-			@RequestParam("productCount") Double productCount) {
-		packingService.save(date, productId, productCount);
-		//incomingService.save(date, contragentId, productId, productCount, storeId, comment);
-		return REDIRECT;
-	}
+    private static final String REDIRECT = "redirect:/packing";
+
+    @Autowired
+    PackingService packingService;
+
+    @Autowired
+    DictionaryService dictionaryService;
+
+    @RequestMapping({ "/", "" })
+    public String packing(HttpSession session) {
+	return "packing";
+    }
+
+    @RequestMapping("/getList")
+    @ResponseBody
+    public BaseDataTableModel<?> getList(@RequestParam("draw") Integer draw, @RequestParam("length") Integer length,
+	    @RequestParam("start") Integer start) {
+	List<Packing> list = packingService.findAll();
+	return new PackingDataTableModel(list, draw, length, start);
+    }
+
+    @RequestMapping({ "/add" })
+    public String add(Map<String, Object> map) {
+	map.put("productList", dictionaryService.getAvailibleProductForPacking());
+	return "addPacking";
+    }
+
+    @RequestMapping({ "/save" })
+    public String addIncoming(HttpSession session, @RequestParam("date") String date,
+	    @RequestParam("product") Long productId, @RequestParam("productCount") Double productCount) {
+	packingService.save(date, productId, productCount);
+	// incomingService.save(date, contragentId, productId, productCount,
+	// storeId, comment);
+	return REDIRECT;
+    }
 
 }

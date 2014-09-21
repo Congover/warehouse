@@ -15,7 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.wh.entity.Incoming;
-import com.wh.model.DataTableModel;
+import com.wh.model.BaseDataTableModel;
+import com.wh.model.IncomingDataTableModel;
 import com.wh.service.ContragentService;
 import com.wh.service.DictionaryService;
 import com.wh.service.IncomingService;
@@ -44,10 +45,10 @@ public class IncomingController {
 
     @RequestMapping("/getList")
     @ResponseBody
-    public DataTableModel getList(@RequestParam("draw") Integer draw, @RequestParam("length") Integer length,
+    public BaseDataTableModel<?> getList(@RequestParam("draw") Integer draw, @RequestParam("length") Integer length,
 	    @RequestParam("start") Integer start) {
 	List<Incoming> list = incomingService.findAll();
-	return new DataTableModel(list, draw, length, start, Incoming.class);
+	return new IncomingDataTableModel(list, draw, length, start);
 
     }
 

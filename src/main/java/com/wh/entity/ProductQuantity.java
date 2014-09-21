@@ -1,7 +1,5 @@
 package com.wh.entity;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,7 +11,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "tPRODUCT_QUANTITY")
-public class ProductQuantity implements Serializable {
+public class ProductQuantity extends BaseEntity {
 
     private static final long serialVersionUID = 1394840906065751009L;
 

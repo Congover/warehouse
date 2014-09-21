@@ -42,6 +42,7 @@
 		                  { data: "store" },
 		                  { data: "transport" },
 		                  { data: "address" },
+		                  { data: "paymentType" },
 		                  { data: "comment" }
 		              ],
 		        tableTools: {
@@ -95,6 +96,7 @@
 		                <th><spring:message code="shipment.table.header.store"/></th>
 		                <th><spring:message code="shipment.table.header.transport"/></th>
 		                <th><spring:message code="shipment.table.header.address"/></th>
+		                <th><spring:message code="shipment.table.header.paymentType"/></th>
 		                <th><spring:message code="shipment.table.header.comment"/></th>
 		            </tr>
 		        </thead>

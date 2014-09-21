@@ -23,25 +23,25 @@ import com.wh.utils.Utils;
 public class ShipmentServiceImpl implements ShipmentService {
 
     @Resource
-    ShipmentRepository shipmentRepository;
+    private ShipmentRepository shipmentRepository;
 
     @Resource
-    ProductRepository productRepository;
+    private ProductRepository productRepository;
 
     @Resource
-    StoreRepository storeRepository;
+    private StoreRepository storeRepository;
 
     @Resource
-    ContragentRepository contragentRepository;
+    private ContragentRepository contragentRepository;
 
     @Resource
-    AddressRepository addressRepository;
+    private AddressRepository addressRepository;
 
     @Resource
-    TransportRepository transportRepository;
+    private TransportRepository transportRepository;
 
     @Resource
-    ProductQuantityRepository productQuantityRepository;
+    private ProductQuantityRepository productQuantityRepository;
 
     @Override
     public List<Shipment> findAll() {

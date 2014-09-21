@@ -1,87 +1,85 @@
 package com.wh.entity;
 
-import java.io.Serializable;
-
+import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 
 @Entity
 @Table(name = "tUSER")
-public class User implements Serializable {
-	private static final long serialVersionUID = 1L;
+public class User extends BaseEntity {
+    private static final long serialVersionUID = 1L;
 
-	@Id
-	@Column(name = "USER_ID")
-	@GeneratedValue
-	private Long userId;
+    @Id
+    @Column(name = "USER_ID")
+    @GeneratedValue
+    private Long userId;
 
-	@Column(name = "LOGIN")
-	private String login;
+    @Column(name = "LOGIN")
+    private String login;
 
-	@Column(name = "PASSWORD")
-	private String password;
+    @Column(name = "PASSWORD")
+    private String password;
 
-	@Column(name = "EMAIL")
-	private String email;
+    @Column(name = "EMAIL")
+    private String email;
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "USER_ROLES_ID")
-	private UserRoles userRoles;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "USER_ROLES_ID")
+    private UserRoles userRoles;
 
-	public User() {
-	}
+    public User() {
+    }
 
-	public Long getUserId() {
+    public Long getUserId() {
 
-		return userId;
-	}
+	return userId;
+    }
 
-	public void setUserId(Long userId) {
+    public void setUserId(Long userId) {
 
-		this.userId = userId;
-	}
+	this.userId = userId;
+    }
 
-	public String getLogin() {
+    public String getLogin() {
 
-		return login;
-	}
+	return login;
+    }
 
-	public void setLogin(String login) {
+    public void setLogin(String login) {
 
-		this.login = login;
-	}
+	this.login = login;
+    }
 
-	public String getPassword() {
+    public String getPassword() {
 
-		return password;
-	}
+	return password;
+    }
 
-	public void setPassword(String password) {
+    public void setPassword(String password) {
 
-		this.password = password;
-	}
+	this.password = password;
+    }
 
-	public String getEmail() {
+    public String getEmail() {
 
-		return email;
-	}
+	return email;
+    }
 
-	public void setEmail(String email) {
+    public void setEmail(String email) {
 
-		this.email = email;
-	}
+	this.email = email;
+    }
 
-	public UserRoles getUserRoles() {
-		return userRoles;
-	}
+    public UserRoles getUserRoles() {
+	return userRoles;
+    }
 
-	public void setUserRoles(UserRoles userRoles) {
-		this.userRoles = userRoles;
-	}
+    public void setUserRoles(UserRoles userRoles) {
+	this.userRoles = userRoles;
+    }
 }

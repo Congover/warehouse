@@ -1,9 +1,3 @@
-/*****************************************************************
- * Gridnine AB http://www.gridnine.com
- * Project: warehouse
- *
- * $Id: $
- *****************************************************************/
 package com.wh.utils;
 
 import java.util.List;

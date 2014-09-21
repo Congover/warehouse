@@ -1,6 +1,5 @@
 package com.wh.entity;
 
-import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -13,45 +12,45 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "tUSER_ROLES")
-public class UserRoles implements Serializable {
-	private static final long serialVersionUID = 1L;
-	
-	@Id
-	@Column(name = "USER_ROLES_ID")
-	@GeneratedValue
-	private Long userRolesId;
-	
-	@OneToMany(mappedBy = "userRoles", fetch = FetchType.LAZY)
-	private List<User> userList;
-	
-	@Column(name = "AUTHORITY")
-	private String authority;
-	
-	public UserRoles(){		
-	}
+public class UserRoles extends BaseEntity {
+    private static final long serialVersionUID = 1L;
 
-	public Long getUserRolesId() {
-		return userRolesId;
-	}
+    @Id
+    @Column(name = "USER_ROLES_ID")
+    @GeneratedValue
+    private Long userRolesId;
 
-	public void setUserRolesId(Long userRolesId) {
-		this.userRolesId = userRolesId;
-	}
+    @OneToMany(mappedBy = "userRoles", fetch = FetchType.LAZY)
+    private List<User> userList;
 
-	public List<User> getUserList() {
-		return userList;
-	}
+    @Column(name = "AUTHORITY")
+    private String authority;
 
-	public void setUserList(List<User> userList) {
-		this.userList = userList;
-	}
+    public UserRoles() {
+    }
 
-	public String getAuthority() {
-		return authority;
-	}
+    public Long getUserRolesId() {
+	return userRolesId;
+    }
 
-	public void setAuthority(String authority) {
-		this.authority = authority;
-	}
+    public void setUserRolesId(Long userRolesId) {
+	this.userRolesId = userRolesId;
+    }
+
+    public List<User> getUserList() {
+	return userList;
+    }
+
+    public void setUserList(List<User> userList) {
+	this.userList = userList;
+    }
+
+    public String getAuthority() {
+	return authority;
+    }
+
+    public void setAuthority(String authority) {
+	this.authority = authority;
+    }
 
 }

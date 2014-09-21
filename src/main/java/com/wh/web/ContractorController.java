@@ -17,7 +17,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.wh.entity.Address;
 import com.wh.entity.Contragent;
-import com.wh.model.DataTableModel;
+import com.wh.model.BaseDataTableModel;
+import com.wh.model.ContragentDataTableModel;
 import com.wh.service.ContragentService;
 import com.wh.service.DictionaryService;
 
@@ -42,9 +43,9 @@ public class ContractorController {
 
     @RequestMapping("/getList")
     @ResponseBody
-    public DataTableModel getList(@RequestParam("draw") Integer draw, @RequestParam("length") Integer length,
+    public BaseDataTableModel<?> getList(@RequestParam("draw") Integer draw, @RequestParam("length") Integer length,
 	    @RequestParam("start") Integer start) {
-	return new DataTableModel(contragentService.findAll(), draw, length, start, Contragent.class);
+	return new ContragentDataTableModel(contragentService.findAll(), draw, length, start);
     }
 
     @RequestMapping({ "/add" })
@@ -68,7 +69,8 @@ public class ContractorController {
 
     @RequestMapping({ "getAdresses" })
     // TODO > move
-    public @ResponseBody Map<Long, String> getContragentAddresses(@RequestParam("contragentId") Long contragentId) {
+    public @ResponseBody
+    Map<Long, String> getContragentAddresses(@RequestParam("contragentId") Long contragentId) {
 	Contragent contragent = contragentService.find(contragentId);
 	Map<Long, String> map = new HashMap<Long, String>(contragent.getAddressList().size());
 	for (Address entity : contragent.getAddressList()) {
@@ -103,7 +105,8 @@ public class ContractorController {
     }
 
     @RequestMapping({ "delete" })
-    public @ResponseBody Boolean deleteContragent(@RequestParam("id") Long contragentId) {
+    public @ResponseBody
+    Boolean deleteContragent(@RequestParam("id") Long contragentId) {
 	return contragentService.delete(contragentId);
     }
 

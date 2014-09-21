@@ -1,6 +1,5 @@
 package com.wh.entity;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -16,7 +15,7 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "tPACKING")
-public class Packing implements Serializable {
+public class Packing extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
 

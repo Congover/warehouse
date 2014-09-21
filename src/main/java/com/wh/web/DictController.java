@@ -17,7 +17,11 @@ import com.wh.entity.Address;
 import com.wh.entity.Product;
 import com.wh.entity.Store;
 import com.wh.entity.Transport;
-import com.wh.model.DataTableModel;
+import com.wh.model.AddressDataTableModel;
+import com.wh.model.BaseDataTableModel;
+import com.wh.model.ProductDataTableModel;
+import com.wh.model.StoreDataTableModel;
+import com.wh.model.TransportDataTableModel;
 import com.wh.service.DictionaryService;
 
 @Controller
@@ -64,29 +68,26 @@ public class DictController {
 
     // TODO change java to 1.8, and user switch by string
     @RequestMapping({ "/getList" })
-    public @ResponseBody DataTableModel getList(@RequestParam("draw") Integer draw,
-	    @RequestParam("length") Integer length, @RequestParam("start") Integer start, HttpSession session) {
+    @ResponseBody
+    public BaseDataTableModel<?> getList(@RequestParam("draw") Integer draw, @RequestParam("length") Integer length,
+	    @RequestParam("start") Integer start, HttpSession session) {
 	String dictValue = (String) session.getAttribute("dict");
-	if (StringUtils.isEmpty(dictValue)) {
+	if (StringUtils.isEmpty(dictValue) || dictValue.equals("address")) {
 	    session.setAttribute("dict", "address");
 	    List<Address> list = dictionaryService.getAdresses();
-	    return new DataTableModel(list, draw, length, start, Address.class);
-	}
-	if (dictValue.equals("address")) {
-	    List<Address> list = dictionaryService.getAdresses();
-	    return new DataTableModel(list, draw, length, start, Address.class);
+	    return new AddressDataTableModel(list, draw, length, start);
 	}
 	if (dictValue.equals("transport")) {
 	    List<Transport> list = dictionaryService.getTransports();
-	    return new DataTableModel(list, draw, length, start, Transport.class);
+	    return new TransportDataTableModel(list, draw, length, start);
 	}
 	if (dictValue.equals("product")) {
 	    List<Product> list = dictionaryService.getProducts();
-	    return new DataTableModel(list, draw, length, start, Product.class);
+	    return new ProductDataTableModel(list, draw, length, start);
 	}
 	if (dictValue.equals("store")) {
 	    List<Store> list = dictionaryService.getStories();
-	    return new DataTableModel(list, draw, length, start, Store.class);
+	    return new StoreDataTableModel(list, draw, length, start);
 	}
 	return null;
     }
@@ -131,7 +132,8 @@ public class DictController {
     }
 
     @RequestMapping({ "delete" })
-    public @ResponseBody Boolean deleteContragent(@RequestParam("id") Long id, HttpSession session) {
+    public @ResponseBody
+    Boolean deleteContragent(@RequestParam("id") Long id, HttpSession session) {
 	return dictionaryService.delete(id, (String) session.getAttribute("dict"));
     }
 

@@ -1,6 +1,5 @@
 package com.wh.entity;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +14,8 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "tADDRESS")
-public class Address implements Serializable {
+public class Address extends BaseEntity {
+
     private static final long serialVersionUID = 1L;
 
     @Id

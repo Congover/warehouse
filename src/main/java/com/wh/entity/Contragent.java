@@ -1,6 +1,5 @@
 package com.wh.entity;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -20,7 +19,7 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "tCONTRAGENT")
-public class Contragent implements Serializable {
+public class Contragent extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
     @Id
