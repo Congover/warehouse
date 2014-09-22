@@ -10,6 +10,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -43,6 +45,13 @@ public class Product extends BaseEntity {
 
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
     private List<Packing> packings;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "PARENT_ID")
+    private Product product;
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "product")
+    private List<Product> children;
 
     public Product() {
     }
@@ -102,6 +111,25 @@ public class Product extends BaseEntity {
 
     public boolean cannotDelete() {
 	return !getIncomings().isEmpty() || !getShipments().isEmpty() || !getPackings().isEmpty();
+    }
+
+    public Product getProduct() {
+	return product;
+    }
+
+    public void setProduct(Product product) {
+	this.product = product;
+    }
+
+    public List<Product> getChildren() {
+	if (children == null) {
+	    children = new ArrayList<Product>();
+	}
+	return children;
+    }
+
+    public void setChildren(List<Product> children) {
+	this.children = children;
     }
 
 }

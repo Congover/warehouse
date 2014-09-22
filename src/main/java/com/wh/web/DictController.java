@@ -93,7 +93,12 @@ public class DictController {
     }
 
     @RequestMapping({ "/add" })
-    public String add(Map<String, Object> map) {
+    public String add(Map<String, Object> map, HttpSession session) {
+	if ("product".equals(session.getAttribute("dict"))) {
+	    map.put("actionType", "addProduct");
+	    map.put("groupList", dictionaryService.getProductGroups());
+	    return "addProduct";
+	}
 	map.put("actionType", "addDictionary");
 	return "addDict";
     }
@@ -109,7 +114,6 @@ public class DictController {
 	}
 	if (dictValue.equals("product")) {
 	    dictionaryService.create(Product.class, value);
-	    ;
 	}
 	if (dictValue.equals("store")) {
 	    dictionaryService.create(Store.class, value);
@@ -117,9 +121,23 @@ public class DictController {
 	return REDIRECT;
     }
 
+    @RequestMapping({ "/addProduct" })
+    public String addProduct(@RequestParam("value") String value,
+	    @RequestParam(value = "isGroup", defaultValue = "false") Boolean isGroup,
+	    @RequestParam("groupId") Long groupId) {
+	dictionaryService.createProduct(value, isGroup, groupId);
+	return REDIRECT;
+    }
+
     @RequestMapping({ "/edit/{id}" })
     public String edit(@PathVariable("id") Long id, Map<String, Object> map, HttpSession session) {
 	String dictValue = (String) session.getAttribute("dict");
+	if ("product".equals(session.getAttribute("dict"))) {
+	    map.put("dictionary", dictionaryService.find(id, dictValue));
+	    map.put("actionType", "../updateProduct");
+	    map.put("groupList", dictionaryService.getProductGroups());
+	    return "addProduct";
+	}
 	map.put("dictionary", dictionaryService.find(id, dictValue));
 	map.put("actionType", "../update");
 	return "addDict";
@@ -131,9 +149,15 @@ public class DictController {
 	return REDIRECT;
     }
 
+    @RequestMapping({ "updateProduct" })
+    public String updateProduct(@RequestParam("id") Long id, @RequestParam("value") String value,
+	    @RequestParam("groupId") Long groupId) {
+	dictionaryService.updateProduct(id, value, groupId);
+	return REDIRECT;
+    }
+
     @RequestMapping({ "delete" })
-    public @ResponseBody
-    Boolean deleteContragent(@RequestParam("id") Long id, HttpSession session) {
+    public @ResponseBody Boolean deleteContragent(@RequestParam("id") Long id, HttpSession session) {
 	return dictionaryService.delete(id, (String) session.getAttribute("dict"));
     }
 

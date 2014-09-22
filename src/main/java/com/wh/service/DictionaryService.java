@@ -37,4 +37,12 @@ public interface DictionaryService {
 
     Boolean delete(Long id, String dictType);
 
+    void createProduct(String value, Boolean isGroup, Long groupId);
+
+    List<Product> getProductGroups();
+
+    void updateProduct(Long id, String value, Long groupId);
+
+    List<Product> getAvailibleProductForIncoming();
+
 }

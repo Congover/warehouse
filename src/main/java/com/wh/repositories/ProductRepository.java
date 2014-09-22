@@ -13,4 +13,6 @@ public interface ProductRepository extends CrudRepository<Product, Long> {
 
     List<Product> findByProductType(ProductType productType);
 
+    List<Product> findByProductTypeNot(ProductType productType);
+
 }

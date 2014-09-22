@@ -90,6 +90,11 @@ public class DictionaryServiceImpl implements DictionaryService {
     }
 
     @Override
+    public List<Product> getAvailibleProductForIncoming() {
+	return productRepository.findByProductTypeNot(ProductType.PLACER);
+    }
+
+    @Override
     public Object find(Long id, String dictType) {
 	if (dictType.equals("address")) {
 	    return addressRepository.findOne(id);
@@ -159,5 +164,38 @@ public class DictionaryServiceImpl implements DictionaryService {
 	    storeRepository.delete(id);
 	}
 	return true;
+    }
+
+    @Override
+    public void createProduct(String value, Boolean isGroup, Long groupId) {
+	Product product = new Product();
+	product.setName(value);
+	if (isGroup) {
+	    product.setProductType(ProductType.GROUP);
+	} else {
+	    product.setProduct(productRepository.findOne(groupId));
+	    product.setProductType(ProductType.PLACER);
+	}
+	product = productRepository.save(product);
+	ProductQuantity pq = new ProductQuantity();
+	pq.setProduct(product);
+	pq.setBagCount(0);
+	pq.setProductCount(0D);
+	productQuantityRepository.save(pq);
+
+    }
+
+    @Override
+    public List<Product> getProductGroups() {
+	return productRepository.findByProductType(ProductType.GROUP);
+    }
+
+    @Override
+    public void updateProduct(Long id, String value, Long groupId) {
+	Product entity = productRepository.findOne(id);
+	entity.setName(value);
+	entity.setProduct(groupId != null ? productRepository.findOne(groupId) : null);
+	productRepository.save(entity);
+
     }
 }
