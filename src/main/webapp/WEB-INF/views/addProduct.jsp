@@ -75,7 +75,7 @@
 							<option selected></option>
 							<c:if test="${!empty groupList}">
 								<c:forEach items="${groupList}" var="product">
-									<option value="${product.productId}" <c:if test="${!empty groupId && groupId == product.productId}">selected</c:if> >${product.name}</option>
+									<option value="${product.productId}" <c:if test="${!empty dictionary && !empty dictionary.parent && dictionary.parent.productId == product.productId}">selected</c:if> >${product.name}</option>
 								</c:forEach>
 							</c:if>
 						</select>

@@ -48,9 +48,9 @@ public class Product extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "PARENT_ID")
-    private Product product;
+    private Product parent;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "product")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "parent")
     private List<Product> children;
 
     public Product() {
@@ -113,12 +113,12 @@ public class Product extends BaseEntity {
 	return !getIncomings().isEmpty() || !getShipments().isEmpty() || !getPackings().isEmpty();
     }
 
-    public Product getProduct() {
-	return product;
+    public Product getParent() {
+	return parent;
     }
 
-    public void setProduct(Product product) {
-	this.product = product;
+    public void setParent(Product parent) {
+	this.parent = parent;
     }
 
     public List<Product> getChildren() {

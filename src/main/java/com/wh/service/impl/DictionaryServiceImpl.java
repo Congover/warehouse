@@ -173,7 +173,7 @@ public class DictionaryServiceImpl implements DictionaryService {
 	if (isGroup) {
 	    product.setProductType(ProductType.GROUP);
 	} else {
-	    product.setProduct(productRepository.findOne(groupId));
+	    product.setParent(productRepository.findOne(groupId));
 	    product.setProductType(ProductType.PLACER);
 	}
 	product = productRepository.save(product);
@@ -194,7 +194,7 @@ public class DictionaryServiceImpl implements DictionaryService {
     public void updateProduct(Long id, String value, Long groupId) {
 	Product entity = productRepository.findOne(id);
 	entity.setName(value);
-	entity.setProduct(groupId != null ? productRepository.findOne(groupId) : null);
+	entity.setParent(groupId != null ? productRepository.findOne(groupId) : null);
 	productRepository.save(entity);
 
     }
