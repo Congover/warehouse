@@ -22,30 +22,36 @@
 	</div>
 	<div class="main_data">
 		<div class="main_table">
-				<form class="form-signin" name='f' action="save" method='POST' id="formContragent">
+				<form class="form-signin" name='f' action="../update" method='POST' id="formContragent">
+				<input type="hidden" name="id" value="${contragent.contragentId}"/>
 					<p class="fieldrow">
 						<label class="fieldlabel">Наименование</label>
-						<input class="fieldfld" type="text" required name="value" value="" />
+						<input class="fieldfld" type="text" required name="value" value="${contragent.name}" />
 					</p>
 					<p class="fieldrow">
 						<label class="fieldlabel">Адрес</label>
-						<input class="fieldfld" type="text" name="address0" value="" />
+						<input type="hidden" name="address0Id" value="<c:if test="${!empty address0}">${address0.addressId}</c:if>"/>
+						<input class="fieldfld" type="text" name="address0" value="<c:if test="${!empty address0}">${address0.fullAddress}</c:if>" />
 					</p>
 					<p class="fieldrow">
 						<label class="fieldlabel">Доп. адрес</label>
-						<input class="fieldfld" type="text" name="address1" value="" />
+						<input type="hidden" name="address1Id" value="<c:if test="${!empty address1}">${address1.addressId}</c:if>"/>
+						<input class="fieldfld" type="text" name="address1" value="<c:if test="${!empty address1}">${address1.fullAddress}</c:if>" />
 					</p>
 					<p class="fieldrow">
 						<label class="fieldlabel">Доп. адрес</label>
-						<input class="fieldfld" type="text" name="address2" value="" />
+						<input type="hidden" name="address2Id" value="<c:if test="${!empty address2}">${address2.addressId}</c:if>"/>
+						<input class="fieldfld" type="text" name="address2" value="<c:if test="${!empty address2}">${address2.fullAddress}</c:if>" />
 					</p>
 					<p class="fieldrow">
 						<label class="fieldlabel">Доп. адрес</label>
-						<input class="fieldfld" type="text" name="address3" value="" />
+						<input type="hidden" name="address3Id" value="<c:if test="${!empty address3}">${address3.addressId}</c:if>"/>
+						<input class="fieldfld" type="text" name="address3" value="<c:if test="${!empty address3}">${address3.fullAddress}</c:if>" />
 					</p>
 					<p class="fieldrow">
 						<label class="fieldlabel">Доп. адрес</label>
-						<input class="fieldfld" type="text" name="address4" value="" />
+						<input type="hidden" name="address4Id" value="<c:if test="${!empty address4}">${address4.addressId}</c:if>"/>
+						<input class="fieldfld" type="text" name="address4" value="<c:if test="${!empty address4}">${address4.fullAddress}</c:if>" />
 					</p>
 					<div class="buttons">
 						<div class="button">

@@ -58,19 +58,18 @@ public class ContractorController {
 
     @RequestMapping({ "/save" })
     public String addContragent(HttpSession session, @RequestParam("value") String value,
-	    @RequestParam(value = "address1", required = false) Long address1,
-	    @RequestParam(value = "address2", required = false) Long address2,
-	    @RequestParam(value = "address3", required = false) Long address3,
-	    @RequestParam(value = "address4", required = false) Long address4,
-	    @RequestParam(value = "address5", required = false) Long address5) {
+	    @RequestParam(value = "address0", required = false) String address1,
+	    @RequestParam(value = "address1", required = false) String address2,
+	    @RequestParam(value = "address2", required = false) String address3,
+	    @RequestParam(value = "address3", required = false) String address4,
+	    @RequestParam(value = "address4", required = false) String address5) {
 	contragentService.save(value, address1, address2, address3, address4, address5);
 	return REDIRECT;
     }
 
     @RequestMapping({ "getAdresses" })
     // TODO > move
-    public @ResponseBody
-    Map<Long, String> getContragentAddresses(@RequestParam("contragentId") Long contragentId) {
+    public @ResponseBody Map<Long, String> getContragentAddresses(@RequestParam("contragentId") Long contragentId) {
 	Contragent contragent = contragentService.find(contragentId);
 	Map<Long, String> map = new HashMap<Long, String>(contragent.getAddressList().size());
 	for (Address entity : contragent.getAddressList()) {
@@ -85,28 +84,30 @@ public class ContractorController {
 	map.put("contragent", contragent);
 	int i = 0;
 	for (Address address : contragent.getAddressList()) {
-	    map.put("address" + i++, address.getAddressId());
+	    map.put("address" + i++, address);
 	}
-	List<Address> list = dictionaryService.getAdresses();
-	map.put("addressList", list);
-	map.put("actionType", "../update");
-	return "addContragent";
+	return "editContragent";
     }
 
     @RequestMapping({ "update" })
     public String update(@RequestParam("id") Long id, @RequestParam("value") String value,
-	    @RequestParam(value = "address1", required = false) Long address1,
-	    @RequestParam(value = "address2", required = false) Long address2,
-	    @RequestParam(value = "address3", required = false) Long address3,
-	    @RequestParam(value = "address4", required = false) Long address4,
-	    @RequestParam(value = "address5", required = false) Long address5) {
-	contragentService.save(id, value, address1, address2, address3, address4, address5);
+	    @RequestParam(value = "address0Id", required = false) Long address1,
+	    @RequestParam(value = "address1Id", required = false) Long address2,
+	    @RequestParam(value = "address2Id", required = false) Long address3,
+	    @RequestParam(value = "address3Id", required = false) Long address4,
+	    @RequestParam(value = "address4Id", required = false) Long address5,
+	    @RequestParam(value = "address0", required = false) String address1Name,
+	    @RequestParam(value = "address1", required = false) String address2Name,
+	    @RequestParam(value = "address2", required = false) String address3Name,
+	    @RequestParam(value = "address3", required = false) String address4Name,
+	    @RequestParam(value = "address4", required = false) String address5Name) {
+	contragentService.save(id, value, address1, address2, address3, address4, address5, address1Name, address2Name,
+		address3Name, address4Name, address5Name);
 	return REDIRECT;
     }
 
     @RequestMapping({ "delete" })
-    public @ResponseBody
-    Boolean deleteContragent(@RequestParam("id") Long contragentId) {
+    public @ResponseBody Boolean deleteContragent(@RequestParam("id") Long contragentId) {
 	return contragentService.delete(contragentId);
     }
 
