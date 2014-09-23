@@ -45,4 +45,8 @@ public interface DictionaryService {
 
     List<Product> getAvailibleProductForIncoming();
 
+    List<Product> findProductWithChildren(Long productId);
+
+    List<Product> getAvailibleProductForShipment();
+
 }

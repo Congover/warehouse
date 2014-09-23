@@ -22,6 +22,7 @@ import com.wh.repositories.IncomingRepository;
 import com.wh.repositories.ProductQuantityRepository;
 import com.wh.repositories.ProductRepository;
 import com.wh.repositories.StoreRepository;
+import com.wh.service.DictionaryService;
 import com.wh.service.IncomingService;
 import com.wh.utils.ReportHelper;
 import com.wh.utils.Utils;
@@ -43,6 +44,9 @@ public class IncomingServiceImpl implements IncomingService {
 
     @Resource
     private ProductQuantityRepository productQuantityRepository;
+
+    @Resource
+    private DictionaryService dictionaryService;
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -87,11 +91,20 @@ public class IncomingServiceImpl implements IncomingService {
 	    Long storeId) {
 	StringBuilder sb = new StringBuilder();
 	sb.append("select c from Incoming c where c.createDate >= :startDate and c.createDate <= :endDate");
+	List<Product> products = productId == null ? new ArrayList<Product>() : dictionaryService
+		.findProductWithChildren(productId);
 	if (contragentId != null) {
 	    sb.append(" and c.contragent = :contragent");
 	}
 	if (productId != null) {
-	    sb.append(" and c.product = :product");
+	    sb.append(" and (");
+	    for (int q = 0; q < products.size(); q++) {
+		if (q != 0) {
+		    sb.append(" or ");
+		}
+		sb.append(" c.product = :product" + q);
+	    }
+	    sb.append(")");
 	}
 	if (storeId != null) {
 	    sb.append(" and c.store = :store");
@@ -103,7 +116,11 @@ public class IncomingServiceImpl implements IncomingService {
 	    query.setParameter("contragent", contragentRepository.findOne(contragentId));
 	}
 	if (productId != null) {
-	    query.setParameter("product", productRepository.findOne(productId));
+	    int index = 0;
+	    for (Product p : products) {
+		query.setParameter("product" + index, p);
+		index++;
+	    }
 	}
 	if (storeId != null) {
 	    query.setParameter("store", storeRepository.findOne(storeId));

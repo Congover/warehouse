@@ -1,5 +1,6 @@
 package com.wh.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -92,6 +93,11 @@ public class DictionaryServiceImpl implements DictionaryService {
     @Override
     public List<Product> getAvailibleProductForIncoming() {
 	return productRepository.findByProductTypeNot(ProductType.PLACER);
+    }
+
+    @Override
+    public List<Product> getAvailibleProductForShipment() {
+	return productRepository.findByProductTypeNot(ProductType.BAG);
     }
 
     @Override
@@ -196,6 +202,21 @@ public class DictionaryServiceImpl implements DictionaryService {
 	entity.setName(value);
 	entity.setParent(groupId != null ? productRepository.findOne(groupId) : null);
 	productRepository.save(entity);
+    }
 
+    @Override
+    public List<Product> findProductWithChildren(Long productId) {
+	List<Product> res = new ArrayList<Product>();
+	Product product = productRepository.findOne(productId);
+	res.add(product);
+	addChildren(product, res);
+	return res;
+    }
+
+    private void addChildren(Product entity, List<Product> result) {
+	result.addAll(entity.getChildren());
+	for (Product p : entity.getChildren()) {
+	    addChildren(p, result);
+	}
     }
 }
