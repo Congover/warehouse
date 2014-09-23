@@ -37,7 +37,7 @@ public class DictController {
     public String dictionaries(HttpSession session) {
 	String dictType = (String) session.getAttribute("dict");
 	if (StringUtils.isEmpty(dictType)) {
-	    dictType = "address";
+	    dictType = "transport";
 	    session.setAttribute("dict", dictType);
 	}
 	if ("product".equals(dictType)) {

@@ -94,9 +94,9 @@
 		<div class="main_table">
 			<div class="filters">
 				<span class="filter label">Справочники:</span>
-				<span class="filter <c:choose><c:when test="${dict=='address'}">active</c:when><c:otherwise>inactive</c:otherwise></c:choose>">
+<%-- 				<span class="filter <c:choose><c:when test="${dict=='address'}">active</c:when><c:otherwise>inactive</c:otherwise></c:choose>">
 					<a href="dictionaries/address">Адрес</a>
-				</span>
+				</span> --%>
 				<span class="filter <c:choose><c:when test="${dict=='transport'}">active</c:when><c:otherwise>inactive</c:otherwise></c:choose>">
 					<a href="dictionaries/transport">Транспорт</a>
 				</span>

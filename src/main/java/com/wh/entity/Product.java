@@ -110,7 +110,8 @@ public class Product extends BaseEntity {
     }
 
     public boolean cannotDelete() {
-	return !getIncomings().isEmpty() || !getShipments().isEmpty() || !getPackings().isEmpty();
+	return !getIncomings().isEmpty() || !getShipments().isEmpty() || !getPackings().isEmpty()
+		|| !getChildren().isEmpty();
     }
 
     public Product getParent() {

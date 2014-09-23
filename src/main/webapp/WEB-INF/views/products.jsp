@@ -95,9 +95,9 @@
 		<div class="main_table">
 			<div class="filters">
 				<span class="filter label">Справочники:</span>
-				<span class="filter inactive">
+<!-- 				<span class="filter inactive">
 					<a href="dictionaries/address">Адрес</a>
-				</span>
+				</span> -->
 				<span class="filter inactive">
 					<a href="dictionaries/transport">Транспорт</a>
 				</span>

@@ -41,9 +41,9 @@
 		<div class="main_table">
 			<div class="filters">
 				<span class="filter label">Справочники:</span>
-				<span class="filter inactive">
-					<a href="${pageContext.request.contextPath}/dictionaries/address">Адрес</a>
-				</span>
+<!-- 				<span class="filter inactive"> -->
+<%-- 					<a href="${pageContext.request.contextPath}/dictionaries/address">Адрес</a> --%>
+<!-- 				</span> -->
 				<span class="filter inactive">
 					<a href="${pageContext.request.contextPath}/dictionaries/transport">Транспорт</a>
 				</span>
