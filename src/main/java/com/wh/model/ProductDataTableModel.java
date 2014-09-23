@@ -17,6 +17,7 @@ public class ProductDataTableModel extends BaseDataTableModel<Product> {
 	Map<String, Object> row = new HashMap<String, Object>();
 	row.put("name", entity.getName());
 	row.put("DT_RowId", entity.getProductId());
+	row.put("parentName", entity.getParent() != null ? entity.getParent().getName() : null);
 	return row;
 
     }

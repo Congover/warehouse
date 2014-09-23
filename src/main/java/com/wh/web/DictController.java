@@ -37,9 +37,15 @@ public class DictController {
     public String dictionaries(HttpSession session) {
 	String dictType = (String) session.getAttribute("dict");
 	if (StringUtils.isEmpty(dictType)) {
-	    session.setAttribute("dict", "address");
+	    dictType = "address";
+	    session.setAttribute("dict", dictType);
 	}
-	return "dictionaries";
+	if ("product".equals(dictType)) {
+	    return "products";
+
+	} else {
+	    return "dictionaries";
+	}
     }
 
     @RequestMapping({ "/address" })
@@ -92,13 +98,15 @@ public class DictController {
 	return null;
     }
 
+    @RequestMapping({ "/addProduct" })
+    public String addProduct(Map<String, Object> map, HttpSession session) {
+	map.put("actionType", "createProduct");
+	map.put("groupList", dictionaryService.getProductGroups());
+	return "addProduct";
+    }
+
     @RequestMapping({ "/add" })
     public String add(Map<String, Object> map, HttpSession session) {
-	if ("product".equals(session.getAttribute("dict"))) {
-	    map.put("actionType", "addProduct");
-	    map.put("groupList", dictionaryService.getProductGroups());
-	    return "addProduct";
-	}
 	map.put("actionType", "addDictionary");
 	return "addDict";
     }
@@ -121,7 +129,7 @@ public class DictController {
 	return REDIRECT;
     }
 
-    @RequestMapping({ "/addProduct" })
+    @RequestMapping({ "/createProduct" })
     public String addProduct(@RequestParam("value") String value,
 	    @RequestParam(value = "isGroup", defaultValue = "false") Boolean isGroup,
 	    @RequestParam("groupId") Long groupId) {
