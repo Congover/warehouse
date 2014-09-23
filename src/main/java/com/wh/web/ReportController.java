@@ -93,4 +93,20 @@ public class ReportController {
 	return "/";
     }
 
+    @RequestMapping({ "/formBalance" })
+    public String formBalance(HttpServletRequest request, @RequestParam("dateStart") String dateStart,
+	    @RequestParam("dateEnd") String dateEnd, @RequestParam("product") Long productId,
+	    @RequestParam("store") Long storeId, HttpServletResponse resp) throws IOException {
+	HSSFWorkbook wb = shipmentService.generateBalanceReport(dateStart, dateEnd, productId, storeId);
+	resp.setContentType("application/octet-stream"); //$NON-NLS-1$
+	String fileName = "balance" + Utils.convertDateTimeToStr(new Date()) + ".xls";
+	resp.setHeader("Content-Disposition", "attachment; filename=\"" //$NON-NLS-1$ //$NON-NLS-2$
+		+ fileName + "\""); //$NON-NLS-1$
+	ServletOutputStream os = resp.getOutputStream();
+	wb.write(os);
+	os.flush();
+	os.close();
+	return "/";
+    }
+
 }

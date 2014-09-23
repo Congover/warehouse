@@ -128,6 +128,7 @@ public class ShipmentServiceImpl implements ShipmentService {
 	String[] columnNames = new String[] { "Дата", "Покупатель", "Товар", "Количество", "Склад", "Транспорт",
 		"Пункт", "Тип оплаты", "Примечание" };
 	List<String[]> data = new ArrayList<String[]>();
+	double sum = 0;
 	for (Shipment entity : entities) {
 	    String[] entityData = new String[columnNames.length];
 	    entityData[0] = Utils.convertDateToStr(entity.getCreateDate());
@@ -139,6 +140,7 @@ public class ShipmentServiceImpl implements ShipmentService {
 	    }
 	    if (entity.getProductCount() != null) {
 		entityData[3] = entity.getProductCount().toString();
+		sum += entity.getProductCount().doubleValue();
 	    }
 	    if (entity.getStore() != null) {
 		entityData[4] = entity.getStore().getName();
@@ -155,6 +157,8 @@ public class ShipmentServiceImpl implements ShipmentService {
 	    entityData[8] = entity.getComment();
 	    data.add(entityData);
 	}
+	String[] entityData = new String[] { "", "", "ИТОГО:", String.valueOf(sum), "", "", "", "", "" };
+	data.add(entityData);
 	return ReportHelper.createReport("Shipment", reportParams, columnNames, data);
     }
 
@@ -209,6 +213,22 @@ public class ShipmentServiceImpl implements ShipmentService {
 	    query.setParameter("paymentType", paymentType);
 	}
 	return query.getResultList();
+    }
+
+    @Override
+    public HSSFWorkbook generateBalanceReport(String dateStart, String dateEnd, Long productId, Long storeId) {
+	List<String[]> reportParams = new ArrayList<String[]>();
+	reportParams.add(new String[] { "Период с", dateStart });
+	reportParams.add(new String[] { "Период по", dateEnd });
+	if (productId != null) {
+	    reportParams.add(new String[] { "Товар", productRepository.findOne(productId).getName() });
+	}
+	if (storeId != null) {
+	    reportParams.add(new String[] { "Склад", storeRepository.findOne(storeId).getName() });
+	}
+	String[] columnNames = new String[] { "Остаток на начало периода", "Остаток на конец периода" };
+	List<String[]> data = new ArrayList<String[]>();
+	return ReportHelper.createReport("Balance", reportParams, columnNames, data);
     }
 
 }

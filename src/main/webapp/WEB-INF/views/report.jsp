@@ -50,7 +50,7 @@
 					<p class="fieldrow">
 						<input class="fieldstartcheck" type="checkbox" name="useContragent"/>
 						<label class="fieldshortlabel">Контрагент</label>
-						<select class="fieldcombo" size="1" required name="contragent" id="contragent" onchange="changeAddressSelect()">
+						<select class="fieldcombo" size="1" required name="contragent" id="contragent">
 							<c:if test="${!empty contragentList}">
 								<c:forEach items="${contragentList}" var="contragent">
 									<option value="${contragent.contragentId}">${contragent.name}</option>
@@ -99,7 +99,7 @@
 					<p class="fieldrow">
 						<input class="fieldstartcheck" type="checkbox" name="useContragent"/>
 						<label class="fieldshortlabel">Контрагент</label>
-						<select class="fieldcombo" size="1" required name="contragent" id="contragent" onchange="changeAddressSelect()">
+						<select class="fieldcombo" size="1" required name="contragent" id="contragent">
 							<c:if test="${!empty contragentList}">
 								<c:forEach items="${contragentList}" var="contragent">
 									<option value="${contragent.contragentId}">${contragent.name}</option>
@@ -149,6 +149,42 @@
 					<div class="buttons">
 						<div class="button">
 							<a href="javascript:{}" onclick="document.getElementById('formShipment').submit();">Сформировать</a>
+						</div>
+					</div>						
+				</form>
+				<h3>Остаток на складе</h3>
+				<form class="form-signin" name='fs' action="report/formBalance" method='POST' id="formBalance">
+					<p class="fieldrow">
+						<label class="fieldlabel" for="date">Период с</label>
+						<input class="fielddate" type="text" required id="datetimepicker" name="dateStart" />
+					</p>
+					<p class="fieldrow">
+						<label class="fieldlabel" for="date">Период по</label>
+						<input class="fielddate" type="text" required id="datetimepicker" name="dateEnd" />
+					</p>
+					<p class="fieldrow">
+						<label class="fieldlabel" for="product">Товар</label>
+						<select class="fieldcombo" size="1" required name="product">
+							<c:if test="${!empty productList}">
+								<c:forEach items="${productList}" var="product">
+									<option value="${product.productId}">${product.name}</option>
+								</c:forEach>
+							</c:if>
+						</select>
+					</p>
+					<p class="fieldrow">
+						<label class="fieldlabel" for="store">Склад</label>
+						<select class="fieldcombo" size="1" required name="store">
+							<c:if test="${!empty storeList}">
+									<c:forEach items="${storeList}" var="store">
+										<option value="${store.storeId}">${store.name}</option>
+									</c:forEach>
+							</c:if>
+						</select>
+					</p>
+					<div class="buttons">
+						<div class="button">
+							<a href="javascript:{}" onclick="document.getElementById('formBalance').submit();">Сформировать</a>
 						</div>
 					</div>						
 				</form>

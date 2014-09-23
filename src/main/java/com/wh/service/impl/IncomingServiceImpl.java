@@ -73,17 +73,29 @@ public class IncomingServiceImpl implements IncomingService {
 	    reportParams.add(new String[] { "Склад", storeRepository.findOne(storeId).getName() });
 	}
 	String[] columnNames = new String[] { "Дата", "Поставщик", "Товар", "Количество", "Склад", "Примечание" };
+	double sum = 0;
 	List<String[]> data = new ArrayList<String[]>();
 	for (Incoming entity : entities) {
 	    String[] entityData = new String[6];
 	    entityData[0] = Utils.convertDateToStr(entity.getCreateDate());
-	    entityData[1] = entity.getContragent().getName();
-	    entityData[2] = entity.getProduct().getName();
-	    entityData[3] = entity.getProductCount().toString();
-	    entityData[4] = entity.getStore().getName();
+	    if (entity.getContragent() != null) {
+		entityData[1] = entity.getContragent().getName();
+	    }
+	    if (entity.getProduct() != null) {
+		entityData[2] = entity.getProduct().getName();
+	    }
+	    if (entity.getProductCount() != null) {
+		entityData[3] = entity.getProductCount().toString();
+		sum += entity.getProductCount().doubleValue();
+	    }
+	    if (entity.getStore() != null) {
+		entityData[4] = entity.getStore().getName();
+	    }
 	    entityData[5] = entity.getComment();
 	    data.add(entityData);
 	}
+	String[] entityData = new String[] { "", "", "ИТОГО:", String.valueOf(sum), "", "" };
+	data.add(entityData);
 	return ReportHelper.createReport("Incoming", reportParams, columnNames, data);
     }
 

@@ -21,7 +21,5 @@ public interface ShipmentService {
     HSSFWorkbook generateReport(String dateStart, String dateEnd, Long contragentId, Long productId, Long storeId,
 	    Long transportId, Boolean paymentType);
 
-    // HSSFWorkbook generateReport(String dateStart, String dateEnd, Long
-    // contragentId, Long productId, Long storeId,
-    // Long transportId, Boolean paymentType);
+    HSSFWorkbook generateBalanceReport(String dateStart, String dateEnd, Long productId, Long storeId);
 }
