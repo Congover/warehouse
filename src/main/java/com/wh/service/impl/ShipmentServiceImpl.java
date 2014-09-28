@@ -13,6 +13,7 @@ import javax.persistence.TypedQuery;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.stereotype.Service;
 
+import com.wh.entity.Incoming;
 import com.wh.entity.Product;
 import com.wh.entity.ProductQuantity;
 import com.wh.entity.Shipment;
@@ -220,15 +221,53 @@ public class ShipmentServiceImpl implements ShipmentService {
 	List<String[]> reportParams = new ArrayList<String[]>();
 	reportParams.add(new String[] { "Период с", dateStart });
 	reportParams.add(new String[] { "Период по", dateEnd });
+	reportParams.add(new String[] { "Товар", productRepository.findOne(productId).getName() });
+	reportParams.add(new String[] { "Склад", storeRepository.findOne(storeId).getName() });
+
+	String[] columnNames = new String[] { "Остаток на начало периода", "Остаток на конец периода" };
+	Date startDate = Utils.parse(dateStart);
+	Date endDate = Utils.parse(dateEnd);
+	double startIncomingBalance = findSum(startDate, productId, storeId, Incoming.class.getName());
+	double startShipmentBalance = findSum(startDate, productId, storeId, Shipment.class.getName());
+	double endIncomingBalance = findSum(endDate, productId, storeId, Incoming.class.getName());
+	double endShipmentBalance = findSum(endDate, productId, storeId, Shipment.class.getName());
+	List<String[]> data = new ArrayList<String[]>();
+	data.add(new String[] { String.valueOf(startIncomingBalance - startShipmentBalance),
+		String.valueOf(endIncomingBalance - endShipmentBalance) });
+	return ReportHelper.createReport("Balance", reportParams, columnNames, data);
+    }
+
+    private double findSum(Date date, Long productId, Long storeId, String clazz) {
+	StringBuilder sb = new StringBuilder();
+	sb.append("select sum(c.productCount) from " + clazz + " c where c.createDate <= :date");
+	List<Product> products = productId == null ? new ArrayList<Product>() : dictionaryService
+		.findProductWithChildren(productId);
 	if (productId != null) {
-	    reportParams.add(new String[] { "Товар", productRepository.findOne(productId).getName() });
+	    sb.append(" and (");
+	    for (int q = 0; q < products.size(); q++) {
+		if (q != 0) {
+		    sb.append(" or ");
+		}
+		sb.append(" c.product = :product" + q);
+	    }
+	    sb.append(")");
 	}
 	if (storeId != null) {
-	    reportParams.add(new String[] { "Склад", storeRepository.findOne(storeId).getName() });
+	    sb.append(" and c.store = :store");
 	}
-	String[] columnNames = new String[] { "Остаток на начало периода", "Остаток на конец периода" };
-	List<String[]> data = new ArrayList<String[]>();
-	return ReportHelper.createReport("Balance", reportParams, columnNames, data);
+	TypedQuery<Double> query = entityManager.createQuery(sb.toString(), Double.class);
+	query.setParameter("date", date, TemporalType.DATE);
+	if (productId != null) {
+	    int index = 0;
+	    for (Product p : products) {
+		query.setParameter("product" + index, p);
+		index++;
+	    }
+	}
+	if (storeId != null) {
+	    query.setParameter("store", storeRepository.findOne(storeId));
+	}
+	return query.getSingleResult().doubleValue();
     }
 
 }
