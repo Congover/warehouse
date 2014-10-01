@@ -1,6 +1,7 @@
 package com.wh.service.impl;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -224,50 +225,49 @@ public class ShipmentServiceImpl implements ShipmentService {
 	reportParams.add(new String[] { "Товар", productRepository.findOne(productId).getName() });
 	reportParams.add(new String[] { "Склад", storeRepository.findOne(storeId).getName() });
 
-	String[] columnNames = new String[] { "Остаток на начало периода", "Остаток на конец периода" };
+	String[] columnNames = new String[] { "Товар", "Остаток на начало периода", "Остаток на конец периода" };
 	Date startDate = Utils.parse(dateStart);
+	Calendar cal = Calendar.getInstance();
+	cal.setTime(startDate);
+	cal.add(Calendar.DAY_OF_MONTH, -1);
+	startDate = cal.getTime();
 	Date endDate = Utils.parse(dateEnd);
-	double startIncomingBalance = findSum(startDate, productId, storeId, Incoming.class.getName());
-	double startShipmentBalance = findSum(startDate, productId, storeId, Shipment.class.getName());
-	double endIncomingBalance = findSum(endDate, productId, storeId, Incoming.class.getName());
-	double endShipmentBalance = findSum(endDate, productId, storeId, Shipment.class.getName());
 	List<String[]> data = new ArrayList<String[]>();
-	data.add(new String[] { String.valueOf(startIncomingBalance - startShipmentBalance),
-		String.valueOf(endIncomingBalance - endShipmentBalance) });
+	List<Product> products = productId == null ? new ArrayList<Product>() : dictionaryService
+		.findProductWithChildren(productId);
+	double startSum = 0;
+	double endSum = 0;
+
+	for (Product p : products) {
+	    double startIncomingBalance = findSum(startDate, p.getProductId(), storeId, Incoming.class.getName());
+	    double startShipmentBalance = findSum(startDate, p.getProductId(), storeId, Shipment.class.getName());
+	    double endIncomingBalance = findSum(endDate, p.getProductId(), storeId, Incoming.class.getName());
+	    double endShipmentBalance = findSum(endDate, p.getProductId(), storeId, Shipment.class.getName());
+	    data.add(new String[] { p.getName(), String.valueOf(startIncomingBalance - startShipmentBalance),
+		    String.valueOf(endIncomingBalance - endShipmentBalance) });
+	    startSum = startSum + (startIncomingBalance - startShipmentBalance);
+	    endSum = endSum + (endIncomingBalance - endShipmentBalance);
+	}
+	String[] entityData = new String[] { "ИТОГО:", String.valueOf(startSum), String.valueOf(endSum) };
+	data.add(entityData);
 	return ReportHelper.createReport("Balance", reportParams, columnNames, data);
     }
 
     private double findSum(Date date, Long productId, Long storeId, String clazz) {
 	StringBuilder sb = new StringBuilder();
-	sb.append("select sum(c.productCount) from " + clazz + " c where c.createDate <= :date");
-	List<Product> products = productId == null ? new ArrayList<Product>() : dictionaryService
-		.findProductWithChildren(productId);
-	if (productId != null) {
-	    sb.append(" and (");
-	    for (int q = 0; q < products.size(); q++) {
-		if (q != 0) {
-		    sb.append(" or ");
-		}
-		sb.append(" c.product = :product" + q);
-	    }
-	    sb.append(")");
-	}
+	sb.append("select sum(c.productCount) from " + clazz
+		+ " c where c.createDate <= :date and c.product = :product");
 	if (storeId != null) {
 	    sb.append(" and c.store = :store");
 	}
 	TypedQuery<Double> query = entityManager.createQuery(sb.toString(), Double.class);
 	query.setParameter("date", date, TemporalType.DATE);
-	if (productId != null) {
-	    int index = 0;
-	    for (Product p : products) {
-		query.setParameter("product" + index, p);
-		index++;
-	    }
-	}
+	query.setParameter("product", productRepository.findOne(productId));
 	if (storeId != null) {
 	    query.setParameter("store", storeRepository.findOne(storeId));
 	}
-	return query.getSingleResult().doubleValue();
+	Double res = query.getSingleResult();
+	return res != null ? res.doubleValue() : 0;
     }
 
 }
