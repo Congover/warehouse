@@ -8,6 +8,8 @@ import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.IndexedColors;
 
 public class ReportHelper {
 
@@ -45,6 +47,17 @@ public class ReportHelper {
 	    HSSFRow row = sheet.createRow(rowNum);
 	    for (int q = 0; q < record.length; q++) {
 		HSSFCell cell = row.createCell(q);
+		try {
+		    double d = Double.parseDouble(record[q]);
+		    if (d < 0) {
+			HSSFCellStyle cellStyle = workbook.createCellStyle();
+			cellStyle.setFillForegroundColor(IndexedColors.RED.getIndex());
+			cellStyle.setFillPattern(CellStyle.SOLID_FOREGROUND);
+			cell.setCellStyle(cellStyle);
+		    }
+		} catch (Exception e) {
+		    // no op
+		}
 		cell.setCellValue(record[q]);
 	    }
 	}
