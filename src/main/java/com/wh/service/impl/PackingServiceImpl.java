@@ -60,4 +60,23 @@ public class PackingServiceImpl implements PackingService {
 	packingRepository.save(entity);
     }
 
+    @Override
+    public Boolean delete(Long id) {
+	Packing current = packingRepository.findOne(id);
+
+	List<Product> bags = productRepository.findByProductType(ProductType.BAG);
+	Product bag = bags.get(0);
+	ProductQuantity pqBag = bag.getProductQuantity();
+	pqBag.setBagCount(pqBag.getBagCount() + current.getBagCount());
+	productQuantityRepository.save(pqBag);
+
+	ProductQuantity pq = current.getProduct().getProductQuantity();
+	pq.setBagCount((pq.getBagCount() == null ? 0 : pq.getBagCount()) - current.getBagCount());
+	pq.setProductCount((pq.getProductCount() == null ? 0 : pq.getProductCount()) + current.getProductCount());
+	productQuantityRepository.save(pq);
+
+	packingRepository.delete(current);
+	return true;
+    }
+
 }

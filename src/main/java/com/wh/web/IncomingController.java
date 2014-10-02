@@ -85,4 +85,9 @@ public class IncomingController {
 	return REDIRECT;
     }
 
+    @RequestMapping({ "delete" })
+    public @ResponseBody Boolean delete(@RequestParam("id") Long id) {
+	return incomingService.delete(id);
+    }
+
 }

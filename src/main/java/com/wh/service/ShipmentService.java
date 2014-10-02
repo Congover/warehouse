@@ -22,4 +22,6 @@ public interface ShipmentService {
 	    Long transportId, Boolean paymentType);
 
     HSSFWorkbook generateBalanceReport(String dateStart, String dateEnd, Long productId, Long storeId);
+
+    Boolean delete(Long id);
 }

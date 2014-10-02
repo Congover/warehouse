@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import com.wh.entity.Incoming;
 import com.wh.entity.Product;
 import com.wh.entity.ProductQuantity;
+import com.wh.entity.ProductType;
 import com.wh.entity.Shipment;
 import com.wh.repositories.AddressRepository;
 import com.wh.repositories.ContragentRepository;
@@ -268,6 +269,35 @@ public class ShipmentServiceImpl implements ShipmentService {
 	    query.setParameter("store", storeRepository.findOne(storeId));
 	}
 	return query.getSingleResult().doubleValue();
+    }
+
+    @Override
+    public Boolean delete(Long id) {
+	Shipment current = shipmentRepository.findOne(id);
+	Product product = current.getProduct();
+	Double count = current.getProductCount();
+	ProductQuantity pq = product.getProductQuantity();
+	if (pq == null) {
+	    pq = createProductQuantity(product);
+	    product.setProductQuantity(pq);
+	}
+	if (ProductType.BAG.equals(product.getProductType())) {
+	    pq.setBagCount(pq.getBagCount() != null ? pq.getBagCount() + count.intValue() : +count.intValue());
+	} else {
+	    pq.setProductCount(pq.getProductCount() != null ? pq.getProductCount() + count : +count);
+	}
+	productQuantityRepository.save(pq);
+	productRepository.save(product);
+	shipmentRepository.delete(current);
+	return true;
+    }
+
+    private ProductQuantity createProductQuantity(Product product) {
+	ProductQuantity pq = new ProductQuantity();
+	pq.setProduct(product);
+	pq.setBagCount(0);
+	pq.setProductCount(0D);
+	return productQuantityRepository.save(pq);
     }
 
 }

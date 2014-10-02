@@ -3,6 +3,7 @@ package com.wh.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -34,7 +35,7 @@ public class Product extends BaseEntity {
     @Column(name = "PRODUCT_TYPE")
     private ProductType productType;
 
-    @OneToOne(mappedBy = "product", fetch = FetchType.EAGER)
+    @OneToOne(mappedBy = "product", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private ProductQuantity productQuantity;
 
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
@@ -110,8 +111,8 @@ public class Product extends BaseEntity {
     }
 
     public boolean cannotDelete() {
-	return !getIncomings().isEmpty() || !getShipments().isEmpty() || !getPackings().isEmpty()
-		|| !getChildren().isEmpty();
+	return ProductType.BAG.equals(productType) || !getIncomings().isEmpty() || !getShipments().isEmpty()
+		|| !getPackings().isEmpty() || !getChildren().isEmpty();
     }
 
     public Product getParent() {

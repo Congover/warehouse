@@ -57,4 +57,9 @@ public class PackingController {
 	return REDIRECT;
     }
 
+    @RequestMapping({ "delete" })
+    public @ResponseBody Boolean delete(@RequestParam("id") Long id) {
+	return packingService.delete(id);
+    }
+
 }

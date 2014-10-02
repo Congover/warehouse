@@ -179,7 +179,9 @@ public class DictionaryServiceImpl implements DictionaryService {
 	if (isGroup) {
 	    product.setProductType(ProductType.GROUP);
 	} else {
-	    product.setParent(productRepository.findOne(groupId));
+	    if (groupId != null) {
+		product.setParent(productRepository.findOne(groupId));
+	    }
 	    product.setProductType(ProductType.PLACER);
 	}
 	product = productRepository.save(product);

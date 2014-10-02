@@ -85,4 +85,9 @@ public class ShipmentController {
 	shipmentService.update(id, date, contragentId, storeId, transportId, addressId, paymentType, comment);
 	return REDIRECT;
     }
+
+    @RequestMapping({ "delete" })
+    public @ResponseBody Boolean delete(@RequestParam("id") Long id) {
+	return shipmentService.delete(id);
+    }
 }

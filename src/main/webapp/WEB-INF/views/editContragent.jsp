@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <%@ page language="java" contentType="text/html; charset=utf8"
 	pageEncoding="utf8"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
@@ -55,10 +55,11 @@
 					</p>
 					<div class="buttons">
 						<div class="button">
-							<a href="javascript:{}" onclick="document.getElementById('formContragent').submit();">Сохранить</a>
+							<input style="display:none;" id="submitBtn" type="submit"/>
+							<a href="javascript:{}" onclick="document.getElementById('submitBtn').click();"><spring:message code="btn.save"/></a>
 						</div>
 						<div class="button">
-							<a onclick='history.back()'>Отмена</a>
+							<a onclick='history.back()'><spring:message code="btn.back"/></a>
 						</div>
 					</div>						
 				</form>

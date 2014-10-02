@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <%@ page language="java" contentType="text/html; charset=utf8"
 	pageEncoding="utf8"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
@@ -20,8 +20,9 @@
 	    "ordering": false
 	} );
 	
-		$(document).ready(function() {			
-		    $('#data_table').dataTable( {
+		$(document).ready(function() {
+			var selected;			
+			var table =  $('#data_table').dataTable( {
 		    	"language": {
 		    		"url" : "resources/russ.lang"
 		    	},
@@ -46,6 +47,31 @@
 		        	aButtons: [
 					]
 		        }
+		    } );			
+		    $('#data_table tbody').on( 'click', 'tr', function () {
+		        if ( $(this).hasClass('selected') ) {
+		        	selected = null;
+		            $(this).removeClass('selected');
+		        }
+		        else {
+		            table.$('tr.selected').removeClass('selected');
+		            $(this).addClass('selected');
+		            selected = this.id;
+		        }
+		    } );		    
+		    $('#btnDelete').click( function () {
+		        if(selected == undefined || selected == null) {
+		        	alert("Выберите Строку!");
+		        	return;
+		        }
+		        $.post("packing/delete", {id : selected}, function(data){
+		        	if(data) {
+		        		selected = null;
+		        		$('#data_table').DataTable().row('.selected').remove().draw( false );
+		        	} else {
+		        		alert('Невозможно удалить объект!');
+		        	}		        	
+		        });
 		    } );
 		} );
 	</script>
@@ -64,7 +90,7 @@
 	</div>
 	<div class="main_data">
 		<div class="main_table">
-			<table id="data_table" class="display cell-border compact" cellspacing="0" width="100%">
+			<table id="data_table" class="display cell-border compact">
 		        <thead>
 		            <tr class="head">
 		                <th><spring:message code="packing.table.header.date"/></th>
@@ -76,7 +102,8 @@
 		        </thead>
 		    </table>
 			<div class="buttons">
-				<div class="button"><a href="packing/add">Добавить</a></div>
+				<div class="button"><a href="packing/add"><spring:message code="btn.add"/></a></div>
+				<div id="btnDelete" class="button"><spring:message code="btn.delete"/></div>
 			</div>
 		</div>
 	</div>
