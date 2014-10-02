@@ -52,11 +52,11 @@ public class ReportController {
 	    @RequestParam("dateEnd") String dateEnd, @RequestParam("contragent") Long contragentId,
 	    @RequestParam("product") Long productId, @RequestParam("store") Long storeId, HttpServletResponse resp)
 	    throws IOException {
-	boolean useContragent = !StringUtils.isEmpty(request.getParameter("useContragent"));
-	boolean useProduct = !StringUtils.isEmpty(request.getParameter("useProduct"));
-	boolean useStore = !StringUtils.isEmpty(request.getParameter("useStore"));
-	HSSFWorkbook wb = incomingService.generateReport(dateStart, dateEnd, useContragent ? contragentId : null,
-		useProduct ? productId : null, useStore ? storeId : null);
+	boolean allContragent = !StringUtils.isEmpty(request.getParameter("useContragent"));
+	boolean allProduct = !StringUtils.isEmpty(request.getParameter("useProduct"));
+	boolean allStore = !StringUtils.isEmpty(request.getParameter("useStore"));
+	HSSFWorkbook wb = incomingService.generateReport(dateStart, dateEnd, !allContragent ? contragentId : null,
+		!allProduct ? productId : null, !allStore ? storeId : null);
 	resp.setContentType("application/octet-stream"); //$NON-NLS-1$
 	String fileName = "incoming" + Utils.convertDateTimeToStr(new Date()) + ".xls";
 	resp.setHeader("Content-Disposition", "attachment; filename=\"" //$NON-NLS-1$ //$NON-NLS-2$
@@ -74,14 +74,14 @@ public class ReportController {
 	    @RequestParam("product") Long productId, @RequestParam("store") Long storeId,
 	    @RequestParam("transport") Long transportId, @RequestParam("paymentType") Boolean paymentType,
 	    HttpServletResponse resp) throws IOException {
-	boolean useContragent = !StringUtils.isEmpty(request.getParameter("useContragent"));
-	boolean useProduct = !StringUtils.isEmpty(request.getParameter("useProduct"));
-	boolean useStore = !StringUtils.isEmpty(request.getParameter("useStore"));
-	boolean useTransport = !StringUtils.isEmpty(request.getParameter("useTransport"));
-	boolean usePaymentType = !StringUtils.isEmpty(request.getParameter("usePaymentType"));
-	HSSFWorkbook wb = shipmentService.generateReport(dateStart, dateEnd, useContragent ? contragentId : null,
-		useProduct ? productId : null, useStore ? storeId : null, useTransport ? transportId : null,
-		usePaymentType ? paymentType : null);
+	boolean allContragent = !StringUtils.isEmpty(request.getParameter("useContragent"));
+	boolean allProduct = !StringUtils.isEmpty(request.getParameter("useProduct"));
+	boolean allStore = !StringUtils.isEmpty(request.getParameter("useStore"));
+	boolean allTransport = !StringUtils.isEmpty(request.getParameter("useTransport"));
+	boolean allPaymentType = !StringUtils.isEmpty(request.getParameter("usePaymentType"));
+	HSSFWorkbook wb = shipmentService.generateReport(dateStart, dateEnd, !allContragent ? contragentId : null,
+		!allProduct ? productId : null, !allStore ? storeId : null, !allTransport ? transportId : null,
+		!allPaymentType ? paymentType : null);
 	resp.setContentType("application/octet-stream"); //$NON-NLS-1$
 	String fileName = "shipment" + Utils.convertDateTimeToStr(new Date()) + ".xls";
 	resp.setHeader("Content-Disposition", "attachment; filename=\"" //$NON-NLS-1$ //$NON-NLS-2$
