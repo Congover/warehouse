@@ -16,7 +16,7 @@
 	<script type="text/javascript">
 	
 	$.extend( $.fn.dataTable.defaults, {
-	    "searching": false,
+	    "searching": true,
 	    "ordering": false
 	} );
 	
@@ -26,7 +26,7 @@
 		    	"language": {
 		    		"url" : "resources/russ.lang"
 		    	},
-		        "dom": "Tlfrtip",
+		        "dom": "Tlrtips",
 		        "processing": true,
 		        "serverSide": true,
 		        "ajax":{
@@ -45,6 +45,7 @@
 		                  { data: "paymentType" },
 		                  { data: "comment" }
 		              ],
+		              "stateSave": false,
 		        tableTools: {
 		        	aButtons: [
 					]
@@ -84,6 +85,20 @@
 		        });
 		    } );
 		} );
+		
+		function filterContragent(){
+			var cId = $("select#contragent").val();
+			$("#address").empty();
+			$.post('${pageContext.request.contextPath}/shipment/changeContragent', {id: cId}, function(data) {
+				if(data) {
+					selected = null;
+				    $('#data_table').DataTable().search( 
+				    		cId
+				        ).draw();
+					
+					}
+				});
+		};
 	</script>
 </head>	
 <body>
@@ -100,6 +115,17 @@
 	</div>
 	<div class="main_data">
 		<div class="main_table">
+			<p class="fieldrow">
+				<label class="fieldlabel">Покупатель</label>
+				<select class="fieldcombo" size="1" name="contragent" id="contragent" onchange="filterContragent()">
+					<option selected></option>
+					<c:if test="${!empty contragentList}">
+						<c:forEach items="${contragentList}" var="contragent">
+							<option value="${contragent.contragentId}"<c:if test="${!empty shipContrId && shipContrId == contragent.contragentId}">selected</c:if> >${contragent.name}</option>
+						</c:forEach>
+					</c:if>
+				</select>
+			</p>
 			<table id="data_table" class="display cell-border compact">
 		        <thead>
 		            <tr class="head">

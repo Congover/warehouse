@@ -37,15 +37,18 @@ public class ShipmentController {
     private ContragentService contragentService;
 
     @RequestMapping({ "/", "" })
-    public String shipment(HttpSession session) {
+    public String shipment(HttpSession session, Map<String, Object> map) {
+	session.setAttribute("shipContrId", null);
+	map.put("contragentList", contragentService.findAll());
 	return "shipment";
     }
 
     @RequestMapping("/getList")
     @ResponseBody
     public BaseDataTableModel<?> getList(@RequestParam("draw") Integer draw, @RequestParam("length") Integer length,
-	    @RequestParam("start") Integer start) {
-	return new ShipmentDataTableModel(shipmentService.findAll(), draw, length, start);
+	    @RequestParam("start") Integer start, @RequestParam("search[value]") Long contragentId) {
+	return new ShipmentDataTableModel(contragentId == null ? shipmentService.findAll()
+		: shipmentService.findByContragentId(contragentId), draw, length, start);
     }
 
     @RequestMapping({ "/add" })
@@ -89,5 +92,11 @@ public class ShipmentController {
     @RequestMapping({ "delete" })
     public @ResponseBody Boolean delete(@RequestParam("id") Long id) {
 	return shipmentService.delete(id);
+    }
+
+    @RequestMapping({ "changeContragent" })
+    public @ResponseBody Boolean changeContragent(@RequestParam("id") Long id, HttpSession session) {
+	session.setAttribute("shipContrId", id);
+	return true;
     }
 }

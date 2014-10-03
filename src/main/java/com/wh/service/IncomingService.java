@@ -20,4 +20,6 @@ public interface IncomingService {
 
     Boolean delete(Long id);
 
+    List<Incoming> findByContragentId(Long contragentId);
+
 }

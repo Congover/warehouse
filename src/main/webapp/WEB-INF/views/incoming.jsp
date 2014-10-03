@@ -12,7 +12,7 @@
 	<script type="text/javascript">
 	
 	$.extend( $.fn.dataTable.defaults, {
-	    "searching": false,
+	    "searching": true,
 	    "ordering": false
 	} );
 	
@@ -22,13 +22,14 @@
 		    	"language": {
 		    		"url" : "resources/russ.lang"
 		    	},
-		        "dom": "Tlfrtip",
+		        "dom": "Tlrtip",
 		        "processing": true,
 		        "serverSide": true,
 		        "ajax":{
 		        	 "url" :"incoming/getList",
 		        	 "type" : "POST"
 		        },
+	              "stateSave": false,
 		        "lengthMenu": [ [10, 25, 50, -1], [10, 25, 50, "Все"] ],
 		        columns: [
 		                  { data : "date" },
@@ -77,6 +78,20 @@
 		        });
 		    } );
 		} );
+		
+		function filterContragent(){
+			var cId = $("select#contragent").val();
+			$("#address").empty();
+			$.post('${pageContext.request.contextPath}/incoming/changeContragent', {id: cId}, function(data) {
+				if(data) {
+					selected = null;
+				    $('#data_table').DataTable().search( 
+				    		cId
+				        ).draw();
+					
+					}
+				});
+		};
 	</script>
 	<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/main.css"/>"/>
 	<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/jquery.dataTables.css"/>"/>
@@ -97,6 +112,17 @@
 	</div>
 	<div class="main_data">
 		<div class="main_table">
+			<p class="fieldrow">
+				<label class="fieldlabel">Покупатель</label>
+				<select class="fieldcombo" size="1" name="contragent" id="contragent" onchange="filterContragent()">
+					<option selected></option>
+					<c:if test="${!empty contragentList}">
+						<c:forEach items="${contragentList}" var="contragent">
+							<option value="${contragent.contragentId}"<c:if test="${!empty incContrId && incContrId == contragent.contragentId}">selected</c:if> >${contragent.name}</option>
+						</c:forEach>
+					</c:if>
+				</select>
+			</p>
 			<table id="data_table" class="display cell-border compact">
 		        <thead>
 		            <tr class="head">

@@ -205,4 +205,9 @@ public class IncomingServiceImpl implements IncomingService {
 	pq.setProductCount(0D);
 	return productQuantityRepository.save(pq);
     }
+
+    @Override
+    public List<Incoming> findByContragentId(Long contragentId) {
+	return incomingRepository.findByContragentContragentId(contragentId);
+    }
 }

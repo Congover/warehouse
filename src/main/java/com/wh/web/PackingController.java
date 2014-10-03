@@ -1,6 +1,5 @@
 package com.wh.web;
 
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.wh.entity.Packing;
 import com.wh.model.BaseDataTableModel;
 import com.wh.model.PackingDataTableModel;
 import com.wh.service.DictionaryService;
@@ -38,8 +36,7 @@ public class PackingController {
     @ResponseBody
     public BaseDataTableModel<?> getList(@RequestParam("draw") Integer draw, @RequestParam("length") Integer length,
 	    @RequestParam("start") Integer start) {
-	List<Packing> list = packingService.findAll();
-	return new PackingDataTableModel(list, draw, length, start);
+	return new PackingDataTableModel(packingService.findAll(), draw, length, start);
     }
 
     @RequestMapping({ "/add" })

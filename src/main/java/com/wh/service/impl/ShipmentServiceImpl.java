@@ -300,4 +300,9 @@ public class ShipmentServiceImpl implements ShipmentService {
 	return productQuantityRepository.save(pq);
     }
 
+    @Override
+    public List<Shipment> findByContragentId(Long contragentId) {
+	return shipmentRepository.findByContragentContragentId(contragentId);
+    }
+
 }
