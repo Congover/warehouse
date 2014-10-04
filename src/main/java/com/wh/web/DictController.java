@@ -165,7 +165,7 @@ public class DictController {
     }
 
     @RequestMapping({ "delete" })
-    public @ResponseBody Boolean deleteContragent(@RequestParam("id") Long id, HttpSession session) {
+    public @ResponseBody Boolean delete(@RequestParam("id") Long id, HttpSession session) {
 	return dictionaryService.delete(id, (String) session.getAttribute("dict"));
     }
 

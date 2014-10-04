@@ -176,4 +176,38 @@ public class IncomingServiceImpl implements IncomingService {
 	entity.setContragent(contragentRepository.findOne(contragentId));
 	incomingRepository.save(entity);
     }
+
+    @Override
+    public Boolean delete(Long id) {
+	Incoming current = incomingRepository.findOne(id);
+	Product product = current.getProduct();
+	Double count = current.getProductCount();
+	ProductQuantity pq = product.getProductQuantity();
+	if (pq == null) {
+	    pq = createProductQuantity(product);
+	    product.setProductQuantity(pq);
+	}
+	if (ProductType.BAG.equals(product.getProductType())) {
+	    pq.setBagCount(pq.getBagCount() != null ? pq.getBagCount() - count.intValue() : -count.intValue());
+	} else {
+	    pq.setProductCount(pq.getProductCount() != null ? pq.getProductCount() - count : -count);
+	}
+	productQuantityRepository.save(pq);
+	productRepository.save(product);
+	incomingRepository.delete(current);
+	return true;
+    }
+
+    private ProductQuantity createProductQuantity(Product product) {
+	ProductQuantity pq = new ProductQuantity();
+	pq.setProduct(product);
+	pq.setBagCount(0);
+	pq.setProductCount(0D);
+	return productQuantityRepository.save(pq);
+    }
+
+    @Override
+    public List<Incoming> findByContragentId(Long contragentId) {
+	return incomingRepository.findByContragentContragentId(contragentId);
+    }
 }

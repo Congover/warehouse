@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <%@ page language="java" contentType="text/html; charset=utf8"
 	pageEncoding="utf8"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
@@ -93,7 +93,7 @@
 	</div>
 	<div class="main_data">
 		<div class="main_table">
-			<table id="data_table" class="display cell-border compact" cellspacing="0" width="100%">
+			<table id="data_table" class="display cell-border compact">
 		        <thead>
 		            <tr class="head">
 		                <th><spring:message code="contractor.table.name"/></th>
@@ -102,9 +102,9 @@
 		        </thead>
 		    </table>
 			<div class="buttons">
-				<div class="button"><a href="contractor/add">Добавить</a></div>
-				<div id="btnChange" class="button">Изменить</div>
-				<div id="btnDelete" class="button">Удалить</div>
+				<div class="button"><a href="contractor/add"><spring:message code="btn.add"/></a></div>
+				<div id="btnChange" class="button"><spring:message code="btn.change"/></div>
+				<div id="btnDelete" class="button"><spring:message code="btn.delete"/></div>
 			</div>
 		</div>
 	</div>

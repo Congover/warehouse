@@ -18,4 +18,8 @@ public interface IncomingService {
 
     HSSFWorkbook generateReport(String dateStart, String dateEnd, Long contragentId, Long productId, Long storeId);
 
+    Boolean delete(Long id);
+
+    List<Incoming> findByContragentId(Long contragentId);
+
 }

@@ -107,7 +107,7 @@ public class ContractorController {
     }
 
     @RequestMapping({ "delete" })
-    public @ResponseBody Boolean deleteContragent(@RequestParam("id") Long contragentId) {
+    public @ResponseBody Boolean delete(@RequestParam("id") Long contragentId) {
 	return contragentService.delete(contragentId);
     }
 

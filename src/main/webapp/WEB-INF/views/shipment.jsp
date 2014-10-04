@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <%@ page language="java" contentType="text/html; charset=utf8"
 	pageEncoding="utf8"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
@@ -16,7 +16,7 @@
 	<script type="text/javascript">
 	
 	$.extend( $.fn.dataTable.defaults, {
-	    "searching": false,
+	    "searching": true,
 	    "ordering": false
 	} );
 	
@@ -26,7 +26,7 @@
 		    	"language": {
 		    		"url" : "resources/russ.lang"
 		    	},
-		        "dom": "Tlfrtip",
+		        "dom": "Tlrtips",
 		        "processing": true,
 		        "serverSide": true,
 		        "ajax":{
@@ -45,6 +45,7 @@
 		                  { data: "paymentType" },
 		                  { data: "comment" }
 		              ],
+		              "stateSave": false,
 		        tableTools: {
 		        	aButtons: [
 					]
@@ -68,8 +69,36 @@
 		        	return;
 		        }
 		        location.href = 'shipment/edit/' + selected
+		    } );		    
+		    $('#btnDelete').click( function () {
+		        if(selected == undefined || selected == null) {
+		        	alert("Выберите Строку!");
+		        	return;
+		        }
+		        $.post("shipment/delete", {id : selected}, function(data){
+		        	if(data) {
+		        		selected = null;
+		        		$('#data_table').DataTable().row('.selected').remove().draw( false );
+		        	} else {
+		        		alert('Невозможно удалить объект!');
+		        	}		        	
+		        });
 		    } );
 		} );
+		
+		function filterContragent(){
+			var cId = $("select#contragent").val();
+			$("#address").empty();
+			$.post('${pageContext.request.contextPath}/shipment/changeContragent', {id: cId}, function(data) {
+				if(data) {
+					selected = null;
+				    $('#data_table').DataTable().search( 
+				    		cId
+				        ).draw();
+					
+					}
+				});
+		};
 	</script>
 </head>	
 <body>
@@ -86,7 +115,18 @@
 	</div>
 	<div class="main_data">
 		<div class="main_table">
-			<table id="data_table" class="display cell-border compact" cellspacing="0" width="100%">
+			<p class="fieldrow">
+				<label class="fieldlabel">Покупатель</label>
+				<select class="fieldcombo" size="1" name="contragent" id="contragent" onchange="filterContragent()">
+					<option selected></option>
+					<c:if test="${!empty contragentList}">
+						<c:forEach items="${contragentList}" var="contragent">
+							<option value="${contragent.contragentId}"<c:if test="${!empty shipContrId && shipContrId == contragent.contragentId}">selected</c:if> >${contragent.name}</option>
+						</c:forEach>
+					</c:if>
+				</select>
+			</p>
+			<table id="data_table" class="display cell-border compact">
 		        <thead>
 		            <tr class="head">
 		                <th><spring:message code="shipment.table.header.date"/></th>
@@ -102,8 +142,9 @@
 		        </thead>
 		    </table>
 			<div class="buttons">
-				<div class="button"><a href="shipment/add">Добавить</a></div>
-				<div id="btnChange" class="button">Изменить</div>
+				<div class="button"><a href="shipment/add"><spring:message code="btn.add"/></a></div>
+				<div id="btnChange" class="button"><spring:message code="btn.change"/></div>
+				<div id="btnDelete" class="button"><spring:message code="btn.delete"/></div>
 			</div>
 		</div>
 	</div>

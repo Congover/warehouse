@@ -118,10 +118,11 @@
 					</p>
 					<div class="buttons">
 						<div class="button">
-							<a href="javascript:{}" onclick="document.getElementById('forms').submit();">Сохранить</a>
+							<input style="display:none;" id="submitBtn" type="submit"/>
+							<a href="javascript:{}" onclick="document.getElementById('submitBtn').click();"><spring:message code="btn.save"/></a>
 						</div>
 						<div class="button">
-							<a onclick='history.back()'>Отмена</a>
+							<a onclick='history.back()'><spring:message code="btn.back"/></a>
 						</div>
 					</div>						
 				</form>
