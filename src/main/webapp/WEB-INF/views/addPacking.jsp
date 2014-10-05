@@ -43,8 +43,18 @@
 						<input class="fielddate" type="text" required id="datetimepicker" name="date" />
 					</p>
 					<p class="fieldrow">
-						<label class="fieldlabel" for="product">Товар</label>
+						<label class="fieldlabel" for="product">Товар(россыпью)</label>
 						<select class="fieldcombo" size="1" required name="product">
+							<c:if test="${!empty productList}">
+								<c:forEach items="${productList}" var="product">
+									<option value="${product.productId}">${product.name}</option>
+								</c:forEach>
+							</c:if>
+						</select>
+					</p>
+					<p class="fieldrow">
+						<label class="fieldlabel" for="product">Товар(мешки)</label>
+						<select class="fieldcombo" size="1" required name="packedProduct">
 							<c:if test="${!empty productList}">
 								<c:forEach items="${productList}" var="product">
 									<option value="${product.productId}">${product.name}</option>

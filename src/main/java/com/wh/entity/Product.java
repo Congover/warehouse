@@ -3,7 +3,6 @@ package com.wh.entity;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -14,7 +13,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -35,9 +33,6 @@ public class Product extends BaseEntity {
     @Column(name = "PRODUCT_TYPE")
     private ProductType productType;
 
-    @OneToOne(mappedBy = "product", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private ProductQuantity productQuantity;
-
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
     private List<Shipment> shipments;
 
@@ -46,6 +41,9 @@ public class Product extends BaseEntity {
 
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
     private List<Packing> packings;
+
+    @OneToMany(mappedBy = "packedProduct", fetch = FetchType.LAZY)
+    private List<Packing> bagPackings;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "PARENT_ID")
@@ -81,14 +79,6 @@ public class Product extends BaseEntity {
 	this.productType = productType;
     }
 
-    public ProductQuantity getProductQuantity() {
-	return productQuantity;
-    }
-
-    public void setProductQuantity(ProductQuantity productQuantity) {
-	this.productQuantity = productQuantity;
-    }
-
     public List<Incoming> getIncomings() {
 	if (incomings == null) {
 	    incomings = new ArrayList<Incoming>();
@@ -112,7 +102,7 @@ public class Product extends BaseEntity {
 
     public boolean cannotDelete() {
 	return ProductType.BAG.equals(productType) || !getIncomings().isEmpty() || !getShipments().isEmpty()
-		|| !getPackings().isEmpty() || !getChildren().isEmpty();
+		|| !getPackings().isEmpty() || !getBagPackings().isEmpty() || !getChildren().isEmpty();
     }
 
     public Product getParent() {
@@ -132,6 +122,13 @@ public class Product extends BaseEntity {
 
     public void setChildren(List<Product> children) {
 	this.children = children;
+    }
+
+    public List<Packing> getBagPackings() {
+	if (bagPackings == null) {
+	    bagPackings = new ArrayList<Packing>();
+	}
+	return bagPackings;
     }
 
 }

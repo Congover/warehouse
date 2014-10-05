@@ -15,11 +15,8 @@ import org.springframework.stereotype.Service;
 
 import com.wh.entity.Incoming;
 import com.wh.entity.Product;
-import com.wh.entity.ProductQuantity;
-import com.wh.entity.ProductType;
 import com.wh.repositories.ContragentRepository;
 import com.wh.repositories.IncomingRepository;
-import com.wh.repositories.ProductQuantityRepository;
 import com.wh.repositories.ProductRepository;
 import com.wh.repositories.StoreRepository;
 import com.wh.service.DictionaryService;
@@ -41,9 +38,6 @@ public class IncomingServiceImpl implements IncomingService {
 
     @Resource
     private ContragentRepository contragentRepository;
-
-    @Resource
-    private ProductQuantityRepository productQuantityRepository;
 
     @Resource
     private DictionaryService dictionaryService;
@@ -143,15 +137,6 @@ public class IncomingServiceImpl implements IncomingService {
     @Override
     public void save(String date, Long contragentId, Long productId, Double productCount, Long storeId, String comment) {
 	Product product = productRepository.findOne(productId);
-	ProductQuantity pq = product.getProductQuantity();
-	if (ProductType.BAG.equals(product.getProductType())) {
-	    pq.setBagCount(pq.getBagCount() != null ? pq.getBagCount() + productCount.intValue() : productCount
-		    .intValue());
-	} else {
-	    pq.setProductCount(pq.getProductCount() != null ? pq.getProductCount() + productCount : productCount);
-	}
-	productQuantityRepository.save(pq);
-
 	Incoming entity = new Incoming();
 	entity.setCreateDate(Utils.parse(date));
 	entity.setContragent(contragentRepository.findOne(contragentId));
@@ -179,31 +164,8 @@ public class IncomingServiceImpl implements IncomingService {
 
     @Override
     public Boolean delete(Long id) {
-	Incoming current = incomingRepository.findOne(id);
-	Product product = current.getProduct();
-	Double count = current.getProductCount();
-	ProductQuantity pq = product.getProductQuantity();
-	if (pq == null) {
-	    pq = createProductQuantity(product);
-	    product.setProductQuantity(pq);
-	}
-	if (ProductType.BAG.equals(product.getProductType())) {
-	    pq.setBagCount(pq.getBagCount() != null ? pq.getBagCount() - count.intValue() : -count.intValue());
-	} else {
-	    pq.setProductCount(pq.getProductCount() != null ? pq.getProductCount() - count : -count);
-	}
-	productQuantityRepository.save(pq);
-	productRepository.save(product);
-	incomingRepository.delete(current);
+	incomingRepository.delete(id);
 	return true;
-    }
-
-    private ProductQuantity createProductQuantity(Product product) {
-	ProductQuantity pq = new ProductQuantity();
-	pq.setProduct(product);
-	pq.setBagCount(0);
-	pq.setProductCount(0D);
-	return productQuantityRepository.save(pq);
     }
 
     @Override

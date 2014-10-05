@@ -47,10 +47,9 @@ public class PackingController {
 
     @RequestMapping({ "/save" })
     public String addIncoming(HttpSession session, @RequestParam("date") String date,
-	    @RequestParam("product") Long productId, @RequestParam("productCount") Double productCount) {
-	packingService.save(date, productId, productCount);
-	// incomingService.save(date, contragentId, productId, productCount,
-	// storeId, comment);
+	    @RequestParam("product") Long productId, @RequestParam("productCount") Double productCount,
+	    @RequestParam("packedProduct") Long packedProductId) {
+	packingService.save(date, productId, packedProductId, productCount);
 	return REDIRECT;
     }
 

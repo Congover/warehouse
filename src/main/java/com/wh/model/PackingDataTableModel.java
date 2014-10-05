@@ -17,9 +17,9 @@ public class PackingDataTableModel extends BaseDataTableModel<Packing> {
 	Map<String, Object> row = new HashMap<String, Object>();
 	row.put("date", entity.getCreateDate());
 	row.put("product", entity.getProduct().getName());
+	row.put("packedProduct", entity.getPackedProduct().getName());
 	row.put("prod_coutn", entity.getProductCount());
 	row.put("bag_count", entity.getBagCount());
-	row.put("bag_residue", entity.getBagResidue());
 	row.put("DT_RowId", entity.getPackingId());
 	return row;
     }
