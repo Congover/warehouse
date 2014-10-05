@@ -74,14 +74,16 @@ public class IncomingController {
 	map.put("incoming", incomingService.find(id));
 	map.put("storeList", dictionaryService.getStories());
 	map.put("contragentList", contragentService.findAll());
+	map.put("productList", dictionaryService.getProducts());
 	return "editIncoming";
     }
 
     @RequestMapping({ "update" })
     public String update(@RequestParam("id") Long id, @RequestParam("date") String date,
-	    @RequestParam("contragent") Long contragentId, @RequestParam("store") Long storeId,
+	    @RequestParam("contragent") Long contragentId, @RequestParam("product") Long productId,
+	    @RequestParam("productCount") Double productCount, @RequestParam("store") Long storeId,
 	    @RequestParam("comment") String comment) {
-	incomingService.update(id, date, contragentId, storeId, comment);
+	incomingService.update(id, date, contragentId, productId, productCount, storeId, comment);
 	return REDIRECT;
     }
 

@@ -77,15 +77,18 @@ public class ShipmentController {
 	map.put("storeList", dictionaryService.getStories());
 	map.put("transportList", dictionaryService.getTransports());
 	map.put("contragentList", contragentService.findAll());
+	map.put("productList", dictionaryService.getAvailibleProductForShipment());
 	return "editShipment";
     }
 
     @RequestMapping({ "update" })
     public String update(@RequestParam("id") Long id, @RequestParam("date") String date,
-	    @RequestParam("contragent") Long contragentId, @RequestParam("store") Long storeId,
+	    @RequestParam("contragent") Long contragentId, @RequestParam("product") Long productId,
+	    @RequestParam("productCount") Double productCount, @RequestParam("store") Long storeId,
 	    @RequestParam("transport") Long transportId, @RequestParam("address") Long addressId,
 	    @RequestParam("comment") String comment, @RequestParam("paymentType") Boolean paymentType) {
-	shipmentService.update(id, date, contragentId, storeId, transportId, addressId, paymentType, comment);
+	shipmentService.update(id, date, contragentId, productId, productCount, storeId, transportId, addressId,
+		paymentType, comment);
 	return REDIRECT;
     }
 
