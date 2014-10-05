@@ -38,9 +38,9 @@
 		        columns: [
 		                  { data : "date" },
 		                  { data: "product" },
+		                  { data: "packedProduct" },
 		                  { data: "prod_coutn" },
-		                  { data: "bag_count" },
-		                  { data: "bag_residue" }
+		                  { data: "bag_count" }
 		              ],
 		        tableTools: {
 		            sRowSelect: "os",
@@ -96,9 +96,9 @@
 		            <tr class="head">
 		                <th><spring:message code="packing.table.header.date"/></th>
 		                <th><spring:message code="packing.table.header.product"/></th>
+		                <th><spring:message code="packing.table.header.packedProduct"/></th>
 		                <th><spring:message code="packing.table.header.count"/></th>
 		                <th><spring:message code="packing.table.header.bagCount"/></th>
-		                <th><spring:message code="packing.table.header.bagResidue"/></th>
 		            </tr>
 		        </thead>
 		    </table>

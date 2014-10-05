@@ -38,8 +38,9 @@ public class Packing extends BaseEntity {
     @Column(name = "BAG_COUNT", nullable = false)
     private Integer bagCount;
 
-    @Column(name = "BAG_RESIDUE", nullable = false)
-    private Integer bagResidue;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "PACKED_PRODUCT_ID")
+    private Product packedProduct;
 
     public Packing() {
     }
@@ -84,12 +85,12 @@ public class Packing extends BaseEntity {
 	this.bagCount = bagCount;
     }
 
-    public Integer getBagResidue() {
-	return bagResidue;
+    public Product getPackedProduct() {
+	return packedProduct;
     }
 
-    public void setBagResidue(Integer bagResidue) {
-	this.bagResidue = bagResidue;
+    public void setPackedProduct(Product packedProduct) {
+	this.packedProduct = packedProduct;
     }
 
 }

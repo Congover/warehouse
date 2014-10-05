@@ -16,12 +16,9 @@ import org.springframework.stereotype.Service;
 
 import com.wh.entity.Incoming;
 import com.wh.entity.Product;
-import com.wh.entity.ProductQuantity;
-import com.wh.entity.ProductType;
 import com.wh.entity.Shipment;
 import com.wh.repositories.AddressRepository;
 import com.wh.repositories.ContragentRepository;
-import com.wh.repositories.ProductQuantityRepository;
 import com.wh.repositories.ProductRepository;
 import com.wh.repositories.ShipmentRepository;
 import com.wh.repositories.StoreRepository;
@@ -53,9 +50,6 @@ public class ShipmentServiceImpl implements ShipmentService {
     private TransportRepository transportRepository;
 
     @Resource
-    private ProductQuantityRepository productQuantityRepository;
-
-    @Resource
     private DictionaryService dictionaryService;
 
     @PersistenceContext
@@ -70,9 +64,6 @@ public class ShipmentServiceImpl implements ShipmentService {
     public void save(String date, Long contragentId, Long productId, Integer productCount, Long storeId,
 	    Long transportId, Long addressId, Boolean paymentType, String comment) {
 	Product product = productRepository.findOne(productId);
-	ProductQuantity pq = product.getProductQuantity();
-	pq.setBagCount(pq.getBagCount() - productCount);
-	productQuantityRepository.save(pq);
 	Shipment entity = new Shipment();
 	entity.setCreateDate(Utils.parse(date));
 	entity.setContragent(contragentRepository.findOne(contragentId));
@@ -273,31 +264,8 @@ public class ShipmentServiceImpl implements ShipmentService {
 
     @Override
     public Boolean delete(Long id) {
-	Shipment current = shipmentRepository.findOne(id);
-	Product product = current.getProduct();
-	Double count = current.getProductCount();
-	ProductQuantity pq = product.getProductQuantity();
-	if (pq == null) {
-	    pq = createProductQuantity(product);
-	    product.setProductQuantity(pq);
-	}
-	if (ProductType.BAG.equals(product.getProductType())) {
-	    pq.setBagCount(pq.getBagCount() != null ? pq.getBagCount() + count.intValue() : +count.intValue());
-	} else {
-	    pq.setProductCount(pq.getProductCount() != null ? pq.getProductCount() + count : +count);
-	}
-	productQuantityRepository.save(pq);
-	productRepository.save(product);
-	shipmentRepository.delete(current);
+	shipmentRepository.delete(id);
 	return true;
-    }
-
-    private ProductQuantity createProductQuantity(Product product) {
-	ProductQuantity pq = new ProductQuantity();
-	pq.setProduct(product);
-	pq.setBagCount(0);
-	pq.setProductCount(0D);
-	return productQuantityRepository.save(pq);
     }
 
     @Override
