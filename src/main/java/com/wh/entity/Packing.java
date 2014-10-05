@@ -9,13 +9,21 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
+@NamedQueries({
+	@NamedQuery(name = Packing.FIND_PRODUCT_SUM_QUERY, query = "select sum(c.productCount) from Packing c where c.createDate <= :date and c.product = :product and c.store = :store"),
+	@NamedQuery(name = Packing.FIND_BAG_SUM_QUERY, query = "select sum(c.bagCount) from Packing c where c.createDate <= :date and c.packedProduct = :product and c.store = :store"), })
 @Table(name = "tPACKING")
 public class Packing extends BaseEntity {
+
+    public static final String FIND_PRODUCT_SUM_QUERY = "findProductCountSum";
+    public static final String FIND_BAG_SUM_QUERY = "findBagCountSum";
 
     private static final long serialVersionUID = 1L;
 
@@ -41,6 +49,10 @@ public class Packing extends BaseEntity {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "PACKED_PRODUCT_ID")
     private Product packedProduct;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "STORE_ID")
+    private Store store;
 
     public Packing() {
     }
@@ -93,4 +105,11 @@ public class Packing extends BaseEntity {
 	this.packedProduct = packedProduct;
     }
 
+    public Store getStore() {
+	return store;
+    }
+
+    public void setStore(Store store) {
+	this.store = store;
+    }
 }

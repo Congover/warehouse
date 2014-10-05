@@ -1,5 +1,7 @@
 package com.wh.service.impl;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -24,6 +26,7 @@ import com.wh.repositories.ShipmentRepository;
 import com.wh.repositories.StoreRepository;
 import com.wh.repositories.TransportRepository;
 import com.wh.service.DictionaryService;
+import com.wh.service.PackingService;
 import com.wh.service.ShipmentService;
 import com.wh.utils.ReportHelper;
 import com.wh.utils.Utils;
@@ -51,6 +54,9 @@ public class ShipmentServiceImpl implements ShipmentService {
 
     @Resource
     private DictionaryService dictionaryService;
+
+    @Resource
+    private PackingService packingService;
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -235,16 +241,33 @@ public class ShipmentServiceImpl implements ShipmentService {
 	for (Product p : products) {
 	    double startIncomingBalance = findSum(startDate, p.getProductId(), storeId, Incoming.class.getName());
 	    double startShipmentBalance = findSum(startDate, p.getProductId(), storeId, Shipment.class.getName());
+	    double startPackingProduct = packingService.findProductSum(startDate, p.getProductId(), storeId);
+	    double startPackingPackedProduct = packingService
+		    .findPackedProductSum(startDate, p.getProductId(), storeId);
 	    double endIncomingBalance = findSum(endDate, p.getProductId(), storeId, Incoming.class.getName());
 	    double endShipmentBalance = findSum(endDate, p.getProductId(), storeId, Shipment.class.getName());
-	    data.add(new String[] { p.getName(), String.valueOf(startIncomingBalance - startShipmentBalance),
-		    String.valueOf(endIncomingBalance - endShipmentBalance) });
-	    startSum = startSum + (startIncomingBalance - startShipmentBalance);
-	    endSum = endSum + (endIncomingBalance - endShipmentBalance);
+	    double endPackingProduct = packingService.findProductSum(endDate, p.getProductId(), storeId);
+	    double endPackingPackedProduct = packingService.findPackedProductSum(endDate, p.getProductId(), storeId);
+	    double startItSum = startIncomingBalance - startShipmentBalance + startPackingPackedProduct
+		    - startPackingProduct;
+	    double endItSum = endIncomingBalance - endShipmentBalance + endPackingPackedProduct - endPackingProduct;
+	    data.add(new String[] { p.getName(), String.valueOf(round(startItSum, 2)),
+		    String.valueOf(round(endItSum, 2)) });
+	    startSum = startSum + startItSum;
+	    endSum = endSum + endItSum;
 	}
 	String[] entityData = new String[] { "ИТОГО:", String.valueOf(startSum), String.valueOf(endSum) };
 	data.add(entityData);
 	return ReportHelper.createReport("Balance", reportParams, columnNames, data);
+    }
+
+    public static double round(double value, int places) {
+	if (places < 0) {
+	    throw new IllegalArgumentException();
+	}
+	BigDecimal bd = new BigDecimal(value);
+	bd = bd.setScale(places, RoundingMode.HALF_UP);
+	return bd.doubleValue();
     }
 
     private double findSum(Date date, Long productId, Long storeId, String clazz) {

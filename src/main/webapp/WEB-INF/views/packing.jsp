@@ -39,6 +39,7 @@
 		                  { data : "date" },
 		                  { data: "product" },
 		                  { data: "packedProduct" },
+		                  { data: "store" },
 		                  { data: "prod_coutn" },
 		                  { data: "bag_count" }
 		              ],
@@ -104,6 +105,7 @@
 		                <th><spring:message code="packing.table.header.date"/></th>
 		                <th><spring:message code="packing.table.header.product"/></th>
 		                <th><spring:message code="packing.table.header.packedProduct"/></th>
+		                <th><spring:message code="packing.table.header.store"/></th>
 		                <th><spring:message code="packing.table.header.count"/></th>
 		                <th><spring:message code="packing.table.header.bagCount"/></th>
 		            </tr>

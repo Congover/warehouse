@@ -10,3 +10,5 @@ ADD CONSTRAINT `FK_PACKED_PRODUCT`
   
 DROP table `warehouse`.`tproduct_quantity`;
 ALTER TABLE `warehouse`.`tpacking` DROP COLUMN `BAG_RESIDUE`;
+
+update `warehouse`.`tpacking` set packed_product_id = product_id where packed_product_id is null;

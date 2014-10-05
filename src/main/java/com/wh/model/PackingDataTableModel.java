@@ -18,6 +18,7 @@ public class PackingDataTableModel extends BaseDataTableModel<Packing> {
 	row.put("date", entity.getCreateDate());
 	row.put("product", entity.getProduct().getName());
 	row.put("packedProduct", entity.getPackedProduct().getName());
+	row.put("store", entity.getStore().getName());
 	row.put("prod_coutn", entity.getProductCount());
 	row.put("bag_count", entity.getBagCount());
 	row.put("DT_RowId", entity.getPackingId());

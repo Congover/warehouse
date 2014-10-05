@@ -49,13 +49,14 @@ public class PackingController {
     @RequestMapping({ "/save" })
     public String addIncoming(HttpSession session, @RequestParam("date") String date,
 	    @RequestParam("product") Long productId, @RequestParam("productCount") Double productCount,
-	    @RequestParam("packedProduct") Long packedProductId) {
-	packingService.save(date, productId, packedProductId, productCount);
+	    @RequestParam("packedProduct") Long packedProductId, @RequestParam("store") Long storeId) {
+	packingService.save(date, productId, packedProductId, productCount, storeId);
 	return REDIRECT;
     }
 
     @RequestMapping({ "delete" })
-    public @ResponseBody Boolean delete(@RequestParam("id") Long id) {
+    public @ResponseBody
+    Boolean delete(@RequestParam("id") Long id) {
 	return packingService.delete(id);
     }
 
@@ -63,6 +64,7 @@ public class PackingController {
     public String edit(@PathVariable("id") Long id, Map<String, Object> map) {
 	map.put("current", packingService.find(id));
 	map.put("productList", dictionaryService.getAvailibleProductForPacking());
+	map.put("storeList", dictionaryService.getStories());
 	map.put("actionType", "../update");
 	return "editPacking";
     }
@@ -70,8 +72,8 @@ public class PackingController {
     @RequestMapping({ "update" })
     public String update(@RequestParam("id") Long id, @RequestParam("date") String date,
 	    @RequestParam("product") Long productId, @RequestParam("productCount") Double productCount,
-	    @RequestParam("packedProduct") Long packedProductId) {
-	packingService.update(id, date, productId, productCount, packedProductId);
+	    @RequestParam("packedProduct") Long packedProductId, @RequestParam("store") Long storeId) {
+	packingService.update(id, date, productId, productCount, packedProductId, storeId);
 	return REDIRECT;
     }
 }
