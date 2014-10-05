@@ -15,8 +15,8 @@ public interface ShipmentService {
 
     Shipment find(Long id);
 
-    void update(Long id, String date, Long contragentId, Long storeId, Long transportId, Long addressId,
-	    Boolean paymentType, String comment);
+    void update(Long id, String date, Long contragentId, Long productId, Double productCount, Long storeId,
+	    Long transportId, Long addressId, Boolean paymentType, String comment);
 
     HSSFWorkbook generateReport(String dateStart, String dateEnd, Long contragentId, Long productId, Long storeId,
 	    Long transportId, Boolean paymentType);

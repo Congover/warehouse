@@ -48,4 +48,23 @@ public class PackingServiceImpl implements PackingService {
 	packingRepository.delete(id);
 	return true;
     }
+
+    @Override
+    public Object find(Long id) {
+	return packingRepository.findOne(id);
+    }
+
+    @Override
+    public void update(Long id, String date, Long productId, Double productCount, Long packedProductId) {
+	Packing entity = packingRepository.findOne(id);
+	Double countInKg = productCount * 1000;
+	Double countBagDouble = countInKg / 50;
+	Integer bagCount = countBagDouble.intValue();
+	entity.setCreateDate(Utils.parse(date));
+	entity.setProductCount(productCount);
+	entity.setProduct(productRepository.findOne(productId));
+	entity.setBagCount(bagCount);
+	entity.setPackedProduct(productRepository.findOne(packedProductId));
+	packingRepository.save(entity);
+    }
 }

@@ -153,10 +153,13 @@ public class IncomingServiceImpl implements IncomingService {
     }
 
     @Override
-    public void update(Long id, String date, Long contragentId, Long storeId, String comment) {
+    public void update(Long id, String date, Long contragentId, Long productId, Double productCount, Long storeId,
+	    String comment) {
 	Incoming entity = incomingRepository.findOne(id);
 	entity.setComment(comment);
 	entity.setCreateDate(Utils.parse(date));
+	entity.setProduct(productRepository.findOne(productId));
+	entity.setProductCount(productCount);
 	entity.setStore(storeRepository.findOne(storeId));
 	entity.setContragent(contragentRepository.findOne(contragentId));
 	incomingRepository.save(entity);

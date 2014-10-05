@@ -12,4 +12,8 @@ public interface PackingService {
 
     Boolean delete(Long id);
 
+    Object find(Long id);
+
+    void update(Long id, String date, Long productId, Double productCount, Long packedProductId);
+
 }

@@ -59,7 +59,14 @@
 		            $(this).addClass('selected');
 		            selected = this.id;
 		        }
-		    } );		    
+		    } );		  	    
+		    $('#btnChange').click( function () {
+		        if(selected == undefined || selected == null) {
+		        	alert("Выберите объект!");
+		        	return;
+		        }
+		        location.href = 'packing/edit/' + selected
+		    } );  
 		    $('#btnDelete').click( function () {
 		        if(selected == undefined || selected == null) {
 		        	alert("Выберите Строку!");
@@ -104,6 +111,7 @@
 		    </table>
 			<div class="buttons">
 				<div class="button"><a href="packing/add"><spring:message code="btn.add"/></a></div>
+				<div id="btnChange" class="button"><spring:message code="btn.change"/></div>
 				<div id="btnDelete" class="button"><spring:message code="btn.delete"/></div>
 			</div>
 		</div>

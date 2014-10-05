@@ -14,7 +14,8 @@ public interface IncomingService {
 
     Incoming find(Long id);
 
-    void update(Long id, String date, Long contragentId, Long storeId, String comment);
+    void update(Long id, String date, Long contragentId, Long productId, Double productCount, Long storeId,
+	    String comment);
 
     HSSFWorkbook generateReport(String dateStart, String dateEnd, Long contragentId, Long productId, Long storeId);
 

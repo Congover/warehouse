@@ -64,11 +64,17 @@
 					</p>
 					<p class="fieldrow">
 						<label class="fieldlabel" for="product">Товар</label>
-						<input class="fieldfld" type="text" required name="product" disabled value="<c:if test="${!empty shipment.product}">${shipment.product.name}</c:if>"/>
+						<select class="fieldcombo" size="1" required name="product">
+							<c:if test="${!empty productList}">
+								<c:forEach items="${productList}" var="product">
+									<option value="${product.productId}"<c:if test="${!empty shipment.product && shipment.product.productId == product.productId}">selected</c:if> >${product.name}</option>
+								</c:forEach>
+							</c:if>
+						</select>
 					</p>
 					<p class="fieldrow">
 						<label class="fieldlabel" for="productCount">Колво товара</label>
-						<input class="fieldnum" name="productCount" disabled value="${shipment.productCount}" />
+						<input class="fieldnum"  type="number" step="0.01" required id="productCount" name="productCount"  value="${shipment.productCount}" />
 					</p>
 					<p class="fieldrow">
 						<label class="fieldlabel" for="address">Пункт</label>

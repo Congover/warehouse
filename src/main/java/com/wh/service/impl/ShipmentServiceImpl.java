@@ -83,14 +83,16 @@ public class ShipmentServiceImpl implements ShipmentService {
     }
 
     @Override
-    public void update(Long id, String date, Long contragentId, Long storeId, Long transportId, Long addressId,
-	    Boolean paymentType, String comment) {
+    public void update(Long id, String date, Long contragentId, Long productId, Double productCount, Long storeId,
+	    Long transportId, Long addressId, Boolean paymentType, String comment) {
 	Shipment entity = shipmentRepository.findOne(id);
 	entity.setComment(comment);
 	entity.setCreateDate(Utils.parse(date));
 	entity.setStore(storeRepository.findOne(storeId));
 	entity.setAddress(addressRepository.findOne(addressId));
 	entity.setTransport(transportRepository.findOne(transportId));
+	entity.setProduct(productRepository.findOne(productId));
+	entity.setProductCount(productCount);
 	entity.setPaymentType(paymentType);
 	entity.setContragent(contragentRepository.findOne(contragentId));
 	shipmentRepository.save(entity);
@@ -272,5 +274,4 @@ public class ShipmentServiceImpl implements ShipmentService {
     public List<Shipment> findByContragentId(Long contragentId) {
 	return shipmentRepository.findByContragentContragentId(contragentId);
     }
-
 }
