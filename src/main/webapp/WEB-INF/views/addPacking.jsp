@@ -53,7 +53,7 @@
 						</select>
 					</p>
 					<p class="fieldrow">
-						<label class="fieldlabel" for="product">Товар(мешки)</label>
+						<label class="fieldlabel" for="product">Товар(тара)</label>
 						<select class="fieldcombo" size="1" required name="packedProduct">
 							<c:if test="${!empty productList}">
 								<c:forEach items="${productList}" var="product">
@@ -65,6 +65,16 @@
 					<p class="fieldrow">
 						<label class="fieldlabel" for="productCount">Колво товара</label>
 						<input class="fieldnum" type="number" step="0.1" required id="productCount" name="productCount" />
+					</p>
+					<p class="fieldrow">
+						<label class="fieldlabel" for="store">Склад</label>
+						<select class="fieldcombo" size="1" required name="store">
+							<c:if test="${!empty storeList}">
+									<c:forEach items="${storeList}" var="store">
+										<option value="${store.storeId}" <c:if test="${!empty current.store && current.store.storeId == store.storeId}">selected</c:if> >${store.name}</option>
+									</c:forEach>
+							</c:if>
+						</select>
 					</p>
 					<div class="buttons">
 						<div class="button">

@@ -81,7 +81,7 @@
 					</p>
 					<p class="fieldrow">
 						<label class="fieldlabel" for="productCount">Колво товара</label>
-						<input class="fieldnum" type="number" required id="productCount" name="productCount" />
+						<input class="fieldnum" type="number"  step="0.01" required id="productCount" name="productCount" />
 					</p>
 					<p class="fieldrow">
 						<label class="fieldlabel" for="address">Пункт</label>

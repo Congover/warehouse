@@ -10,7 +10,7 @@ public interface ShipmentService {
 
     List<Shipment> findAll();
 
-    void save(String date, Long contragentId, Long productId, Integer productCount, Long storeId, Long transportId,
+    void save(String date, Long contragentId, Long productId, Double productCount, Long storeId, Long transportId,
 	    Long addressId, Boolean paymentType, String comment);
 
     Shipment find(Long id);

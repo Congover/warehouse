@@ -67,7 +67,7 @@ public class ShipmentServiceImpl implements ShipmentService {
     }
 
     @Override
-    public void save(String date, Long contragentId, Long productId, Integer productCount, Long storeId,
+    public void save(String date, Long contragentId, Long productId, Double productCount, Long storeId,
 	    Long transportId, Long addressId, Boolean paymentType, String comment) {
 	Product product = productRepository.findOne(productId);
 	Shipment entity = new Shipment();

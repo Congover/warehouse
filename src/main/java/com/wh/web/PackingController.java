@@ -43,6 +43,7 @@ public class PackingController {
     @RequestMapping({ "/add" })
     public String add(Map<String, Object> map) {
 	map.put("productList", dictionaryService.getAvailibleProductForPacking());
+	map.put("storeList", dictionaryService.getStories());
 	return "addPacking";
     }
 

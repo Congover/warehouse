@@ -113,7 +113,7 @@
 	<div class="main_data">
 		<div class="main_table">
 			<p class="fieldrow">
-				<label class="fieldlabel">Покупатель</label>
+				<label class="fieldlabel">Контрагент</label>
 				<select class="fieldcombo" size="1" name="contragent" id="contragent" onchange="filterContragent()">
 					<option selected></option>
 					<c:if test="${!empty contragentList}">

@@ -63,7 +63,7 @@ public class ShipmentController {
     @RequestMapping({ "/save" })
     public String addIncoming(HttpSession session, @RequestParam("date") String date,
 	    @RequestParam("contragent") Long contragentId, @RequestParam("product") Long productId,
-	    @RequestParam("productCount") Integer productCount, @RequestParam("store") Long storeId,
+	    @RequestParam("productCount") Double productCount, @RequestParam("store") Long storeId,
 	    @RequestParam("transport") Long transportId, @RequestParam("address") Long addressId,
 	    @RequestParam("comment") String comment, @RequestParam("paymentType") Boolean paymentType) {
 	shipmentService.save(date, contragentId, productId, productCount, storeId, transportId, addressId, paymentType,
@@ -93,12 +93,14 @@ public class ShipmentController {
     }
 
     @RequestMapping({ "delete" })
-    public @ResponseBody Boolean delete(@RequestParam("id") Long id) {
+    public @ResponseBody
+    Boolean delete(@RequestParam("id") Long id) {
 	return shipmentService.delete(id);
     }
 
     @RequestMapping({ "changeContragent" })
-    public @ResponseBody Boolean changeContragent(@RequestParam("id") Long id, HttpSession session) {
+    public @ResponseBody
+    Boolean changeContragent(@RequestParam("id") Long id, HttpSession session) {
 	session.setAttribute("shipContrId", id);
 	return true;
     }
